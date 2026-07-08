@@ -7,3 +7,7 @@ def test_greet_with_name():
 
 def test_greet_empty_string():
     assert greet("") == "Hello, stranger!"
+
+
+def test_greet_whitespace_string():
+    assert greet("   ") == "Hello, stranger!"
