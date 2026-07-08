@@ -1,4 +1,4 @@
-from testbed_utils.textutils import slugify, truncate, word_count
+from testbed_utils.textutils import farewell, slugify, truncate, word_count
 
 
 class TestSlugify:
@@ -44,3 +44,14 @@ class TestWordCount:
 
     def test_empty(self):
         assert word_count("") == 0
+
+
+class TestFarewell:
+    def test_basic(self):
+        assert farewell("World") == "Goodbye, World!"
+
+    def test_different_name(self):
+        assert farewell("Alice") == "Goodbye, Alice!"
+
+    def test_empty_name(self):
+        assert farewell("") == "Goodbye, !"

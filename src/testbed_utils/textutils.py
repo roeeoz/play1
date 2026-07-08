@@ -50,3 +50,12 @@ def word_count(text: str) -> int:
     4
     """
     return len(text.split())
+
+
+def farewell(name: str) -> str:
+    """Return a farewell message addressed to *name*.
+
+    >>> farewell("World")
+    'Goodbye, World!'
+    """
+    return f"Goodbye, {name}!"
