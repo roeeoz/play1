@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package with test extras
+        run: pip install -e ".[test]"
+      - name: Run pytest
+        run: pytest
+
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail iff CI_FAIL marker exists at repo root
+        run: |
+          if [ -f CI_FAIL ]; then
+            echo "::error::CI_FAIL marker present — remove it to make CI green"
+            exit 1
+          fi
+          echo "No CI_FAIL marker — gate green."
