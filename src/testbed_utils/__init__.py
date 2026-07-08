@@ -6,10 +6,11 @@ target this code.
 """
 
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
-from testbed_utils.textutils import slugify, truncate, word_count
+from testbed_utils.textutils import farewell, slugify, truncate, word_count
 
 __all__ = [
     "days_between",
+    "farewell",
     "humanize_delta",
     "is_weekend",
     "slugify",
