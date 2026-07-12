@@ -1,4 +1,4 @@
-from testbed_utils.textutils import slugify, truncate, word_count
+from testbed_utils.textutils import romanize, slugify, truncate, word_count
 
 
 class TestSlugify:
@@ -44,3 +44,46 @@ class TestWordCount:
 
     def test_empty(self):
         assert word_count("") == 0
+
+
+class TestRomanize:
+    def test_single_digits(self):
+        assert romanize(1) == "I"
+        assert romanize(4) == "IV"
+        assert romanize(5) == "V"
+        assert romanize(9) == "IX"
+
+    def test_tens(self):
+        assert romanize(10) == "X"
+        assert romanize(40) == "XL"
+        assert romanize(50) == "L"
+        assert romanize(90) == "XC"
+
+    def test_hundreds(self):
+        assert romanize(100) == "C"
+        assert romanize(400) == "CD"
+        assert romanize(500) == "D"
+        assert romanize(900) == "CM"
+
+    def test_thousands(self):
+        assert romanize(1000) == "M"
+        assert romanize(3000) == "MMM"
+
+    def test_compound(self):
+        assert romanize(2024) == "MMXXIV"
+        assert romanize(1999) == "MCMXCIX"
+        assert romanize(3999) == "MMMCMXCIX"
+
+    def test_out_of_range_raises(self):
+        import pytest
+
+        with pytest.raises(ValueError):
+            romanize(0)
+        with pytest.raises(ValueError):
+            romanize(4000)
+
+    def test_non_integer_raises(self):
+        import pytest
+
+        with pytest.raises(TypeError):
+            romanize(3.5)

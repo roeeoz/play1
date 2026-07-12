@@ -50,3 +50,30 @@ def word_count(text: str) -> int:
     4
     """
     return len(text.split())
+
+
+_ROMAN_NUMERALS = [
+    (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
+    (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
+    (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I"),
+]
+
+
+def romanize(n: int) -> str:
+    """Convert a positive integer *n* to its Roman numeral representation.
+
+    >>> romanize(2024)
+    'MMXXIV'
+    >>> romanize(4)
+    'IV'
+    """
+    if not isinstance(n, int) or isinstance(n, bool):
+        raise TypeError("n must be an integer")
+    if n < 1 or n > 3999:
+        raise ValueError("n must be between 1 and 3999")
+    result = []
+    for value, numeral in _ROMAN_NUMERALS:
+        while n >= value:
+            result.append(numeral)
+            n -= value
+    return "".join(result)
