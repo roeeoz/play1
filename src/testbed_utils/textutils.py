@@ -50,3 +50,7 @@ def word_count(text: str) -> int:
     4
     """
     return len(text.split())
+
+
+def greet(name: str) -> str:
+    return f"Hello, {name}!"

@@ -1,4 +1,4 @@
-from testbed_utils.textutils import slugify, truncate, word_count
+from testbed_utils.textutils import greet, slugify, truncate, word_count
 
 
 class TestSlugify:
@@ -44,3 +44,8 @@ class TestWordCount:
 
     def test_empty(self):
         assert word_count("") == 0
+
+
+class TestGreet:
+    def test_returns_greeting(self):
+        assert greet("Roee") == "Hello, Roee!"
