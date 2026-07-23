@@ -1,8 +1,6 @@
-"""testbed_utils — a tiny, deliberately extendable text/date utility library.
-
-This package exists as a fixture for deterministic coding-phase testing of the
-Demerzel agent. Keep modules small and well-tested; canned tasks in README.md
-target this code.
+"""testbed_utils — a tiny, deliberately simple and extendable text/date utility
+library that exists as a fixture for deterministic coding-phase testing of the
+Demerzel agent; canned tasks in README.md target this package.
 """
 
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
