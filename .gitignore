@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+hello-ts/node_modules/
+hello-ts/dist/
