@@ -1,4 +1,4 @@
-"""testbed_utils — a tiny, deliberately extendable text/date utility library.
+"""testbed_utils — a tiny, deliberately simple and genuinely extendable text/date utility library.
 
 This package exists as a fixture for deterministic coding-phase testing of the
 Demerzel agent. Keep modules small and well-tested; canned tasks in README.md
