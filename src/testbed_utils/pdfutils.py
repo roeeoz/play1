@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
+import json
+import sys
+
 from pypdf import PdfReader
 from pypdf.errors import (
     EmptyFileError,
@@ -43,3 +47,19 @@ def extract_fields(path: str) -> dict:
         return {}
 
     return {name: field.get("/V") for name, field in fields.items()}
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Extract AcroForm/XFA form field data from a PDF file and print as JSON."
+    )
+    parser.add_argument("pdf_file", help="Path to the PDF file.")
+    args = parser.parse_args()
+
+    try:
+        fields = extract_fields(args.pdf_file)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    print(json.dumps(fields, indent=2))
