@@ -17,6 +17,7 @@ from testbed_utils.claims import (
     PolicyYearAccumulators,
     ReimbursementResult,
     WaitingPeriodStep,
+    calculate_reimbursement,
 )
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
 from testbed_utils.pdfutils import extract_fields
@@ -34,6 +35,7 @@ __all__ = [
     "PolicyYearAccumulators",
     "ReimbursementResult",
     "WaitingPeriodStep",
+    "calculate_reimbursement",
     "days_between",
     "extract_fields",
     "humanize_delta",
