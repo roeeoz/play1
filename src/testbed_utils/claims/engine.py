@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from testbed_utils.claims import Claim, ReportData
+from testbed_utils.claims.model import Claim, ReportData
 
 
 def generate_report(customer_id: str, year: int, claims: list[Claim]) -> ReportData:
