@@ -51,26 +51,36 @@ jobs:
       - name: Run unit tests
         run: npx vitest run
 
-  # -----------------------------------------------------------------------
-  # F3-INTEGRATION-TESTS-PLACEHOLDER
-  # Add F3's integration-test job here. It should declare a `postgres`
-  # service container and run the store integration tests against it.
-  # Example:
-  #   f3-integration-tests:
-  #     name: f3-integration-tests
-  #     runs-on: ubuntu-latest
-  #     needs: unit-tests
-  #     services:
-  #       postgres:
-  #         image: postgres:15
-  #         env:
-  #           POSTGRES_PASSWORD: postgres
-  #         options: >-
-  #           --health-cmd pg_isready
-  #           --health-interval 10s
-  #           --health-timeout 5s
-  #           --health-retries 5
-  # -----------------------------------------------------------------------
+  integration-tests:
+    name: integration-tests
+    runs-on: ubuntu-latest
+    needs: [build]
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: claims_test
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGDATABASE: claims_test
+      PGUSER: postgres
+      PGPASSWORD: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run migrations
+        run: npx node-pg-migrate up
+      - name: Run integration tests
+        run: npx vitest run src/store/store.test.ts
 
   # -----------------------------------------------------------------------
   # F4-SMOKE-TEST-PLACEHOLDER
