@@ -1,7 +1,6 @@
 import io
 import json
 import pathlib
-import sys
 from contextlib import redirect_stderr, redirect_stdout
 from unittest.mock import patch
 
