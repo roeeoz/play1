@@ -1,0 +1,27 @@
+{
+  "name": "health-claim-reimbursement",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "esbuild src/types.ts --bundle --platform=node --outfile=dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "format:check": "prettier --check src",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/pg": "8.11.6",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "esbuild": "0.23.0",
+    "eslint": "8.57.0",
+    "node-pg-migrate": "7.6.1",
+    "pg": "8.12.0",
+    "prettier": "3.3.3",
+    "typescript": "5.5.4",
+    "vitest": "2.0.5"
+  }
+}
