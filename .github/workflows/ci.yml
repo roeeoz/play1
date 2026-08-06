@@ -2,37 +2,78 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
-  test:
-    name: test
+  lint:
+    name: lint
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
-      - name: Install package with test extras
-        run: pip install -e ".[test]"
-      - name: Run pytest
-        run: pytest
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npx eslint src --ext .ts
+      - name: Format check
+        run: npx prettier --check src
 
-  gate:
-    name: gate
+  build:
+    name: build
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    needs: lint
     steps:
       - uses: actions/checkout@v4
-      - name: Fail iff CI_FAIL marker exists at repo root
-        run: |
-          if [ -f CI_FAIL ]; then
-            echo "::error::CI_FAIL marker present — remove it to make CI green"
-            exit 1
-          fi
-          echo "No CI_FAIL marker — gate green."
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+
+  unit-tests:
+    name: unit-tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npx vitest run
+
+  # -----------------------------------------------------------------------
+  # F3-INTEGRATION-TESTS-PLACEHOLDER
+  # Add F3's integration-test job here. It should declare a `postgres`
+  # service container and run the store integration tests against it.
+  # Example:
+  #   f3-integration-tests:
+  #     name: f3-integration-tests
+  #     runs-on: ubuntu-latest
+  #     needs: unit-tests
+  #     services:
+  #       postgres:
+  #         image: postgres:15
+  #         env:
+  #           POSTGRES_PASSWORD: postgres
+  #         options: >-
+  #           --health-cmd pg_isready
+  #           --health-interval 10s
+  #           --health-timeout 5s
+  #           --health-retries 5
+  # -----------------------------------------------------------------------
+
+  # -----------------------------------------------------------------------
+  # F4-SMOKE-TEST-PLACEHOLDER
+  # Add F4's end-to-end smoke-test job here. It wires the full processClaim
+  # function against a running postgres instance and asserts a golden path.
+  # -----------------------------------------------------------------------
