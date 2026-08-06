@@ -7,6 +7,8 @@ from testbed_utils.reports.models import (
     ReportRequest,
 )
 from testbed_utils.reports.repository import ClaimsRepository, CustomerRepository
+from testbed_utils.reports.generator import generate_annual_claims_report
+from testbed_utils.reports.batch import run_annual_batch
 
 __all__ = [
     "Claim",
@@ -17,4 +19,6 @@ __all__ = [
     "ReportRequest",
     "ClaimsRepository",
     "CustomerRepository",
+    "generate_annual_claims_report",
+    "run_annual_batch",
 ]
