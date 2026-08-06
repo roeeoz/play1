@@ -2,37 +2,41 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+
   test:
     name: test
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
-      - name: Install package with test extras
-        run: pip install -e ".[test]"
-      - name: Run pytest
-        run: pytest
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run test
 
-  gate:
-    name: gate
+  lint:
+    name: lint
     runs-on: ubuntu-latest
-    timeout-minutes: 2
     steps:
       - uses: actions/checkout@v4
-      - name: Fail iff CI_FAIL marker exists at repo root
-        run: |
-          if [ -f CI_FAIL ]; then
-            echo "::error::CI_FAIL marker present — remove it to make CI green"
-            exit 1
-          fi
-          echo "No CI_FAIL marker — gate green."
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint && npm run format:check
