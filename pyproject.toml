@@ -9,13 +9,19 @@ description = "Tiny text/date utility library — fixture repo for deterministic
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Proprietary" }
-dependencies = ["pypdf"]
+dependencies = [
+    "pypdf",
+    "flask>=3",
+    "reportlab>=4",
+    "arabic-reshaper>=3",
+    "python-bidi>=0.4",
+]
 
 [project.scripts]
 pdf-extract = "testbed_utils.pdfutils:main"
 
 [project.optional-dependencies]
-test = ["pytest>=8"]
+test = ["pytest>=8", "pytest-flask"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
