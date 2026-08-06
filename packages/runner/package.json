@@ -9,5 +9,13 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+  },
+  "dependencies": {
+    "@claim-engine/types": "1.0.0",
+    "@claim-engine/input": "1.0.0",
+    "@claim-engine/engine": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
   }
 }
