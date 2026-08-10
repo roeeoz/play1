@@ -105,7 +105,7 @@ sequenceDiagram
     Argo->>K8s: Reconcile: create step pods (clone → init-script → agent)
     K8s->>Pod: Schedule pod (Argo-injected init + wait containers)
     Pod->>Pod: argoexec init materializes request.json, agent runs
-    Pod->>Pod: emissary stages result.json on exit; wait sidecar reports it
+    Pod->>Pod: emissary stages result.json on exit, wait sidecar reports it
     Argo->>K8s: Write outputs + phase into Workflow status
     W->>K8s: Watch Workflow CR until Succeeded / Failed
     W->>K8s: Read result from status.nodes[...].outputs.parameters
