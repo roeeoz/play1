@@ -120,12 +120,12 @@ with the workflow, deleted with it). The steps replace today's init containers:
 
 ```mermaid
 flowchart LR
-    subgraph wf [Workflow: agent-HAREL-1234-xxxxx]
-        C1[clone-repo\none step per target repo] --> I[init-script\nconditional: only when the\nproject defines one]
-        I --> A[agent\ndemerzel-agent → claude-code]
+    subgraph wf ["Workflow: agent-HAREL-1234-xxxxx"]
+        C1["clone-repo<br/>one step per target repo"] --> I["init-script<br/>conditional: only when the<br/>project defines one"]
+        I --> A["agent<br/>demerzel-agent → claude-code"]
     end
-    PVC[(per-workflow PVC\n/workspace + /tmp)] -.shared by all steps.- wf
-    AR[(artifact repository\nMinIO / Azure Blob)] -. request.json in,\nevidence + logs out .- wf
+    PVC[("per-workflow PVC<br/>/workspace + /tmp")] -.->|shared by all steps| wf
+    AR[("artifact repository<br/>MinIO / Azure Blob")] -.->|request.json in / evidence + logs out| wf
 ```
 
 Why steps instead of init containers:
