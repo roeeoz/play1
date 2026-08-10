@@ -411,9 +411,38 @@ kubectl delete wf <wf-name> -n "$NS"     # ttlStrategy is the backstop
 
 ## 8. New cluster components & capacity
 
-Per-pod sizing for the agent itself is unchanged from the existing capacity doc (chat
-profile 1 CPU / 2 Gi requests; factory profile 4 CPU / 8 Gi requests, 20 Gi ephemeral).
-The migration adds:
+### Agent pod sizing (from the capacity plan — now enforced by the WorkflowTemplate)
+
+Per-pod sizing is unchanged from
+[`agent-pod-capacity.md`](https://github.com/McK-Private/harel-pdlc-infra/blob/develop/docs/agent-pod-capacity.md);
+what changes is that the WorkflowTemplate finally **sets** these values (today's Job
+builder sets none, so agent pods run BestEffort). Parameterize the template by phase:
+
+| Profile | CPU req / limit | Memory req / limit | Ephemeral storage req / limit | Used by |
+|---|---|---|---|---|
+| **A — Chat/planning** (no builds, no browser) | 1 / 2 | 2Gi / 4Gi | 5Gi / 10Gi | chat phases (define / structure / plan / …) |
+| **B — Factory** (full build + app under test + Playwright e2e) | **4 / 8** | **8Gi / 16Gi** | **20Gi / 40Gi** | coding phases (implement / fix-pr / verify) |
+
+Profile B reflects what runs concurrently in one pod: Claude Code, frontend + backend
+builds, the app under test (Postgres, Temporal, API, worker, mocks), and headless
+Chromium. The `clone-repo` and `init-script` steps are short-lived and light — size them
+at Profile A regardless of phase.
+
+### How many pods to plan for
+
+- One active epic drives **~3–5 factory pods at peak** (work items build in parallel)
+  plus **2–3 chat pods** — and PDLC is multi-user, so epics run concurrently.
+- **Planning baseline: 3 concurrent epics ≈ 12–15 factory pods at peak**; revise with
+  adoption. With Argo, each factory pod carries the two small argoexec containers, and
+  each *running* workflow also holds a workspace PVC.
+- **Node pool:** dedicated autoscaling pool, e.g. `Standard_D8s_v5` (8 vCPU / 32 GiB,
+  ~2 factory pods per node), min 1 / **max 8** for the 3-epic baseline,
+  **OS disk ≥ 256 GiB** (ephemeral pod storage + image cache). Scale the max with the
+  target working set.
+- **Image:** ~3 GB (Node + Go + Python + Chromium) in in-region ACR — pre-pull on the
+  node pool, together with the (small) argoexec image.
+
+### The migration adds:
 
 | Component | Footprint | Notes |
 |---|---|---|
@@ -434,6 +463,103 @@ Implementation notes:
   `backoffLimit: 0`).
 - Egress from the agent namespace is unchanged (AI gateway, GitHub/GitLab, npm/Go/pypi
   registries) **plus** the artifact repository endpoint if it lives outside the cluster.
+
+### Protecting the platform from starvation
+
+Agent pods are big and bursty (Profile B requests half a node); the platform's own
+services — the **frontend**, the **backend API**, the **worker**, Temporal, Postgres —
+are small, latency-sensitive, and must never compete with them. Today nothing prevents
+that competition (agent pods are BestEffort with no placement constraints, so the
+scheduler may pack them beside platform pods and the kubelet evicts BestEffort *and*
+burstable neighbors under pressure). The migration is the moment to close this, in four
+layers — the first two are the ones that matter most:
+
+1. **Hard placement separation (primary defense).** Taint the agent node pool
+   (`dedicated=agent:NoSchedule`) and give the WorkflowTemplate the matching
+   `nodeSelector` + toleration. Platform deployments carry neither, so agent pods
+   *cannot* land on the platform's nodes and platform pods cannot land on the agent
+   pool. Starvation across pools becomes impossible regardless of load — the failure
+   mode degrades to "agent runs queue," never "the UI is down."
+
+2. **Admission ceiling on concurrent runs (the planned platform-side cap, implemented
+   by Argo).** The capacity doc plans a ceiling on concurrent runs; Argo provides it
+   without new code:
+   - controller `parallelism` — global cap on running workflows;
+   - a **synchronization semaphore** in the WorkflowTemplate (backed by a ConfigMap
+     key, e.g. `factory-runs: 12`) — workflows beyond the cap wait as `Pending`, visibly
+     queued in the CR status, instead of overcommitting the pool.
+   Size the semaphore to the node pool: max 8 × D8s_v5 ≈ 16 factory pods; a cap of
+   12–14 leaves headroom for chat pods and node-level daemons. Temporal's activity
+   queue in front of it (`MaxConcurrentActivityExecutionSize` on the agent task queue)
+   remains the first throttle, so queued work waits in Temporal with heartbeats, not as
+   a pile of Pending CRs.
+
+3. **Requests/limits + priority.** With the template enforcing the profile table above,
+   agent pods become Burstable with honest requests — the scheduler can no longer
+   overpack them. Additionally give agent pods a low `priorityClass`
+   (e.g. `agent-run: 100`) and platform deployments a higher one
+   (`platform: 10000`): if pressure ever does occur (misconfiguration, node loss), the
+   kubelet and scheduler evict/preempt agent runs first — an evicted agent run is a
+   retried Temporal activity, an evicted API pod is an outage.
+
+4. **PriorityClass-scoped `ResourceQuota` as the backstop.** A quota with a
+   `scopeSelector` on the agent priority class caps *agent pods specifically* at the
+   pool's capacity — regardless of which namespace they share with what:
+
+   ```yaml
+   apiVersion: v1
+   kind: ResourceQuota
+   metadata: { name: agent-runs }
+   spec:
+     hard: { requests.cpu: "56", requests.memory: 120Gi, persistentvolumeclaims: "20" }
+     scopeSelector:
+       matchExpressions:
+       - { scopeName: PriorityClass, operator: In, values: [agent-run] }
+   ```
+
+   If every other layer is misconfigured, quota admission still refuses the pod that
+   would exceed the pool — surfacing as a named, classifiable step failure in the
+   Workflow rather than cluster-wide pressure. (For this to be airtight, make
+   `priorityClassName: agent-run` mandatory in the WorkflowTemplate — the quota then
+   counts every agent pod by construction.)
+
+Also size the **platform workloads** explicitly: frontend, API, worker, and the Argo
+controller are all sub-CPU services — ~2 vCPU / 4 Gi of requests covers the set — but
+they must *have* requests and the higher priority class, or the guarantees above don't
+attach to them.
+
+### Single-namespace deployment
+
+If Harel prefers agents and platform in **one shared namespace** (likely, given the
+existing on-prem setup), the design above holds with almost no changes, because the
+load-bearing isolation is **node-level and priority-level, not namespace-level**:
+
+| Mechanism | Namespace-dependent? | In a shared namespace |
+|---|---|---|
+| Node-pool taint + toleration/`nodeSelector` (layer 1) | No | Works unchanged — placement separation is by *node pool*, and platform pods (no toleration) still cannot land on agent nodes |
+| Argo semaphore / parallelism ceiling (layer 2) | No | Works unchanged (the semaphore ConfigMap just lives in the shared namespace) |
+| Requests/limits + PriorityClass (layer 3) | No | Works unchanged — this is per-pod |
+| Scoped ResourceQuota (layer 4) | **Solved above** | The PriorityClass scope is exactly the "which pods does this quota count" selector that namespaces used to provide |
+| Argo controller install | No | Managed-namespace mode pointing at the shared namespace |
+
+Two consequences to accept knowingly in the shared-namespace variant:
+
+- **The API's Secrets grant widens in effect.** Its Role (`secrets`: get/create/update/
+  patch/delete, not resourceName-scoped because per-project names are dynamic) was
+  justified by "the agent namespace holds only agent resources." In a shared namespace
+  that grant now reaches platform Secrets too (DB credentials, etc.). Mitigations, in
+  order of preference: keep platform Secrets in a *different* namespace even if the
+  workloads share one; or move the per-project Secrets to a fixed prefix and accept the
+  wider grant with audit logging on secret access.
+- **`pods` / `pods/log` reads span platform pods.** The worker's and API's pod-read
+  RBAC now also covers platform pods and their logs. Low risk (both are platform
+  components already), but the worker's pod *watch* should filter by the
+  `workflows.argoproj.io/workflow` label to avoid reconciling on platform pod events.
+
+What you give up versus split namespaces is only defense-in-depth granularity — the
+starvation guarantees themselves are identical. If even the two caveats above are
+unacceptable, the middle ground is: shared namespace for workloads, separate namespace
+for platform Secrets.
 
 ## 9. Migration plan
 
