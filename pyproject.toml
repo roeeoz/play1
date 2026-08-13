@@ -13,6 +13,7 @@ dependencies = ["pypdf"]
 
 [project.scripts]
 pdf-extract = "testbed_utils.pdfutils:main"
+play1 = "testbed_utils.play1:main"
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
