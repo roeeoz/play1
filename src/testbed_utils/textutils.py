@@ -22,7 +22,7 @@ def slugify(text: str) -> str:
     normalized = unicodedata.normalize("NFKD", text)
     ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
     stripped = _SLUG_STRIP_RE.sub("", ascii_text).strip().lower()
-    return _SLUG_COLLAPSE_RE.sub("-", stripped)
+    return _SLUG_COLLAPSE_RE.sub("-", stripped).strip("-")
 
 
 def truncate(text: str, max_length: int, suffix: str = "...") -> str:

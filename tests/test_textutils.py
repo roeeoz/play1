@@ -14,6 +14,12 @@ class TestSlugify:
     def test_empty(self):
         assert slugify("") == ""
 
+    def test_already_a_slug(self):
+        assert slugify("hello-world") == "hello-world"
+
+    def test_leading_trailing_space(self):
+        assert slugify(" Hello, World! ") == "hello-world"
+
 
 class TestTruncate:
     def test_short_text_unchanged(self):
