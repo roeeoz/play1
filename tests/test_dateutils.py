@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from testbed_utils import business_days_between as package_level_export
 from testbed_utils.dateutils import (
     business_days_between,
     days_between,
@@ -42,6 +43,10 @@ class TestBusinessDaysBetween:
 
     def test_identical_dates(self):
         assert business_days_between(date(2024, 1, 3), date(2024, 1, 3)) == 0
+
+    def test_exported_from_package_root(self):
+        assert package_level_export is business_days_between
+        assert package_level_export(date(2024, 1, 1), date(2024, 1, 8)) == 5
 
     def test_reversed_order_matches_forward(self):
         assert business_days_between(date(2024, 1, 8), date(2024, 1, 1)) == 5
