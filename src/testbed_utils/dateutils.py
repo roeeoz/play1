@@ -23,6 +23,25 @@ def is_weekend(day: date) -> bool:
     return day.weekday() >= 5
 
 
+def business_days_between(start: date, end: date) -> int:
+    """Business days (Monday to Friday) between *start* and *end*.
+
+    The earlier date is counted and the later date is excluded, so a Monday
+    to the following Monday yields 5. Argument order does not matter and the
+    result is never negative, unlike :func:`days_between`, which is signed.
+
+    >>> business_days_between(date(2026, 1, 5), date(2026, 1, 12))
+    5
+    """
+    if start > end:
+        start, end = end, start
+    return sum(
+        1
+        for offset in range((end - start).days)
+        if not is_weekend(start + timedelta(days=offset))
+    )
+
+
 def humanize_delta(delta: timedelta) -> str:
     """Render *delta* as a short human string: '3 days', '1 hour', '5 minutes'.
 

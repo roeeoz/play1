@@ -1,6 +1,12 @@
 from datetime import date, timedelta
 
-from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
+from testbed_utils import business_days_between as package_level_export
+from testbed_utils.dateutils import (
+    business_days_between,
+    days_between,
+    humanize_delta,
+    is_weekend,
+)
 
 
 class TestDaysBetween:
@@ -23,6 +29,30 @@ class TestIsWeekend:
 
     def test_wednesday(self):
         assert is_weekend(date(2026, 7, 8)) is False
+
+
+class TestBusinessDaysBetween:
+    def test_full_business_week(self):
+        assert business_days_between(date(2024, 1, 1), date(2024, 1, 8)) == 5
+
+    def test_weekend_only_span(self):
+        assert business_days_between(date(2024, 1, 6), date(2024, 1, 7)) == 0
+
+    def test_single_business_day(self):
+        assert business_days_between(date(2024, 1, 1), date(2024, 1, 2)) == 1
+
+    def test_identical_dates(self):
+        assert business_days_between(date(2024, 1, 3), date(2024, 1, 3)) == 0
+
+    def test_exported_from_package_root(self):
+        assert package_level_export is business_days_between
+        assert package_level_export(date(2024, 1, 1), date(2024, 1, 8)) == 5
+
+    def test_reversed_order_matches_forward(self):
+        assert business_days_between(date(2024, 1, 8), date(2024, 1, 1)) == 5
+        assert business_days_between(
+            date(2024, 1, 8), date(2024, 1, 1)
+        ) == business_days_between(date(2024, 1, 1), date(2024, 1, 8))
 
 
 class TestHumanizeDelta:
