@@ -1,4 +1,4 @@
-"""testbed_utils — a tiny, deliberately extendable text/date utility library.
+"""testbed_utils — a tiny, deliberately extendable text/date/number utility library.
 
 This package exists as a fixture for deterministic coding-phase testing of the
 Demerzel agent. Keep modules small and well-tested; canned tasks in README.md
@@ -6,6 +6,7 @@ target this code.
 """
 
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
+from testbed_utils.numutils import mean, median, percentile
 from testbed_utils.pdfutils import extract_fields
 from testbed_utils.textutils import slugify, truncate, word_count
 
@@ -14,6 +15,9 @@ __all__ = [
     "extract_fields",
     "humanize_delta",
     "is_weekend",
+    "mean",
+    "median",
+    "percentile",
     "slugify",
     "truncate",
     "word_count",
