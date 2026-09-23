@@ -11,6 +11,7 @@ import unicodedata
 
 _SLUG_STRIP_RE = re.compile(r"[^\w\s-]")
 _SLUG_COLLAPSE_RE = re.compile(r"[-\s]+")
+_WORDS_PER_MINUTE = 200
 
 
 def slugify(text: str) -> str:
@@ -50,3 +51,27 @@ def word_count(text: str) -> int:
     4
     """
     return len(text.split())
+
+
+def sentence_count(text: str) -> int:
+    """Estimate the number of sentences in *text* by counting terminal punctuation.
+
+    Each ``.``, ``!`` and ``?`` character counts individually; abbreviations and
+    decimals are not special-cased, so ``"Wait..."`` counts as 3.
+
+    >>> sentence_count("Is this fast? Yes! It works.")
+    3
+    """
+    return sum(text.count(mark) for mark in ".!?")
+
+
+def reading_time_minutes(word_count: int) -> int:
+    """Estimate reading time for *word_count* words in whole minutes.
+
+    Assumes 200 words per minute, rounded up, with a minimum of 1 minute. No
+    input validation is performed, matching :func:`word_count`.
+
+    >>> reading_time_minutes(450)
+    3
+    """
+    return max(1, -(-word_count // _WORDS_PER_MINUTE))
