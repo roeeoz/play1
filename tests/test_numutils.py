@@ -1,4 +1,5 @@
 import doctest
+import inspect
 
 import pytest
 
@@ -63,7 +64,34 @@ class TestPackageExports:
             assert name in testbed_utils.__all__
 
 
+def public_functions():
+    return [
+        obj
+        for name, obj in vars(numutils).items()
+        if not name.startswith("_")
+        and inspect.isfunction(obj)
+        and obj.__module__ == numutils.__name__
+    ]
+
+
 class TestDocstringExamples:
+    def test_every_public_function_is_covered(self):
+        assert {f.__name__ for f in public_functions()} == {
+            "mean",
+            "median",
+            "percentile",
+        }
+
+    def test_every_public_function_has_a_runnable_example(self):
+        found = {
+            test.name.rsplit(".", 1)[-1]: test
+            for test in doctest.DocTestFinder().find(numutils)
+        }
+        for func in public_functions():
+            test = found.get(func.__name__)
+            assert test is not None, f"{func.__name__} has no docstring"
+            assert test.examples, f"{func.__name__} docstring has no >>> example"
+
     def test_doctests_pass(self):
         results = doctest.testmod(numutils)
         assert results.attempted > 0
