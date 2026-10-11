@@ -27,6 +27,8 @@ deterministic CI must not fight other users of a shared repo.
 
 - `src/testbed_utils/` — a tiny, real Python package (text + date helpers),
   deliberately simple and genuinely extendable. Canned tasks target it.
+- `src/guestbook/` — a small Flask JSON API for guestbook entries (see
+  [Guestbook API](#guestbook-api)), living alongside `testbed_utils`.
 - `tests/` — a small passing pytest suite.
 - `.github/workflows/ci.yml` — two jobs, total runtime well under a minute:
   - **test** — installs the package and runs pytest.
@@ -95,3 +97,70 @@ Per plan §O6: the `CI_FAIL` gimmick tests **CI classification and loop
 mechanics, not fix quality**. A one-file-delete fix is trivially "addressed" —
 do **not** read fix-judge values from testbed CI_FAIL runs as evidence about
 the judge or about real-world fix quality.
+
+## Guestbook API
+
+A small JSON API for guestbook entries — play1's first HTTP surface. It lives
+in `src/guestbook/` and depends only on Flask; storage is the stdlib `sqlite3`
+module.
+
+### Running it
+
+```bash
+pip install -e .
+guestbook                  # Flask dev server on http://127.0.0.1:5000
+pytest tests/test_guestbook_api.py
+```
+
+Entries are stored in a SQLite file. The path comes from the
+`GUESTBOOK_DB_PATH` environment variable and defaults to
+`instance/guestbook.sqlite3` relative to the working directory (`instance/` is
+git-ignored):
+
+```bash
+GUESTBOOK_DB_PATH=/tmp/guestbook.sqlite3 guestbook
+```
+
+The dev server has no authentication, moderation or rate limiting — it is for
+local use only.
+
+### `POST /api/guestbook/entries`
+
+Body: a JSON object with `author` (1–50 characters after trimming) and
+`message` (1–300 characters after trimming). Both are required; the stored
+values are the trimmed ones. `created_at` is set by the server, so any `id` or
+`created_at` sent by the client is ignored.
+
+```bash
+curl -s -X POST http://127.0.0.1:5000/api/guestbook/entries \
+  -H 'Content-Type: application/json' \
+  -d '{"author": "Ada", "message": "Hello there"}'
+# 201
+# {"author":"Ada","created_at":"2026-10-11T14:03:27.123456Z","id":1,"message":"Hello there"}
+```
+
+### `GET /api/guestbook/entries`
+
+Returns 200 and a JSON array of every entry, newest first (by `created_at`
+descending, then `id` descending, so the order is absolute and stable across
+calls). No pagination; an empty guestbook returns `[]`.
+
+```bash
+curl -s http://127.0.0.1:5000/api/guestbook/entries
+```
+
+### Error envelope
+
+Both failure modes return 400 with the same shape:
+
+```json
+{"error": {"code": "validation_error", "fields": {"author": "is required"}}}
+```
+
+- `validation_error` — `fields` lists only the fields that failed, each with a
+  human-readable message. A field fails when it is missing, not a string,
+  empty or whitespace-only after trimming, or over its length limit.
+- `invalid_json` — the body was not a JSON object (malformed, empty, or a
+  non-object such as an array or `null`). No `fields` key.
+
+Nothing is stored when a request is rejected.
