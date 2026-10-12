@@ -5,7 +5,9 @@ import pytest
 
 import testbed_utils
 from testbed_utils import numutils
-from testbed_utils.numutils import mean, median, percentile
+from decimal import Decimal
+
+from testbed_utils.numutils import mean, median, percentile, round_to_cents
 
 
 class TestMean:
@@ -53,14 +55,27 @@ class TestPercentile:
             percentile([1, 2, 3], 150)
 
 
+class TestRoundToCents:
+    def test_half_up_rounds_up(self):
+        assert round_to_cents(Decimal("1.005")) == Decimal("1.01")
+
+    def test_below_midpoint_rounds_down(self):
+        assert round_to_cents(Decimal("2.004")) == Decimal("2.00")
+
+    def test_negative_amount(self):
+        assert round_to_cents(Decimal("-1.005")) == Decimal("-1.01")
+
+
 class TestPackageExports:
     def test_root_import_and_all(self):
         from testbed_utils import mean as root_mean
         from testbed_utils import median as root_median
         from testbed_utils import percentile as root_percentile
+        from testbed_utils import round_to_cents as root_round_to_cents
 
         assert (root_mean, root_median, root_percentile) == (mean, median, percentile)
-        for name in ("mean", "median", "percentile"):
+        assert root_round_to_cents is round_to_cents
+        for name in ("mean", "median", "percentile", "round_to_cents"):
             assert name in testbed_utils.__all__
 
 
@@ -80,6 +95,7 @@ class TestDocstringExamples:
             "mean",
             "median",
             "percentile",
+            "round_to_cents",
         }
 
     def test_every_public_function_has_a_runnable_example(self):
