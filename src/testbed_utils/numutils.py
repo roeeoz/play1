@@ -6,9 +6,11 @@ Deliberately simple and genuinely extendable — pure Python, no numpy.
 from __future__ import annotations
 
 from collections.abc import Iterable
+from decimal import Decimal, ROUND_HALF_UP
 
 _EMPTY_MSG = "numbers must not be empty"
 _RANGE_MSG = "p must be between 0 and 100"
+_CENTS = Decimal("0.01")
 
 
 def mean(numbers: Iterable[float]) -> float:
@@ -61,3 +63,12 @@ def percentile(numbers: Iterable[float], p: float) -> float:
     lower = int(rank)
     upper = min(lower + 1, len(data) - 1)
     return data[lower] + (data[upper] - data[lower]) * (rank - lower)
+
+
+def round_to_cents(amount: Decimal) -> Decimal:
+    """Round *amount* half-up to two decimal places.
+
+    >>> round_to_cents(Decimal("1.005"))
+    Decimal('1.01')
+    """
+    return amount.quantize(_CENTS, rounding=ROUND_HALF_UP)
