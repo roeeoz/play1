@@ -7,6 +7,7 @@ target this code.
 
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
 from testbed_utils.hello import hello_world
+from testbed_utils.invoices import invoice_net_amount
 from testbed_utils.numutils import mean, median, percentile
 from testbed_utils.pdfutils import extract_fields
 from testbed_utils.textutils import slugify, truncate, word_count
@@ -16,6 +17,7 @@ __all__ = [
     "extract_fields",
     "hello_world",
     "humanize_delta",
+    "invoice_net_amount",
     "is_weekend",
     "mean",
     "median",
