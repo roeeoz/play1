@@ -14,6 +14,10 @@ Check the pull request's diff against these rules:
 1. Python source lives under `src/`; tests live under `tests/`.
 2. A new shell script is executable and starts with a shebang.
 3. No file in the diff is larger than 200 KB.
+4. The pull request adds a line describing the change under `## Unreleased` in
+   `CHANGELOG.md` (create the file with that heading if it does not exist). A
+   pull request whose diff does not touch `CHANGELOG.md` breaks this rule: one
+   `blocker` with id `PLAY-G4`, file `CHANGELOG.md`.
 
 Write the verdict file named in your instructions as JSON:
 
