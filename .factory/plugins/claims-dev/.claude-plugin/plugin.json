@@ -1,0 +1,5 @@
+{
+  "name": "claims-dev",
+  "version": "0.1.0",
+  "description": "The claims team's own helpers: the domain glossary, a reviewer agent and a repository gate."
+}
