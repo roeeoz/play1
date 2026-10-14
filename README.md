@@ -164,3 +164,5 @@ Both failure modes return 400 with the same shape:
   non-object such as an array or `null`). No `fields` key.
 
 Nothing is stored when a request is rejected.
+
+NOTE: HALO-53 scenario run 2026-10-14
