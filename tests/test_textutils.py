@@ -14,6 +14,18 @@ class TestSlugify:
     def test_empty(self):
         assert slugify("") == ""
 
+    def test_accented_latin(self):
+        assert slugify("Héllo Wörld! Café résumé") == "hello-world-cafe-resume"
+
+    def test_only_non_alphanumeric(self):
+        assert slugify("---!!!@@@---") == ""
+
+    def test_non_latin_script_dropped(self):
+        assert slugify("こんにちは世界") == ""
+
+    def test_leading_trailing_non_alphanumeric_runs(self):
+        assert slugify(" --Hello   World-- ") == "hello-world"
+
 
 class TestTruncate:
     def test_short_text_unchanged(self):

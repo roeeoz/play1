@@ -16,13 +16,19 @@ _SLUG_COLLAPSE_RE = re.compile(r"[-\s]+")
 def slugify(text: str) -> str:
     """Convert *text* to a lowercase, ASCII, hyphen-separated slug.
 
+    Accents are stripped via Unicode NFKD normalization.  Non-Latin characters
+    (CJK, Cyrillic, etc.) are silently dropped because full transliteration
+    would require a third-party library.
+
     >>> slugify("Hello, World!")
     'hello-world'
+    >>> slugify("Héllo Wörld! Café résumé")
+    'hello-world-cafe-resume'
     """
     normalized = unicodedata.normalize("NFKD", text)
     ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
     stripped = _SLUG_STRIP_RE.sub("", ascii_text).strip().lower()
-    return _SLUG_COLLAPSE_RE.sub("-", stripped)
+    return _SLUG_COLLAPSE_RE.sub("-", stripped).strip("-")
 
 
 def truncate(text: str, max_length: int, suffix: str = "...") -> str:
