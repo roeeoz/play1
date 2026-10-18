@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from datetime import datetime, timezone
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, redirect, render_template, request
 
 from guestbook.storage import init_db, insert_entry, list_entries
 from guestbook.validation import validate_entry
+from testbed_utils.dateutils import humanize_delta
 
 DB_PATH_ENV = "GUESTBOOK_DB_PATH"
 DEFAULT_DB_PATH = os.path.join("instance", "guestbook.sqlite3")
@@ -62,6 +64,46 @@ def create_app(db_path: str | None = None) -> Flask:
     @app.get("/api/guestbook/entries")
     def get_entries():
         return jsonify(list_entries(app.config["GUESTBOOK_DB_PATH"]))
+
+    def _entries_with_relative_time():
+        entries = list_entries(app.config["GUESTBOOK_DB_PATH"])
+        now = datetime.now(timezone.utc)
+        for entry in entries:
+            created = datetime.strptime(
+                entry["created_at"], _TIMESTAMP_FORMAT
+            ).replace(tzinfo=timezone.utc)
+            entry["relative_time"] = humanize_delta(created - now)
+        return entries
+
+    @app.get("/guestbook")
+    def guestbook_page():
+        return render_template(
+            "guestbook.html",
+            entries=_entries_with_relative_time(),
+            errors={},
+            form_data={},
+        )
+
+    @app.post("/guestbook")
+    def guestbook_post():
+        author = request.form.get("name", "")
+        message = request.form.get("message", "")
+        entry, errors = validate_entry({"author": author, "message": message})
+        if entry is None:
+            return render_template(
+                "guestbook.html",
+                entries=_entries_with_relative_time(),
+                errors=errors,
+                form_data={"name": author, "message": message},
+            )
+        stored = insert_entry(
+            app.config["GUESTBOOK_DB_PATH"],
+            entry["author"],
+            entry["message"],
+            _utc_now_iso(),
+        )
+        logging.getLogger(__name__).info("created entry %s", stored["id"])
+        return redirect("/guestbook", code=302)
 
     return app
 
