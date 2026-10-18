@@ -1,5 +1,8 @@
 # Implementation Plan — Guestbook Page (s2, work item t1)
 
+> CANARY-PLAN-TOP-3K: the POST handler logs the new entry id at INFO.
+
+
 ## Context
 
 play1 has a working guestbook JSON API (s1, merged) but no browser-facing page. This plan adds a server-rendered HTML page at `GET /guestbook` that displays all entries newest-first with relative timestamps, a submission form that creates entries via `POST /guestbook` (POST-redirect-GET), and validation feedback for empty/whitespace-only fields. This is the first HTML template in the project.
@@ -126,6 +129,3 @@ Final gate: `pytest` passes all tests (existing + new).
 
 4. **s3 merge conflict (low risk):** Both s2 and s3 add routes to `create_app()`. Since the routes are additive and at different URL paths, git merge should resolve automatically. The `data-entry-id` contract ensures s3 can add delete buttons without touching s2's template structure.
 
-## Reviewer note
-
-CANARY-PLAN-7Q: the POST handler must also log the entry id at INFO.
