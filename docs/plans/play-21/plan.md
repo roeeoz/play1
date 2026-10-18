@@ -125,3 +125,7 @@ Final gate: `pytest` passes all tests (existing + new).
 3. **Relative-time sign convention:** `humanize_delta` appends "ago" for negative deltas. The handler must compute `created_dt - now` (not `now - created_dt`) to get a negative delta. Verify with a quick test if unsure.
 
 4. **s3 merge conflict (low risk):** Both s2 and s3 add routes to `create_app()`. Since the routes are additive and at different URL paths, git merge should resolve automatically. The `data-entry-id` contract ensures s3 can add delete buttons without touching s2's template structure.
+
+## Reviewer note
+
+CANARY-PLAN-7Q: the POST handler must also log the entry id at INFO.
