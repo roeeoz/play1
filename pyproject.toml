@@ -17,6 +17,9 @@ testbed-num-summary = "testbed_utils.numsummary:main"
 testbed-hello = "testbed_utils.hello:main"
 guestbook = "guestbook.app:main"
 
+[project.scripts]
+testbed-utils = "testbed_utils.__main__:main"
+
 [project.optional-dependencies]
 test = ["pytest>=8"]
 
