@@ -39,6 +39,7 @@
 - **No `__init__.py` re-export:** Avoids changing an existing module; respects G3 (one new module + tests) and the spec's non-goals.
 - **Error handling:** The coding agent decides between an explicit `TypeError` guard or natural `AttributeError` from `.split()` — both satisfy AC4.
 - **Test file name:** `test_text_utils.py` — follows `test_<module>.py` convention; visually distinct from `test_textutils.py`.
+- **Red-green commit order:** Tests are committed first (red), then the implementation module (green). This is a plan-level detail carried into plan.md.
 
 ## 7. Risks & Constraints
 
