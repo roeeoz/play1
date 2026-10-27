@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import importlib.metadata
+import logging
 import os
+import time
 from datetime import datetime, timezone
 
 from flask import Flask, jsonify, request
@@ -16,6 +19,8 @@ DEFAULT_DB_PATH = os.path.join("instance", "guestbook.sqlite3")
 # Fixed width with a trailing "Z": keeps string ordering in SQLite identical to
 # chronological ordering, which datetime.isoformat() ("+00:00") would not.
 _TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
+_START = time.monotonic()
+_VERSION = importlib.metadata.version("testbed-utils")
 
 
 def _utc_now_iso() -> str:
@@ -42,6 +47,21 @@ def create_app(db_path: str | None = None) -> Flask:
     resolved = db_path or os.environ.get(DB_PATH_ENV) or DEFAULT_DB_PATH
     app.config["GUESTBOOK_DB_PATH"] = resolved
     init_db(resolved)
+
+    werkzeug_logger = logging.getLogger("werkzeug")
+    werkzeug_logger.addFilter(
+        lambda record: not (record.levelno <= logging.INFO and "/healthz" in record.getMessage())
+    )
+
+    @app.get("/healthz")
+    def healthz():
+        response = jsonify(
+            status="ok",
+            version=_VERSION,
+            uptimeSeconds=int(time.monotonic() - _START),
+        )
+        response.headers["Cache-Control"] = "no-store"
+        return response
 
     @app.post("/api/guestbook/entries")
     def create_entry():
