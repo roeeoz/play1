@@ -9,7 +9,7 @@
 ## 2. Architecture Overview
 
 - **No new components.** The script (`src/testbed_utils/hello.py`) and its test (`tests/test_hello_cli.py`) already exist.
-- **Boundary:** Only `tests/test_hello_cli.py` is modified. `src/testbed_utils/hello.py` is consumed read-only — no change needed.
+- **Boundary:** Only `tests/test_hello_cli.py` is modified. `src/testbed_utils/hello.py` is consumed read-only — no change needed (argparse already sets `prog="testbed-hello"`).
 - **External dependencies:** None new. pytest is already declared.
 
 ## 3. Data Flow Design
@@ -17,7 +17,6 @@
 - `testbed-hello --help` → argparse prints `usage: testbed-hello [-h]` + description to stdout → `sys.exit(0)`.
 - `testbed-hello` (no args) → prints `Hello, world!` to stdout → exits 0.
 - Test helper `run_main()` patches `sys.argv`, captures stdout/stderr via `io.StringIO`, catches `SystemExit`.
-- The new assertion checks `"testbed-hello" in stdout` within the existing `test_help` method.
 
 ## 4. Component Breakdown
 
@@ -33,11 +32,12 @@
 
 ## 6. Key Technical Decisions
 
+- **Two-commit structure (test-first):** Per developer request, the PR uses two commits: (1) add the assertion to the test, (2) adjust the script only if the test fails. Research indicates the script already passes, so the second commit may be unnecessary.
 - **Add assertion to existing test rather than a new test method.** The `test_help` method already invokes `--help` and captures output; adding one `assert` line is the minimal, idiomatic change.
-- **Assert substring `"testbed-hello"` rather than a full usage line regex.** The program name is the spec requirement; the exact format (`usage: testbed-hello [-h]`) is an argparse implementation detail accepted per RK1.
+- **Assert substring `"testbed-hello"` rather than a full usage line regex.** The program name is the spec requirement; the exact format is an argparse implementation detail accepted per RK1.
 
 ## 7. Risks & Constraints
 
 - **Risk:** Essentially none. The assertion is a pure string containment check on deterministic argparse output.
-- **Constraint:** Must not modify `src/testbed_utils/hello.py` or any file outside the test (the script already works; `.factory/testing.md` notes "Shared fixture repo — don't touch `testbed_utils`" beyond in-scope modules, and hello.py needs no change).
+- **Constraint:** Must not modify `src/testbed_utils/hello.py` unless the new test assertion fails. `.factory/testing.md` notes "Shared fixture repo — don't touch `testbed_utils`" beyond in-scope modules, and the script needs no change.
 - **CI:** `pytest` is the only gate. No linter, formatter, or type checker configured.
