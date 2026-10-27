@@ -40,6 +40,14 @@ class TestHelp:
         assert "Hello, world!" not in stdout
 
 
+class TestVersion:
+    def test_version(self):
+        exit_code, stdout, stderr = run_main(["--version"])
+        assert exit_code == 0
+        assert stdout == "0.1.0\n"
+        assert stderr == ""
+
+
 class TestBadOption:
     @pytest.mark.parametrize("arg", ["--bogus", "-x", "extra"])
     def test_unrecognized_option(self, arg):
