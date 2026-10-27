@@ -1,0 +1,11 @@
+{
+  "storyId": "82172f8a-f4d6-404e-a851-39f0c31a80bc",
+  "storyKey": "PLAY-63",
+  "epicKey": "PLAY-62",
+  "title": "testbed-hello prints its version when invoked with --version",
+  "decisionId": "b749ad48-df73-4e4a-a772-7506e4d96776",
+  "actor": "Dave Dev",
+  "note": "Looks good.",
+  "approvedAt": "2026-10-27T19:40:28Z",
+  "planHeadSha": "6929fd9cc229305903248ca6e2d1648a69110d7b"
+}
