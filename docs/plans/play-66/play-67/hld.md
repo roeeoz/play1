@@ -32,7 +32,7 @@
 
 ## 6. Key Technical Decisions
 
-- **Two-commit structure (test-first):** Per developer request, the PR uses two commits: (1) add the assertion to the test, (2) adjust the script only if the test fails. Research indicates the script already passes, so the second commit may be unnecessary.
+- **Two-commit structure (test-first):** The PR uses two commits: (1) add the assertion to the test, (2) adjust the script only if the test fails. Research indicates the script already passes, so the second commit may be unnecessary.
 - **Add assertion to existing test rather than a new test method.** The `test_help` method already invokes `--help` and captures output; adding one `assert` line is the minimal, idiomatic change.
 - **Assert substring `"testbed-hello"` rather than a full usage line regex.** The program name is the spec requirement; the exact format is an argparse implementation detail accepted per RK1.
 
