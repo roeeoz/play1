@@ -50,3 +50,12 @@ def word_count(text: str) -> int:
     4
     """
     return len(text.split())
+
+
+def initials(name: str) -> str:
+    """Return the uppercase initials of each whitespace-separated word in *name*.
+
+    >>> initials("Ada Lovelace")
+    'AL'
+    """
+    return "".join(w[0].upper() for w in name.split())
