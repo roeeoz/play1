@@ -1,0 +1,10 @@
+{
+  "storyId": "34e8504c-a993-4b72-8754-8dfb293f7431",
+  "storyKey": "PLAY-61",
+  "epicKey": "PLAY-60",
+  "title": "QA-B: add an `initials(name)` helper to play1 with unit tests",
+  "decisionId": "5c754a56-dadc-4f9e-ae14-04697229b9b6",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-27T14:49:06Z",
+  "planHeadSha": "50ca25aa0964e680485add6a58674f58acd772f1"
+}
