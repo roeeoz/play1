@@ -19,5 +19,6 @@ def hello_world() -> str:
 
 def main():
     parser = argparse.ArgumentParser(prog="testbed-hello", description=_DESCRIPTION)
+    parser.add_argument("--version", action="version", version="0.1.0")
     parser.parse_args()
     print(hello_world())
