@@ -18,7 +18,7 @@ Story PLAY-69 adds a pure helper function `word_count(text: str) -> int` to the 
 
 | Path | Action | Why |
 | --- | --- | --- |
-| `src/guestbook/text_utils.py` | **create** | New module housing `word_count`. The package uses a setuptools `src/` layout (`pyproject.toml:25` `where = ["src"]`). |
+| `src/guestbook/text_utils.py` | **create** | New module housing `word_count`. The package uses a setuptools `src/` layout (`pyproject.toml:24` `where = ["src"]`). |
 | `tests/test_text_utils.py` | **create** | Pytest coverage for AC1–AC5. Follows the repo's `test_<module>.py` naming convention. |
 
 Nothing else changes. Specifically **not** touched: `src/guestbook/__init__.py` (HLD §3 — no re-export, no change to existing modules), `pyproject.toml` (no new dependency), `.github/workflows/ci.yml`, any `testbed_utils` file, any existing test file. No `CI_FAIL` file exists at the root and none must be created.
@@ -35,7 +35,7 @@ Nothing else changes. Specifically **not** touched: `src/guestbook/__init__.py` 
 **Test files (`tests/`):**
 - One `Test<Name>` class per logical group, plain `assert` statements (`test_textutils.py:4-46`).
 - Import directly from the submodule (`test_textutils.py:1`).
-- Error cases use `pytest.raises(ExceptionType)` (`test_guestbook_api.py`, `test_textutils.py:33`).
+- Error cases use `pytest.raises(ExceptionType)` (`test_textutils.py:33`).
 - No `conftest.py`, no path manipulation.
 
 **Sibling implementation (`src/testbed_utils/textutils.py:46-52`):**
@@ -77,6 +77,7 @@ The guestbook version follows the same algorithm. The body is `return len(text.s
 | Test file is `tests/test_text_utils.py`. | HLD §6 |
 | No existing file in the repository is modified. | work-items.md AC8 |
 | Error handling for non-string input: the coding agent decides between an explicit `TypeError` guard or natural `AttributeError` from `.split()`. | HLD §6 ("The coding agent decides") |
+| Implementation uses a red-green commit split — commit 1 adds the test file (red), commit 2 adds the helper module (green). | HLD §6, developer plan feedback |
 
 ### Assumptions
 
@@ -89,24 +90,17 @@ The guestbook version follows the same algorithm. The body is `return len(text.s
 
 One new module of one pure function, written in the guestbook package's existing style, plus one test file. The implementation is a near-copy of the sibling `testbed_utils.textutils.word_count` with one addition: an explicit `isinstance` guard that raises `TypeError` for non-string input, giving tests a predictable exception type. The function body is `return len(text.split())` — Python's default `str.split()` splits on any whitespace and discards empties, satisfying the normal-sentence, mixed-whitespace, and empty/whitespace-only scenarios with no additional logic.
 
+The change is delivered in two commits following a red-green TDD split: the first commit adds the test file (which will fail until the implementation exists), and the second commit adds the implementation module (making the tests pass). This order makes the review legible — the reviewer sees the expected behaviour before seeing the code that satisfies it.
+
 No alternative was seriously considered: the function is a one-liner by specification, the module placement and naming are fixed by the HLD, and the only design choice (explicit guard vs. natural `AttributeError`) is minor. The explicit guard is preferred because it names the problem ("expected str") rather than exposing an implementation detail (`.split()` on `None`).
 
 Total change: ~15 lines of production code (including docstring), ~30 lines of test code, ~45 lines total — well under the 300-line cap (G3).
 
 ## Ordered implementation steps
 
-All steps belong to work item **t1**. Order: module → tests → verify.
+All steps belong to work item **t1**. Order: tests (red) → module (green) → verify.
 
-1. **Create `src/guestbook/text_utils.py`.**
-   - Module docstring in the guestbook style (one paragraph, descriptive).
-   - `from __future__ import annotations` as first import.
-   - `word_count(text: str) -> int`: explicit `isinstance` guard raising `TypeError` if `text` is not a `str`; body is `return len(text.split())`.
-   - Docstring with `*text*` emphasis and a `>>>` example: `word_count("The quick brown fox")` → `4`.
-   - Files: `src/guestbook/text_utils.py` (new).
-   - Advances: AC1 (happy path), AC2 (mixed whitespace), AC3 (boundary), AC4 (error case), AC5 (docstring).
-   - Test layer: pytest (`tests/test_text_utils.py`, created in step 2).
-
-2. **Create `tests/test_text_utils.py`.**
+1. **Create `tests/test_text_utils.py` and commit (red).**
    - Import `from guestbook.text_utils import word_count`.
    - `TestWordCount` class with the following tests:
 
@@ -121,11 +115,21 @@ All steps belong to work item **t1**. Order: module → tests → verify.
    - All tests are pure string-in / int-out; no network, clock, or file-system dependency (G4, AC10 from work-items.md).
    - Files: `tests/test_text_utils.py` (new).
    - Test layer: pytest (package-api layer from `.factory/testing.md`).
+   - Commit message: `test: add pytest cases for guestbook word_count (PLAY-69)`
+
+2. **Create `src/guestbook/text_utils.py` and commit (green).**
+   - Module docstring in the guestbook style (one paragraph, descriptive).
+   - `from __future__ import annotations` as first import.
+   - `word_count(text: str) -> int`: explicit `isinstance` guard raising `TypeError` if `text` is not a `str`; body is `return len(text.split())`.
+   - Docstring with `*text*` emphasis and a `>>>` example: `word_count("The quick brown fox")` → `4`.
+   - Files: `src/guestbook/text_utils.py` (new).
+   - Advances: AC1 (happy path), AC2 (mixed whitespace), AC3 (boundary), AC4 (error case), AC5 (docstring).
+   - Commit message: `feat: add word_count helper to guestbook package (PLAY-69)`
 
 3. **Verify locally.**
    - Run `pip install -e ".[test]" && pytest` from the repo root.
    - Confirm all existing and new tests pass.
-   - Confirm `git diff --stat` shows exactly two new files.
+   - Confirm `git diff --stat main` shows exactly two new files.
    - Confirm no `CI_FAIL` file at root.
    - Files: none changed.
 
@@ -155,7 +159,7 @@ test ! -e CI_FAIL && echo "no CI_FAIL"
 Expected:
 
 - `pytest` — whole suite passes; existing tests (`test_textutils`, `test_dateutils`, `test_pdfutils`, `test_pdf_extract_cli`, `test_guestbook_api`, `test_hello`, `test_hello_cli`, `test_numutils`, `test_num_summary_cli`) still green.
-- `pytest tests/test_text_utils.py -v` — 5 tests pass, each mapped to an AC in step 2.
+- `pytest tests/test_text_utils.py -v` — 5 tests pass, each mapped to an AC in step 1.
 - The `python -c` smoke test prints `4`.
 - `git diff --stat main` shows exactly two new files (`src/guestbook/text_utils.py`, `tests/test_text_utils.py`), roughly 45 total lines, well under the 300-line cap.
 - `pyproject.toml` has no diff (proves no new dependency, AC7 from work-items.md).
@@ -171,8 +175,9 @@ The repo has no linter, formatter or type checker, so `pip install -e ".[test]" 
 | **Coverage gate unenforced (RK1).** Epic targets ≥90% but no `pytest-cov` is configured. | Out of scope. The five required test cases cover the function's behaviour. Flagged in the PR body. |
 | **Scope lock.** | Only two new files: `src/guestbook/text_utils.py` and `tests/test_text_utils.py`. Do NOT modify `__init__.py`, `pyproject.toml`, CI config, README, any `testbed_utils` file, any existing test, or any other existing file. Do NOT create `CI_FAIL`. Do NOT add a console script or CLI entry point. |
 | **Error-handling choice.** The explicit `TypeError` guard is an assumption, not a locked decision. | If the developer or reviewer prefers natural `AttributeError`, the guard is removed and the test's `pytest.raises` target changes. Both are accepted by AC4. |
+| **Red commit is intentionally failing.** Commit 1 (tests) will fail `pytest` in isolation because the module it imports does not exist yet. | This is the expected TDD workflow. Both commits must be present before the gate is green. The implement phase must create both commits in sequence without running the gate between them. |
 | **No merge without human approval.** | The implement phase opens a PR; a human reviewer approves and merges. No skill in this run pushes, polls CI, or merges. |
 
 ## Clarification outcomes
 
-None. All requirements are fully specified by the story, the HLD, and the work-items breakdown. No `plan-questions.json` is written.
+Developer feedback (revision pass): split the implementation into two commits — commit 1 adds the tests (`tests/test_text_utils.py`, red), commit 2 adds the helper (`src/guestbook/text_utils.py`, green), with exact commit messages named in each step. Applied: steps 1 and 2 now carry their commit messages, and the order is tests-first. No other change to the plan.
