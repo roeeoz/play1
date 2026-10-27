@@ -58,10 +58,13 @@ The new `tests/test_healthz.py` replicates the three-fixture pattern from `test_
    - **AC4:** `test_healthz_excluded_from_request_log` — use `caplog` at INFO level on the `guestbook.access` logger; send GET to `/api/guestbook/entries` and assert a log record appears (positive control); clear; send GET to `/healthz` and assert no record appears.
    - **AC5:** `test_healthz_post_returns_405` — send POST to `/healthz`, assert status 405, assert response body does not contain `"status"` key.
    - **AC6:** `test_healthz_handler_has_docstring` — import `create_app`, retrieve the `healthz` view function from `app.view_functions`, assert `__doc__` is truthy.
-   - **AC7:** Run the full `pytest` suite and verify all existing tests still pass (implicit — step 5).
+   - **AC7:** `pytest tests/test_healthz.py` passes (dedicated verification of new tests in isolation — step 5).
+   - **AC8:** `pytest` (full suite) passes — all existing tests continue to pass (step 6).
    Advances: all ACs. Covered by: this is the test layer itself (`package-api` layer, `pytest`).
 
-5. **Run the canonical gate.** Execute `pip install -e ".[test]" && pytest` from the repo root and verify all tests pass — existing and new. Advances: AC7 (all existing tests continue to pass). This step is the implement phase's responsibility; the plan names it so the gate obligation is explicit.
+5. **Run new healthz tests in isolation.** Execute `pytest tests/test_healthz.py` and confirm all six new test functions pass independently before the full gate. This dedicated verification step gives a fast signal on the new functionality alone. Advances: AC7 (new tests pass in isolation). Covered by: `tests/test_healthz.py` (`package-api` layer, scoped run).
+
+6. **Run the canonical gate.** Execute `pip install -e ".[test]" && pytest` from the repo root and verify all tests pass — existing and new. Advances: AC8 (all existing tests continue to pass). This step is the implement phase's responsibility; the plan names it so the gate obligation is explicit.
 
 **Implicit invariants.** No authorization or tenancy contract applies (the endpoint is unauthenticated by design — FR3). No concurrency or idempotency concern (static response, no shared state). Validation and error paths are handled by Flask's built-in 405 for non-GET methods.
 
@@ -74,6 +77,7 @@ The new `tests/test_healthz.py` replicates the three-fixture pattern from `test_
 | 3 | t1 | Add GET /healthz endpoint with logging exclusion and tests |
 | 4 | t1 | Add GET /healthz endpoint with logging exclusion and tests |
 | 5 | t1 | Add GET /healthz endpoint with logging exclusion and tests |
+| 6 | t1 | Add GET /healthz endpoint with logging exclusion and tests |
 
 All steps belong to the single work item. No planning gap.
 
@@ -84,11 +88,12 @@ The canonical gate is `pytest`, declared in `.factory/testing.md:3` and invoked 
 **Gate sequence (from a clean temporary worktree at the committed SHA):**
 
 1. `pip install -e ".[test]"`
-2. `pytest`
+2. `pytest tests/test_healthz.py` — dedicated verification of new tests in isolation
+3. `pytest` — full canonical gate
 
 **Required test layer:** `package-api` (production-path, required, run by the canonical gate). The new `tests/test_healthz.py` is discovered by pytest automatically via `[tool.pytest.ini_options] testpaths = ["tests"]` in `pyproject.toml:27`.
 
-**What green means:** All existing tests pass unchanged. All six new test functions pass. No new CI configuration is needed — the existing workflow already runs `pytest` on every pull request.
+**What green means:** All six new test functions in `tests/test_healthz.py` pass in isolation (dedicated verification step). All existing tests pass unchanged in the full `pytest` run. No new CI configuration is needed — the existing workflow already runs `pytest` on every pull request.
 
 **No `.factory/testing.md` update needed** — the gate command (`pytest`) is unchanged. No `.factory/delivery-assets` obligation — no binary deliverable is introduced.
 
