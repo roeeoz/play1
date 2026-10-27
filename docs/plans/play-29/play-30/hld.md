@@ -22,7 +22,7 @@
 3. Each argument is stripped of an optional trailing Z, then passed to `date.fromisoformat()`.
 4. The absolute day count is computed: `abs((d1 - d2).days)`.
 5. The result is printed to stdout as a single line of plain text; exit 0.
-6. On invalid input, an error message goes to stderr; exit 1.
+6. On invalid input, an error message goes to stderr; exit 2.
 
 ## 4. Component Breakdown
 
@@ -37,7 +37,7 @@
 ## 5. Interface Contracts
 
 - **Public function:** Accepts two `str` arguments (ISO 8601, optional trailing Z), returns `int` (absolute day count), raises `ValueError` on invalid input.
-- **CLI:** Two positional arguments, stdout for result, stderr for errors, exit 0 on success, non-zero on failure. `--help` prints a one-line description.
+- **CLI:** Two positional arguments, stdout for result, stderr for errors. Exit 0 on success, exit 2 on invalid date input. `--help` prints a one-line description and exits 0.
 - **Contract for s2:** s2 will extend `main()` to also print weekday listings after the day-count line, reusing the same argparse structure and parsing logic. The two positional args and the parsing/validation path are the stable contract surface.
 
 ## 6. Key Technical Decisions
@@ -45,6 +45,7 @@
 - **Trailing-Z stripping:** `arg.rstrip('Z')` before `date.fromisoformat()` — portable across CPython 3.10+.
 - **Co-located `main()`:** Matches `hello.py`/`pdfutils.py` pattern; `test_dateutils.py` does not assert public names, so adding `main` is safe.
 - **Separate CLI test file:** Following the repo's established pattern (`test_hello_cli.py`, `test_pdf_extract_cli.py`).
+- **Exit code 2 for invalid dates:** Distinguishes input-validation errors from other failures.
 - **Output format:** Deferred to implementer (spec OQ1); either bare number or labeled format is acceptable.
 
 ## 7. Risks & Constraints
