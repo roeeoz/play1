@@ -1,0 +1,10 @@
+{
+  "storyId": "d717705d-b708-478e-a23f-5640c9790f8b",
+  "storyKey": "PLAY-69",
+  "epicKey": "PLAY-68",
+  "title": "Add a tested and documented word_count helper to the guestbook package",
+  "decisionId": "b7894356-5e6d-4911-9cf0-61c943835233",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-27T22:17:01Z",
+  "planHeadSha": "541d68f9083e0da22415e516943d336ba8217b7f"
+}
