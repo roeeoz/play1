@@ -38,7 +38,7 @@
 - **`@app.get("/healthz")` decorator:** Follows the existing route registration pattern in `app.py` and automatically returns 405 for non-GET methods.
 - **`after_request` hook for logging:** Chosen over a `logging.Filter` on the werkzeug logger because (a) it is testable via pytest's `caplog` fixture, (b) the werkzeug logger is not active during test-client requests, and (c) it is self-contained within `create_app()`.
 - **New test file `tests/test_healthz.py`:** Keeps healthz tests separate from guestbook API tests. Fixtures are duplicated (3 small fixtures) rather than extracting to `conftest.py`, avoiding modifications to existing test infrastructure.
-- **Two-commit workflow:** Tests land first (commit 1), then the endpoint and logging hook (commit 2). This ensures the test suite defines the expected behavior before the implementation exists, and the second commit makes all new tests pass.
+- **Three-step verification workflow:** (1) Commit tests first, (2) commit the endpoint and logging hook, (3) run `pytest tests/test_healthz.py` as a dedicated verification step to confirm all new tests pass in isolation, then (4) run the full `pytest` gate to confirm no regressions. The dedicated step catches failures in the new tests before the full suite runs, giving a faster signal on the new functionality.
 
 ## 7. Risks & Constraints
 
