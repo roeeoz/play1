@@ -36,6 +36,7 @@ class TestHelp:
         assert exit_code == 0
         assert stderr == ""
         assert "usage:" in stdout
+        assert "testbed-hello" in stdout
         assert _DESCRIPTION in " ".join(stdout.split())
         assert "Hello, world!" not in stdout
 
