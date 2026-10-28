@@ -9,6 +9,13 @@
       "actor": "Popy PO",
       "approvedAt": "2026-10-28T19:54:24.81146Z",
       "headSha": "cac383d39199225bc5eea502ae638219add050bc"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "e952c50a-b5e5-4617-ae93-f32dc39b8347",
+      "actor": "Popy PO",
+      "approvedAt": "2026-10-28T19:59:46.98567Z",
+      "headSha": "2dcbc09f8b42478c0ea6b7a6a7c2c8b7c3b58836"
     }
   ]
 }
