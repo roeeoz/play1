@@ -30,7 +30,7 @@ No async, no events, no I/O.
 |---|---|---|---|
 | `greet` function | Validate input type, return formatted greeting | `str` → `str`; non-str → error | play1 |
 | Package root export | Re-export `greet` in `__init__.py` and `__all__` | — | play1 |
-| Test suite additions | Verify happy path, boundary, error, docstring, export | — | play1 |
+| Test suite additions | Verify happy path, boundary (empty string), error, docstring, export | — | play1 |
 
 ## 5. Interface Contracts
 
