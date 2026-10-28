@@ -50,23 +50,23 @@ No alternatives were seriously considered: the design is fully constrained by th
 
 ## Ordered implementation steps
 
-1. **Create `src/testbed_utils/clamp.py`.**
-   - New file. Add `from __future__ import annotations`. Define a module-level `_INVERTED_RANGE_MSG` constant (e.g. `"low must not exceed high, got low={low!r}, high={high!r}"`). Define `def clamp(value: float, low: float, high: float) -> float:` with a docstring containing a `>>>` example (`clamp(5, 1, 10)` → `5`). Body: validate `low <= high`, raise `ValueError(_INVERTED_RANGE_MSG.format(low=low, high=high))` if not; return `max(low, min(high, value))`.
-   - Advances: AC 1–6 (function behavior), AC 7 (docstring example).
-   - Test layer: `package-api` (`pytest`).
-
-2. **Edit `src/testbed_utils/__init__.py`.**
-   - Add `from testbed_utils.clamp import clamp` as the first import line (before the `dateutils` import at current line 8). Add `"clamp"` as the first entry in `__all__` (before `"days_between"` at current line 15).
-   - Advances: AC 7 (importable from package root, listed in `__all__`).
-   - Test layer: `package-api` (`pytest`).
-
-3. **Create `tests/test_clamp.py`.**
+1. **Create `tests/test_clamp.py`.**
    - New file. Import `doctest`, `inspect`, `pytest`, `testbed_utils`, and `from testbed_utils.clamp import clamp`. Define:
      - `TestClamp`: `test_value_within_range` (AC 1: `clamp(5, 1, 10) == 5`), `test_value_equals_low` (AC 2: `clamp(1, 1, 10) == 1`), `test_value_equals_high` (AC 3: `clamp(10, 1, 10) == 10`), `test_value_below_low` (AC 4: `clamp(-3, 1, 10) == 1`), `test_value_above_high` (AC 5: `clamp(15, 1, 10) == 10`), `test_inverted_range_raises` (AC 6: `pytest.raises(ValueError, match="low must not exceed high")` for `clamp(5, 10, 1)`).
      - `TestPackageExports`: `test_root_import_and_all` — import `clamp` from `testbed_utils`, verify identity with the direct import, verify `"clamp"` in `testbed_utils.__all__` (AC 7).
      - `public_functions()` helper filtering `vars(clamp_module)` to public functions defined in the module.
      - `TestDocstringExamples`: `test_every_public_function_is_covered` (assert public set is `{"clamp"}`), `test_every_public_function_has_a_runnable_example` (via `doctest.DocTestFinder`), `test_doctests_pass` (via `doctest.testmod`) (AC 7).
    - Advances: AC 1–7 (all scenarios verified).
+   - Test layer: `package-api` (`pytest`).
+
+2. **Create `src/testbed_utils/clamp.py`.**
+   - New file. Add `from __future__ import annotations`. Define a module-level `_INVERTED_RANGE_MSG` constant (e.g. `"low must not exceed high, got low={low!r}, high={high!r}"`). Define `def clamp(value: float, low: float, high: float) -> float:` with a docstring containing a `>>>` example (`clamp(5, 1, 10)` → `5`). Body: validate `low <= high`, raise `ValueError(_INVERTED_RANGE_MSG.format(low=low, high=high))` if not; return `max(low, min(high, value))`.
+   - Advances: AC 1–6 (function behavior), AC 7 (docstring example).
+   - Test layer: `package-api` (`pytest`).
+
+3. **Edit `src/testbed_utils/__init__.py`.**
+   - Add `from testbed_utils.clamp import clamp` as the first import line (before the `dateutils` import at current line 8). Add `"clamp"` as the first entry in `__all__` (before `"days_between"` at current line 15).
+   - Advances: AC 7 (importable from package root, listed in `__all__`).
    - Test layer: `package-api` (`pytest`).
 
 ## Work-item mapping
@@ -111,4 +111,4 @@ All steps belong to the single work item t1. No planning gap.
 
 ## Clarification outcomes
 
-None.
+**Developer feedback: "Split the implementation into two commits: tests first, then the helper; name them in the plan."** The factory commits one change set per work item in `work-items.md`, so the single work item t1 produces one commit. The requested test-first ordering is reflected in the order of the implementation steps: step 1 creates the test file, steps 2–3 create the helper module and its package registration.
