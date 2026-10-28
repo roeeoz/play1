@@ -13,7 +13,7 @@
 - **External dependencies:** Python standard library only. No new runtime or test dependency.
 
 ## 3. Data Flow Design
-- Caller passes three numeric arguments (value, low, high) → function validates low <= high → computes `max(low, min(high, value))` synchronously → returns a number or raises `ValueError`.
+- Caller passes three numeric arguments (value, low, high) → function validates low ≤ high → computes bounded result synchronously → returns a number or raises `ValueError`.
 - Fully synchronous, stateless, no I/O, no events.
 
 ## 4. Component Breakdown
@@ -33,8 +33,9 @@
 - **Re-export from package root.** Follows the existing `__init__.py` convention; the `clamp` entry is inserted alphabetically between `days_between` and `extract_fields` in `__all__`.
 - **Module-level private constant for error message.** Matches `numutils.py` style (`_EMPTY_MSG`, `_RANGE_MSG` pattern).
 - **Docstring examples verified by tests, not CI config.** CI does not run doctests; the test file checks the examples produce their shown output, following the `test_numutils.py` pattern.
+- **Two-commit implementation order.** Commit 1 lands the test file; commit 2 lands the helper module and the `__init__.py` registration. This follows the developer's requested TDD commit discipline while keeping the PR atomic and CI-green on merge.
 
 ## 7. Risks & Constraints
-- **Coverage target unenforced:** the epic's >=90% goal has no `pytest-cov` gate in the repo; flagged in PR body, not added.
+- **Coverage target unenforced:** the epic's ≥90% goal has no `pytest-cov` gate in the repo; flagged in PR body, not added.
 - **No lint/format tooling in repo:** the only pre-PR check is `pip install -e ".[test]" && pytest`.
 - **Size:** ~20 source lines + ~60 test lines + 2 init lines ≈ ~80 changed lines, well under the 300-line cap.
