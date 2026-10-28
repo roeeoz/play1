@@ -9,7 +9,7 @@
 ## 2. Architecture Overview
 - **Repository:** `play1` (`2a3d4d68-6e17-4c25-bd24-4c5d64979af3`), the sole repo in scope.
 - **Package layout:** Setuptools `src/` layout. The new module lives at `src/testbed_utils/clamp.py`, alongside `numutils.py`, `textutils.py`, `dateutils.py`, `pdfutils.py`, and `hello.py`.
-- **Public surface:** `testbed_utils.clamp` (submodule) plus re-export of `clamp` from `testbed_utils/__init__.py` and addition to `__all__` in alphabetical position (between `"days_between"` and `"extract_fields"`).
+- **Public surface:** `testbed_utils.clamp` (submodule) plus re-export of `clamp` from `testbed_utils/__init__.py` and addition to `__all__` in alphabetical position (before `"days_between"`).
 - **External dependencies:** Python standard library only. No new runtime or test dependency.
 
 ## 3. Data Flow Design
