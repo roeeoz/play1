@@ -10,7 +10,7 @@ PLAY-81 adds a `clamp(value, low, high)` function to the `testbed-utils` package
 
 **Existing conventions confirmed by reading source.**
 - Private error-message constants: `numutils.py:10–11` defines `_EMPTY_MSG` and `_RANGE_MSG`.
-- Docstring style: single `>>>` example per function, matching the pattern in `numutils.py:17–18`, `textutils.py:19–20`, `dateutils.py`.
+- Docstring style: single `>>>` example per function, matching the pattern in `numutils.py:17–18`, `textutils.py`, `dateutils.py`.
 - `from __future__ import annotations` at the top of every module (`numutils.py:6`, `textutils.py:6`).
 - Type annotations use `float` for numeric parameters (accepts `int` per PEP 484).
 
@@ -55,22 +55,24 @@ No alternative was considered because the design is fully specified by the HLD a
 
 ## Ordered implementation steps
 
-1. **Create `src/testbed_utils/clamp.py`.**
-   - Add module docstring, `from __future__ import annotations`, private constant `_BOUNDS_MSG = "low must not be greater than high"`.
-   - Implement `clamp(value: float, low: float, high: float) -> float` with a docstring containing a `>>>` example (e.g., `clamp(15, 0, 10)` → `10`).
-   - Guard: `if low > high: raise ValueError(_BOUNDS_MSG)`.
-   - Return: `max(low, min(value, high))`.
-   - Files: `src/testbed_utils/clamp.py` (new).
-   - Advances: AC-1, AC-2, AC-3, AC-4, AC-5, AC-7.
-   - Test layer: `package-api` (pytest).
+All steps belong to work item **t1**. Order: tests first, then the helper module, then the package re-export.
 
-2. **Create `tests/test_clamp.py`.**
+1. **Create `tests/test_clamp.py`.**
    - `TestClamp`: `test_value_within_range` (AC-1), `test_value_below_range_clamped_to_low` (AC-2), `test_value_above_range_clamped_to_high` (AC-3), `test_low_equals_high` (AC-4), `test_low_greater_than_high_raises` (AC-5).
    - `TestPackageExports`: `test_root_import_and_all` (AC-6).
    - `TestDocstringExamples`: `test_every_public_function_has_a_runnable_example`, `test_doctests_pass` (AC-7).
    - All inputs are literal numeric values; no network, clock, or filesystem dependency.
    - Files: `tests/test_clamp.py` (new).
    - Advances: AC-1 through AC-7.
+   - Test layer: `package-api` (pytest).
+
+2. **Create `src/testbed_utils/clamp.py`.**
+   - Add module docstring, `from __future__ import annotations`, private constant `_BOUNDS_MSG = "low must not be greater than high"`.
+   - Implement `clamp(value: float, low: float, high: float) -> float` with a docstring containing a `>>>` example (e.g., `clamp(15, 0, 10)` → `10`).
+   - Guard: `if low > high: raise ValueError(_BOUNDS_MSG)`.
+   - Return: `max(low, min(value, high))`.
+   - Files: `src/testbed_utils/clamp.py` (new).
+   - Advances: AC-1, AC-2, AC-3, AC-4, AC-5, AC-7.
    - Test layer: `package-api` (pytest).
 
 3. **Edit `src/testbed_utils/__init__.py`.**
@@ -122,4 +124,6 @@ This is the sole gate (`test-gate: pytest` in `.factory/testing.md`). No linter,
 
 ## Clarification outcomes
 
-None.
+**Developer feedback:** "Split the implementation into two commits: tests first, then the helper; name them in the plan."
+
+**Resolution:** The factory commits one change set per work item in `work-items.md`. This breakdown has a single work item (t1), so it produces one commit. The requested tests-first ordering is reflected in the step order above (step 1 writes tests, step 2 writes the helper, step 3 edits the package root), which is the sequence the implement phase follows within that single commit.
