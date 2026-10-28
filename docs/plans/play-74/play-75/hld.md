@@ -13,6 +13,7 @@
 - **Test module:** `tests/test_clamputils.py` — full coverage: happy path, boundary, error, package-export, and docstring tests.
 - **Boundaries:** The new module is self-contained; it imports nothing from the package and no existing module imports it. The only integration point is the package root `__init__.py`.
 - **External dependencies:** None added. Existing runtime deps unchanged.
+- **Build order:** Two tickets — tests and module first (t1), then package-root registration (t2).
 
 ## 3. Data Flow Design
 
@@ -29,14 +30,14 @@
 
 ## 5. Interface Contracts
 
-- **Public API:** `clamp(value: float, low: float, high: float) -> float` — returns one of its three inputs unchanged; raises `ValueError` when `low > high`.
+- **Public API:** `clamp(value, low, high)` — accepts three numeric arguments, returns one of its three inputs unchanged; raises `ValueError` when `low > high`.
 - No cross-repo contracts. No event schemas.
 
 ## 6. Key Technical Decisions
 
 - **New module (`clamputils.py`) rather than extending `numutils.py`:** Existing `test_numutils.py` asserts the exact set of public functions in that module; adding `clamp` there would break it.
 - **`*utils.py` naming convention:** 4 of 4 non-CLI utility modules use this pattern.
-- **Implementation via `max(low, min(value, high))`** with a preceding guard: idiomatic, zero-branch, returns an input unchanged (no float-precision concern).
+- **Two-ticket split (tests first, then registration):** Matches the requested TDD-style ordering; the test suite and module land first, package-root wiring follows as a separate commit.
 
 ## 7. Risks & Constraints
 
