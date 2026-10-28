@@ -1,0 +1,10 @@
+{
+  "storyId": "1dd477cb-2b69-43c6-8cc5-57f5482abf02",
+  "storyKey": "PLAY-79",
+  "epicKey": "PLAY-78",
+  "title": "Clamp helper that bounds a numeric value to a given range",
+  "decisionId": "0a6771c7-c699-43fe-bf2b-e2c6a9b838f7",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-28T10:16:38Z",
+  "planHeadSha": "5b428856aafc2b67a1487aea9eb4f2b91c92595e"
+}
