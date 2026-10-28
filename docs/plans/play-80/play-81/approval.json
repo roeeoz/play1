@@ -1,0 +1,10 @@
+{
+  "storyId": "a2830a99-cda5-490d-a24c-bfb366f4aa7e",
+  "storyKey": "PLAY-81",
+  "epicKey": "PLAY-80",
+  "title": "Clamp helper that bounds a value to an inclusive range",
+  "decisionId": "843d2b5d-4408-485c-888d-1893577fc186",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-28T10:50:03Z",
+  "planHeadSha": "edbd6620c2b608176b58e9f9507dabe15d3befc5"
+}
