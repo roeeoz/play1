@@ -1,0 +1,14 @@
+{
+  "storyId": "215fd057-743d-4d46-898f-4bb1f3deaa1d",
+  "storyKey": "215fd057",
+  "title": "20261028-193619Z Newsletter sign-up page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "b7bbcf3b-7495-4768-b228-4ff8969ba211",
+      "actor": "Popy PO",
+      "approvedAt": "2026-10-28T19:54:24.81146Z",
+      "headSha": "cac383d39199225bc5eea502ae638219add050bc"
+    }
+  ]
+}
