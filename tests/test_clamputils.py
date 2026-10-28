@@ -57,3 +57,13 @@ class TestDocstringExamples:
         results = doctest.testmod(clamputils)
         assert results.attempted > 0
         assert results.failed == 0
+
+
+class TestPackageExports:
+    def test_root_import(self):
+        from testbed_utils import clamp as root_clamp
+
+        assert root_clamp is clamp
+
+    def test_all_contains_clamp(self):
+        assert "clamp" in testbed_utils.__all__
