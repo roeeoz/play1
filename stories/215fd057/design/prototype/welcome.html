@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .newsletter-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      background: #eef2ff;
+      border-radius: 0.75rem;
+      margin-bottom: var(--space-lg);
+    }
+    .tagline {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      background: var(--color-bg);
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 1rem;
+      margin-bottom: var(--space-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="proto-nav">
+    <a href="index.html">Index</a>
+    <span class="current">Welcome</span>
+    <a href="sign-up-form.html">Sign-up form</a>
+    <a href="confirmation.html">Confirmation</a>
+  </nav>
+
+  <div class="card">
+
+    <div class="newsletter-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <span class="tagline">Once a month, at most</span>
+
+    <h1>Stay in the loop</h1>
+
+    <p>
+      Get a short email when we ship something new — feature releases,
+      improvements, and the occasional behind-the-scenes look at what
+      we're building. No spam, no account required, unsubscribe any time.
+    </p>
+
+    <a href="sign-up-form.html" class="btn-primary">Sign up</a>
+
+  </div>
+
+</body>
+</html>
