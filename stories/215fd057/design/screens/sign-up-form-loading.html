@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign-up form (loading) — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+
+  <div class="card">
+
+    <div class="step-indicator">
+      <div class="step active"></div>
+      <div class="step active"></div>
+      <div class="step"></div>
+    </div>
+
+    <h1>Subscribe</h1>
+
+    <p>
+      Enter your email address and we'll send you a confirmation.
+    </p>
+
+    <div class="field-group form-loading">
+      <label for="email">Email address</label>
+      <input type="email" id="email" value="alex.morgan@example.com" readonly>
+    </div>
+
+    <div class="checkbox-group form-loading">
+      <input type="checkbox" id="consent" checked disabled>
+      <span>Send me the product newsletter. I can unsubscribe at any time.</span>
+    </div>
+
+    <span class="btn-primary btn-disabled"><span class="spinner"></span>Subscribing…</span>
+
+    <a href="welcome-default.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align: -2px; margin-right: 4px;">
+        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>Back
+    </a>
+
+  </div>
+
+</body>
+</html>
