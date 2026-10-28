@@ -57,9 +57,9 @@ PLAY-71 adds a parameterized `greet(name)` function to the `testbed-utils` packa
 
 ## Solution proposal
 
-Add `greet` as a pure function in the existing `hello.py` module, positioned between `hello_world` and `main`. The function validates `isinstance(name, str)`, raises `TypeError` with a descriptive message on failure, and returns `f"Hello, {name}!"` on success. The package root re-exports it alphabetically in both the import line and `__all__`. Tests extend `test_hello.py` with three new classes mirroring the existing pattern: one for functional assertions (happy path and boundary), one for the error case (`pytest.raises`), and additions to the existing `TestDocstringExamples` class for the new function's doctest. No new file, dependency, or CI change is needed.
+Add `greet` as a pure function in the existing `hello.py` module, positioned between `hello_world` and `main`. The function validates `isinstance(name, str)`, raises `TypeError` with a descriptive message on failure, and returns `f"Hello, {name}!"` on success. The package root re-exports it alphabetically in both the import line and `__all__`. Tests extend `test_hello.py` with three new classes mirroring the existing pattern: one for functional assertions (happy path), one dedicated to the empty-string boundary case, one for the error case (`pytest.raises`), and additions to the existing `TestDocstringExamples` class for the new function's doctest. No new file, dependency, or CI change is needed.
 
-This is the minimal change: one function body (~8 lines including docstring), two edits to `__init__.py`, and ~30 lines of new tests — well under the 300-line limit.
+This is the minimal change: one function body (~8 lines including docstring), two edits to `__init__.py`, and ~35 lines of new tests — well under the 300-line limit.
 
 ## Ordered implementation steps
 
@@ -67,7 +67,13 @@ This is the minimal change: one function body (~8 lines including docstring), tw
 
 2. **Export `greet` from the package root.** In `src/testbed_utils/__init__.py`: add `greet` to the import on line 9 (`from testbed_utils.hello import greet, hello_world`) and insert `"greet"` into `__all__` in alphabetical position (between `"extract_fields"` and `"hello_world"`). Files: `src/testbed_utils/__init__.py`. Advances AC 2. Test layer: `package-api` (pytest).
 
-3. **Add tests for `greet` in `test_hello.py`.** Add a `TestGreet` class with: `test_returns_greeting` asserting `greet("World") == "Hello, World!"`; `test_empty_string` asserting `greet("") == "Hello, !"`; `test_exported_from_package_root` asserting `testbed_utils.greet is hello.greet` and `"greet" in testbed_utils.__all__`. Add a `TestGreetErrors` class with: `test_rejects_integer` and `test_rejects_none`, each using `pytest.raises(TypeError, match=...)`. Extend `TestDocstringExamples`: add `test_greet_has_a_runnable_example` mirroring the existing `test_hello_world_has_a_runnable_example` pattern with `DocTestFinder`. The existing `test_doctests_pass` already runs `doctest.testmod(hello)` and will pick up the new `>>>` example automatically. Add `import pytest` and `from testbed_utils.hello import greet` to the imports. Files: `tests/test_hello.py`. Advances AC 1, 2, 3, 4, 5. Test layer: `package-api` (pytest).
+3. **Add happy-path and export tests for `greet` in `test_hello.py`.** Add a `TestGreet` class with: `test_returns_greeting` asserting `greet("World") == "Hello, World!"`; `test_exported_from_package_root` asserting `testbed_utils.greet is hello.greet` and `"greet" in testbed_utils.__all__`. Add `from testbed_utils.hello import greet` to the imports. Files: `tests/test_hello.py`. Advances AC 1, 2. Test layer: `package-api` (pytest).
+
+4. **Add an explicit boundary test for the empty-string input.** In the `TestGreet` class in `tests/test_hello.py`, add `test_empty_name` asserting `greet("") == "Hello, !"`. This is a dedicated test case for the empty-name boundary: it verifies that passing an empty string produces `"Hello, !"` with no error raised. Files: `tests/test_hello.py`. Advances AC 4 (Scenario 4 — Boundary: empty string input). Test layer: `package-api` (pytest).
+
+5. **Add error-case tests for non-string input.** Add a `TestGreetErrors` class in `tests/test_hello.py` with: `test_rejects_integer` and `test_rejects_none`, each using `pytest.raises(TypeError, match=...)`. Add `import pytest` to the imports. Files: `tests/test_hello.py`. Advances AC 5. Test layer: `package-api` (pytest).
+
+6. **Extend docstring tests for `greet`.** In `TestDocstringExamples` in `tests/test_hello.py`, add `test_greet_has_a_runnable_example` mirroring the existing `test_hello_world_has_a_runnable_example` pattern with `DocTestFinder`. The existing `test_doctests_pass` already runs `doctest.testmod(hello)` and will pick up the new `>>>` example automatically. Files: `tests/test_hello.py`. Advances AC 3. Test layer: `package-api` (pytest).
 
 **Implicit invariants.** Authorization/tenancy: not applicable (pure library function). Concurrency/idempotency: not applicable (stateless, no I/O). Validation/error paths: covered by the `TypeError` raise and the error-case tests.
 
@@ -82,6 +88,9 @@ This is the minimal change: one function body (~8 lines including docstring), tw
 | 1 | t1 | Add greet(name) function with tests and package export |
 | 2 | t1 | Add greet(name) function with tests and package export |
 | 3 | t1 | Add greet(name) function with tests and package export |
+| 4 | t1 | Add greet(name) function with tests and package export |
+| 5 | t1 | Add greet(name) function with tests and package export |
+| 6 | t1 | Add greet(name) function with tests and package export |
 
 All steps belong to the single work item. No planning gap.
 
@@ -95,7 +104,9 @@ The repository's canonical gate is `pytest`, run from the repo root after `pip i
 
 **What the gate must show:**
 - All existing tests pass (no regressions).
-- The new `TestGreet`, `TestGreetErrors`, and extended `TestDocstringExamples` tests pass.
+- The new `TestGreet` tests pass, including the dedicated `test_empty_name` asserting `greet("") == "Hello, !"`.
+- The new `TestGreetErrors` tests pass.
+- The extended `TestDocstringExamples` tests pass.
 - `doctest.testmod(hello)` reports zero failures with an increased `attempted` count.
 
 **Provider CI.** No change to `.github/workflows/ci.yml` — the existing `test` job already runs `pytest` on Python 3.12 against the installed package, which will pick up the new tests automatically.
@@ -126,4 +137,4 @@ The repository's canonical gate is `pytest`, run from the repo root after `pip i
 
 ## Clarification outcomes
 
-None — no clarifying question was needed. All acceptance criteria are implementable as written, and no locked decision conflicts with the repository.
+The developer reviewed the initial plan and requested one change: add an explicit test task for `greet('')` (empty name) asserting it returns `'Hello, !'`, mapped to the acceptance criteria. Applied: step 4 is now a dedicated boundary-test task for the empty-string input, mapped to AC 4 (Scenario 4 — Boundary: empty string input). No other clarification was needed.
