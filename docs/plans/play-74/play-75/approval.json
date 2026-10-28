@@ -1,0 +1,10 @@
+{
+  "storyId": "8e19e558-b1b5-4061-b586-1ee2e91138ae",
+  "storyKey": "PLAY-75",
+  "epicKey": "PLAY-74",
+  "title": "Range-clamping helper with full test coverage",
+  "decisionId": "c57d67bc-1181-4378-a06b-93c4ae6e7120",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-28T09:41:56Z",
+  "planHeadSha": "184b1039fe00c4e2b479dff3d3690821c25190ed"
+}
