@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=375, initial-scale=1">
+  <title>Sign-up form — Consent missing (Mobile)</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    html {
+      max-width: 375px;
+      margin: 0 auto;
+    }
+
+    body {
+      padding: var(--space-md);
+      justify-content: flex-start;
+      padding-top: var(--space-xl);
+    }
+
+    .card {
+      padding: var(--space-xl);
+      border: none;
+      border-radius: 0;
+    }
+
+    .card h2 {
+      font-size: var(--font-size-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Sign up for the newsletter</h2>
+    <p>Enter your email address and we will send you a confirmation.</p>
+
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        id="email"
+        value="alex.rivera@example.com"
+        autocomplete="email"
+      >
+    </div>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="consent">
+      <label for="consent">
+        Send me the product newsletter. I can unsubscribe at any time.
+      </label>
+    </div>
+    <p class="checkbox-error">Consent is required to subscribe.</p>
+
+    <a href="confirmation-default-mobile.html" class="btn-primary">Subscribe</a>
+
+    <a href="welcome-default-mobile.html" class="link-back">← Back</a>
+  </div>
+
+  <nav class="gallery-nav">
+    <a href="index.html">← Back to gallery</a>
+  </nav>
+
+</body>
+</html>

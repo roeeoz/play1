@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Screen designs</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .gallery {
+      width: 100%;
+      max-width: 720px;
+      padding: var(--space-xl);
+    }
+
+    .gallery h1 {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .gallery > p {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-2xl);
+      line-height: 1.6;
+    }
+
+    .screen-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .screen-section h2 {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--color-text);
+    }
+
+    .state-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+
+    .state-table th,
+    .state-table td {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .state-table th {
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .state-table td a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .state-table td a:hover {
+      text-decoration: underline;
+    }
+
+    .state-name {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    body {
+      justify-content: flex-start;
+      padding-top: var(--space-2xl);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery">
+    <h1>Newsletter sign-up</h1>
+    <p>
+      Complete screen set for the newsletter sign-up journey. Every screen
+      in every state the structure names, in desktop and mobile layout.
+      Click any link to view the page.
+    </p>
+
+    <div class="screen-section">
+      <h2>Welcome</h2>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="welcome-default.html">Desktop</a></td>
+            <td><a href="welcome-default-mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="screen-section">
+      <h2>Sign-up form</h2>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="sign-up-form-default.html">Desktop</a></td>
+            <td><a href="sign-up-form-default-mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Invalid email</td>
+            <td><a href="sign-up-form-invalid-email.html">Desktop</a></td>
+            <td><a href="sign-up-form-invalid-email-mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Consent missing</td>
+            <td><a href="sign-up-form-consent-missing.html">Desktop</a></td>
+            <td><a href="sign-up-form-consent-missing-mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Loading</td>
+            <td><a href="sign-up-form-loading.html">Desktop</a></td>
+            <td><a href="sign-up-form-loading-mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Submission failed</td>
+            <td><a href="sign-up-form-submission-failed.html">Desktop</a></td>
+            <td><a href="sign-up-form-submission-failed-mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="screen-section">
+      <h2>Confirmation</h2>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="confirmation-default.html">Desktop</a></td>
+            <td><a href="confirmation-default-mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
