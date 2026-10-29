@@ -1,4 +1,4 @@
-from testbed_utils.textutils import slugify, truncate, word_count
+from testbed_utils.textutils import initials, slugify, truncate, word_count
 
 
 class TestSlugify:
@@ -44,3 +44,17 @@ class TestWordCount:
 
     def test_empty(self):
         assert word_count("") == 0
+
+
+class TestInitials:
+    def test_multi_word(self):
+        assert initials("Ada Lovelace") == "AL"
+
+    def test_single_word(self):
+        assert initials("Ada") == "A"
+
+    def test_empty(self):
+        assert initials("") == ""
+
+    def test_extra_whitespace(self):
+        assert initials("  Ada   Lovelace  ") == "AL"
