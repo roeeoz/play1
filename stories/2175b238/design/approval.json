@@ -16,6 +16,13 @@
       "actor": "Ally PO \u0026 DEV",
       "approvedAt": "2026-10-29T09:42:28.687862Z",
       "headSha": "a21c757c31e7e79dd1df7f0deb402dfef8aeed6d"
+    },
+    {
+      "step": "screens",
+      "decisionId": "765f4fa3-34d5-4d43-b59a-2659e4744675",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-10-29T09:57:18.883696Z",
+      "headSha": "cd449d52fd9646f11c99d682453b718e2d068978"
     }
   ]
 }
