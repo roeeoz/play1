@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign-up form — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .form-header {
+      margin-bottom: var(--space-lg);
+    }
+
+    .form-header h2 {
+      margin-bottom: var(--space-xs);
+    }
+
+    .form-header p {
+      margin-bottom: 0;
+    }
+
+    .field label .required {
+      color: var(--color-error);
+      margin-left: 2px;
+    }
+
+    .input-with-value {
+      color: var(--color-text);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="step-indicator">
+      <span class="active"></span>
+      <span class="active"></span>
+      <span></span>
+    </div>
+
+    <div class="form-header">
+      <h2>Sign up for updates</h2>
+      <p>Enter your email address and we will send you a confirmation.</p>
+    </div>
+
+    <div class="field">
+      <label for="email">Email address<span class="required" aria-label="required">*</span></label>
+      <input
+        type="email"
+        id="email"
+        class="input input-with-value"
+        value="alex@example.com"
+        placeholder="you@example.com"
+        autocomplete="email"
+        aria-required="true"
+      >
+    </div>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="consent" checked aria-required="true">
+      <span>
+        <label for="consent" style="font-weight:400; margin-bottom:0; display:inline;">
+          Send me the product newsletter. I can unsubscribe at any time.
+        </label>
+      </span>
+    </div>
+
+    <a href="confirmation.html" class="btn">Subscribe</a>
+    <a href="welcome.html" class="link-back">&larr; Back</a>
+  </div>
+</body>
+</html>

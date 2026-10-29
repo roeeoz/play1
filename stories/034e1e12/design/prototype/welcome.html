@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .welcome-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: #eef2fb;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-md);
+    }
+
+    .detail {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+
+    .detail-item svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="step-indicator">
+      <span class="active"></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="welcome-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="6" width="24" height="16" rx="2" stroke="#2254d0" stroke-width="2" fill="none"/>
+        <path d="M2 8l12 8 12-8" stroke="#2254d0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1>Stay in the loop</h1>
+    <p>
+      Get notified when we ship new features and releases. Short updates,
+      no more than once a month, straight to your inbox.
+    </p>
+
+    <div class="detail">
+      <div class="detail-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="#5a5f6b" stroke-width="1.5" fill="none"/>
+          <path d="M8 4.5v4l2.5 1.5" stroke="#5a5f6b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span>At most once a month — we only write when there is something new.</span>
+      </div>
+      <div class="detail-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 8.5l2.5 2.5L12 5" stroke="#5a5f6b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span>No account required. Just your email address.</span>
+      </div>
+      <div class="detail-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 8.5l2.5 2.5L12 5" stroke="#5a5f6b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span>Unsubscribe any time, in one click.</span>
+      </div>
+    </div>
+
+    <a href="sign-up-form.html" class="btn">Sign up</a>
+    <a href="index.html" class="link-back">&larr; Back to prototype index</a>
+  </div>
+</body>
+</html>

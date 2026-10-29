@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototype — Newsletter sign-up journey</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .index-card {
+      max-width: 540px;
+    }
+
+    .index-card h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .intro {
+      margin-bottom: var(--space-lg);
+    }
+
+    .screen-list {
+      list-style: none;
+      margin-bottom: var(--space-lg);
+    }
+
+    .screen-list li {
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .screen-list li:first-child {
+      border-top: 1px solid var(--color-border);
+    }
+
+    .screen-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-sm);
+      text-decoration: none;
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    .screen-list a:hover {
+      background: var(--color-bg);
+    }
+
+    .screen-list .label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-weight: 400;
+    }
+
+    .screen-list .arrow {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-lg);
+    }
+
+    .start-link {
+      margin-top: 0;
+    }
+
+    .note {
+      margin-top: var(--space-lg);
+      padding: var(--space-md);
+      background: var(--color-bg);
+      border-radius: var(--radius);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="card index-card">
+    <h1>Newsletter sign-up journey</h1>
+    <p class="intro">
+      A three-screen sign-up flow that lets visitors subscribe to the product
+      newsletter with an email address and explicit consent — no account needed.
+      Click through the happy path below or jump to any screen.
+    </p>
+
+    <ul class="screen-list">
+      <li>
+        <a href="welcome.html">
+          <span>Welcome<br><span class="label">Introduces the newsletter and invites sign-up</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </li>
+      <li>
+        <a href="sign-up-form.html">
+          <span>Sign-up form<br><span class="label">Collects email and consent</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </li>
+      <li>
+        <a href="confirmation.html">
+          <span>Confirmation<br><span class="label">Asks the visitor to check their inbox</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </li>
+    </ul>
+
+    <a href="welcome.html" class="btn start-link">Start the journey</a>
+
+    <div class="note">
+      <strong>Design note:</strong> This prototype covers the main happy path.
+      Navigation between screens uses simple links. The form shows its default
+      (ready-to-fill) state; validation errors, loading and failure states are
+      covered in the full screen designs.
+    </div>
+  </div>
+</body>
+</html>
