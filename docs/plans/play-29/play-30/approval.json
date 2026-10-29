@@ -1,0 +1,10 @@
+{
+  "storyId": "6d71cd76-4e2d-4738-9a0f-a5041b116d93",
+  "storyKey": "PLAY-30",
+  "epicKey": "PLAY-29",
+  "title": "CLI subcommand: parse two ISO dates and report the day count",
+  "decisionId": "3888a304-0fe5-4f67-b043-1c6a868f5f3f",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-27T18:10:11Z",
+  "planHeadSha": "dcf4e0fd717b672387c2aadd9310c602e75080a1"
+}
