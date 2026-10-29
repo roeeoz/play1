@@ -1,0 +1,10 @@
+{
+  "storyId": "abc6c327-e9c2-4955-b166-8f7bd17b96a1",
+  "storyKey": "PLAY-59",
+  "epicKey": "PLAY-58",
+  "title": "Add a GET /healthz liveness endpoint returning status, version, and uptime",
+  "decisionId": "a28941fb-b343-491f-bae7-30858c05404a",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-27T20:12:33Z",
+  "planHeadSha": "2c54733cdffaa092c2d8f9dae95b7f552326faf5"
+}
