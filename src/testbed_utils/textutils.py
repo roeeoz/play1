@@ -25,22 +25,20 @@ def slugify(text: str) -> str:
     return _SLUG_COLLAPSE_RE.sub("-", stripped)
 
 
-def truncate(text: str, max_length: int, suffix: str = "...") -> str:
-    """Truncate *text* to at most *max_length* characters, appending *suffix*.
+def truncate(text: str, n: int) -> str:
+    """Truncate *text* to at most *n* characters using a Unicode ellipsis.
 
-    The suffix counts toward the limit. Text that already fits is returned
-    unchanged.
+    Returns *text* unchanged when it already fits within *n* characters.
+    Returns an empty string when *n* is zero or negative.
 
     >>> truncate("hello world", 8)
-    'hello...'
+    'hello w…'
     """
-    if max_length < 0:
-        raise ValueError("max_length must be non-negative")
-    if len(text) <= max_length:
+    if n <= 0:
+        return ""
+    if len(text) <= n:
         return text
-    if max_length <= len(suffix):
-        return suffix[:max_length]
-    return text[: max_length - len(suffix)] + suffix
+    return text[: n - 1] + "…"
 
 
 def word_count(text: str) -> int:
