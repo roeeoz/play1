@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign-up form — Loading</title>
+  <link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+
+  <div class="card">
+    <h2>Sign up for the newsletter</h2>
+    <p>Enter your email address and we will send you a confirmation.</p>
+
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        id="email"
+        value="alex.rivera@example.com"
+        autocomplete="email"
+        readonly
+        class="input-readonly"
+      >
+    </div>
+
+    <div class="checkbox-group">
+      <input type="checkbox" id="consent" checked disabled>
+      <label for="consent">
+        Send me the product newsletter. I can unsubscribe at any time.
+      </label>
+    </div>
+
+    <span class="btn-disabled">
+      <span class="spinner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+          <path d="M14 8a6 6 0 0 0-6-6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      Subscribing…
+    </span>
+
+    <a href="welcome-default.html" class="link-back">← Back</a>
+  </div>
+
+  <nav class="gallery-nav">
+    <a href="index.html">← Back to gallery</a>
+  </nav>
+
+</body>
+</html>
