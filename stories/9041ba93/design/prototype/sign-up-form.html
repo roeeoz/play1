@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    form {
+      margin-top: var(--spacing-lg);
+    }
+  </style>
+</head>
+<body>
+  <nav class="proto-nav">
+    <a href="index.html">Prototype index</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <div class="step-indicator">
+      <span class="step-dot"></span>
+      <span class="step-dot active"></span>
+      <span class="step-dot"></span>
+    </div>
+
+    <h1>Sign up for the newsletter</h1>
+
+    <p>
+      Enter your email address below. We will send you a confirmation message
+      before anything else.
+    </p>
+
+    <form action="confirmation.html" method="get">
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          value="alex@example.com"
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <div class="checkbox-group">
+          <input type="checkbox" id="consent" name="consent" checked>
+          <label class="checkbox-label" for="consent">
+            Send me the product newsletter. I can unsubscribe at any time.
+          </label>
+        </div>
+      </div>
+
+      <!-- In the prototype the submit is a plain link; real validation is out of scope here -->
+      <a class="btn-primary" href="confirmation.html">Subscribe</a>
+
+    </form>
+
+    <a class="back-link" href="welcome.html">&larr; Back</a>
+
+  </div>
+</body>
+</html>

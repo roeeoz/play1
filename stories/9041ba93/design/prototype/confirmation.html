@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmation — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .confirmation-card {
+      text-align: center;
+      padding: var(--spacing-2xl) var(--spacing-xl);
+    }
+
+    .confirmation-card p {
+      color: var(--color-text-secondary);
+    }
+
+    .email-highlight {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .site-link {
+      margin-top: var(--spacing-xl);
+    }
+  </style>
+</head>
+<body>
+  <nav class="proto-nav">
+    <a href="index.html">Prototype index</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <div class="step-indicator">
+      <span class="step-dot"></span>
+      <span class="step-dot"></span>
+      <span class="step-dot active"></span>
+    </div>
+
+    <div class="card confirmation-card">
+
+      <div class="icon-block">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="24" fill="#F0FDF4"/>
+          <path d="M18 24L22 28L30 20" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <h1>Check your inbox</h1>
+
+      <p>
+        We sent a confirmation email to
+        <span class="email-highlight">alex@example.com</span>.
+        Open it and confirm to start receiving the newsletter.
+      </p>
+
+      <p>
+        If you do not see the email, check your spam folder.
+      </p>
+
+    </div>
+
+    <div class="site-link">
+      <a class="back-link" href="welcome.html">&larr; Back to site</a>
+    </div>
+
+  </div>
+</body>
+</html>
