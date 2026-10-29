@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .form-group input[type="email"]:read-only {
+      background: var(--color-surface);
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Sign up for the newsletter</h2>
+    <p>Enter your email address and we will send you a confirmation.</p>
+
+    <form action="confirmation.html" method="get">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="consent" name="consent" required>
+        <label for="consent">
+          Send me the product newsletter. I can unsubscribe at any time.
+        </label>
+      </div>
+
+      <a href="confirmation.html" class="btn-primary">Subscribe</a>
+    </form>
+
+    <a href="welcome.html" class="link-back">← Back</a>
+  </div>
+
+  <nav class="proto-nav">
+    Prototype: <a href="index.html">Index</a> · <a href="welcome.html">Welcome</a> → Sign-up form → <a href="confirmation.html">Confirmation</a>
+  </nav>
+
+</body>
+</html>
