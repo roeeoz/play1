@@ -1,0 +1,10 @@
+{
+  "storyId": "c8d28b89-416e-45a8-aacc-e32a8147df2f",
+  "storyKey": "PLAY-83",
+  "epicKey": "PLAY-82",
+  "title": "Align truncate helper to single-character Unicode ellipsis and safe zero-length behavior",
+  "decisionId": "4137b5ee-eba2-461a-b8b2-6f20855bdba2",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-29T09:57:55Z",
+  "planHeadSha": "31dba0e1aa77dfa7626af1cfabdac047e9da5f90"
+}

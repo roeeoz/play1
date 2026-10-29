@@ -16,23 +16,28 @@ class TestSlugify:
 
 
 class TestTruncate:
+    def test_truncates_with_unicode_ellipsis(self):
+        result = truncate("hello world", 8)
+        assert result == "hello w…"
+        assert len(result) == 8
+
+    def test_exact_length_unchanged(self):
+        assert truncate("hello", 5) == "hello"
+
     def test_short_text_unchanged(self):
         assert truncate("hi", 10) == "hi"
 
-    def test_truncates_with_suffix(self):
-        assert truncate("hello world", 8) == "hello..."
+    def test_empty_text_unchanged(self):
+        assert truncate("", 10) == ""
 
-    def test_exact_fit(self):
-        assert truncate("hello", 5) == "hello"
+    def test_n_zero_returns_empty(self):
+        assert truncate("anything", 0) == ""
 
-    def test_tiny_limit_clips_suffix(self):
-        assert truncate("hello world", 2) == ".."
+    def test_n_negative_returns_empty(self):
+        assert truncate("anything", -5) == ""
 
-    def test_negative_limit_raises(self):
-        import pytest
-
-        with pytest.raises(ValueError):
-            truncate("x", -1)
+    def test_n_one_returns_ellipsis(self):
+        assert truncate("ab", 1) == "…"
 
 
 class TestWordCount:
