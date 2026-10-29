@@ -16,6 +16,13 @@
       "actor": "Popy PO",
       "approvedAt": "2026-10-28T19:59:46.98567Z",
       "headSha": "2dcbc09f8b42478c0ea6b7a6a7c2c8b7c3b58836"
+    },
+    {
+      "step": "screens",
+      "decisionId": "2c4ac214-c55c-4d2c-8f48-136f72b5e97a",
+      "actor": "Popy PO",
+      "approvedAt": "2026-10-29T06:16:06.996906Z",
+      "headSha": "521bc36a8decf7879f401bdbf9ca6fbe719e7f40"
     }
   ]
 }
