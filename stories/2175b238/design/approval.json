@@ -1,0 +1,14 @@
+{
+  "storyId": "2175b238-fdfe-43f4-b82d-28b2db706c69",
+  "storyKey": "2175b238",
+  "title": "20261029-092951Z Newsletter sign-up page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "bd0fa33d-5d51-41c8-b4c2-7d69bda69583",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-10-29T09:36:59.080319Z",
+      "headSha": "c2952846f56e1dc5f7ebf73c190229938a138715"
+    }
+  ]
+}
