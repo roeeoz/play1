@@ -1,6 +1,5 @@
 import os
 import subprocess
-import sys
 
 SCRIPT = os.path.join(os.path.dirname(__file__), os.pardir, "hello-world", "hello.sh")
 
