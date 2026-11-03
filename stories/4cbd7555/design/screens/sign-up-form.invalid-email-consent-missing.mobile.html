@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-up form — Invalid email + consent missing (Mobile) — Newsletter sign-up</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="mobile">
+<div class="review-bar">
+  <span>Sign-up form · Invalid email + consent missing · Mobile</span>
+  <span class="links"><a href="sign-up-form.invalid-email-consent-missing.html">Desktop version</a><a href="index.html">Gallery</a></span>
+</div>
+<header class="site-header">
+  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#2f5bd3" stroke-width="3"/></svg>
+  Halo
+</header>
+<main class="page">
+  <ol class="steps" aria-label="Progress">
+    <li class="done">1 · Welcome</li>
+    <li class="current" aria-current="step">2 · Your details</li>
+    <li>3 · Check your inbox</li>
+  </ol>
+  <div class="card">
+    <h1>Sign up for the newsletter</h1>
+    <p class="muted">We only need your email address.</p>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" value="dana.levi.example.com" aria-invalid="true" aria-describedby="email-error">
+      <p class="field-error" id="email-error"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#b42318"/><rect x="7.1" y="3.5" width="1.8" height="5.5" rx="0.9" fill="#fff"/><circle cx="8" cy="11.7" r="1.1" fill="#fff"/></svg><span>Enter a complete email address, like name@example.com — this one is missing the @.</span></p>
+    </div>
+
+    <div class="check-group has-error">
+      <label class="check" for="consent">
+        <input id="consent" type="checkbox" aria-invalid="true" aria-describedby="consent-error">
+        <span>Send me the product newsletter. I can unsubscribe at any time.</span>
+      </label>
+      <p class="field-error" id="consent-error"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#b42318"/><rect x="7.1" y="3.5" width="1.8" height="5.5" rx="0.9" fill="#fff"/><circle cx="8" cy="11.7" r="1.1" fill="#fff"/></svg><span>Tick the box to say you want the newsletter. We can't sign you up without it.</span></p>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-block" href="sign-up-form.loading.mobile.html">Subscribe</a>
+    </div>
+  </div>
+  <p class="small below"><a class="link-back" href="welcome.default.mobile.html">← Back</a></p>
+</main>
+</body>
+</html>
