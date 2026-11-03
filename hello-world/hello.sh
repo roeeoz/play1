@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-echo "B5 conflict probe — main side"
+# Prints the greeting with a banner line above it.
+echo "=== play1 ==="
