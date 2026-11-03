@@ -13,6 +13,7 @@ dependencies = ["pypdf", "flask>=3"]
 
 [project.scripts]
 pdf-extract = "testbed_utils.pdfutils:main"
+testbed-date-range = "testbed_utils.dateutils:main"
 testbed-num-summary = "testbed_utils.numsummary:main"
 testbed-hello = "testbed_utils.hello:main"
 guestbook = "guestbook.app:main"

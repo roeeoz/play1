@@ -6,6 +6,8 @@ functions here (see README.md).
 
 from __future__ import annotations
 
+import argparse
+import sys
 from datetime import date, timedelta
 
 
@@ -52,3 +54,41 @@ def humanize_delta(delta: timedelta) -> str:
     else:
         text = "moments"
     return text + suffix
+
+
+def date_range_days(start: str, end: str) -> int:
+    """Return the absolute number of calendar days between two ISO 8601 dates.
+
+    Each argument may carry an optional trailing ``Z`` which is stripped
+    before parsing.
+
+    >>> date_range_days("2024-01-01", "2024-01-10")
+    9
+    """
+    try:
+        start_date = date.fromisoformat(start.rstrip("Z"))
+    except ValueError:
+        raise ValueError(f"Invalid date: '{start}'")
+    try:
+        end_date = date.fromisoformat(end.rstrip("Z"))
+    except ValueError:
+        raise ValueError(f"Invalid date: '{end}'")
+    return abs((start_date - end_date).days)
+
+
+_DESCRIPTION = "Report the number of calendar days between two ISO 8601 dates."
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        prog="testbed-date-range", description=_DESCRIPTION,
+    )
+    parser.add_argument("start_date", help="Start date (YYYY-MM-DD, optional trailing Z).")
+    parser.add_argument("end_date", help="End date (YYYY-MM-DD, optional trailing Z).")
+    args = parser.parse_args()
+    try:
+        result = date_range_days(args.start_date, args.end_date)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+    print(result)

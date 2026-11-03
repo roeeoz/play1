@@ -1,6 +1,11 @@
+import doctest
 from datetime import date, timedelta
 
-from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
+import pytest
+
+import testbed_utils
+from testbed_utils import dateutils
+from testbed_utils.dateutils import date_range_days, days_between, humanize_delta, is_weekend
 
 
 class TestDaysBetween:
@@ -43,3 +48,55 @@ class TestHumanizeDelta:
 
     def test_largest_unit_wins(self):
         assert humanize_delta(timedelta(days=1, hours=5)) == "1 day"
+
+
+class TestDateRangeDays:
+    def test_happy_path(self):
+        assert date_range_days("2024-01-01", "2024-01-10") == 9
+
+    def test_reversed_order(self):
+        assert date_range_days("2024-01-10", "2024-01-01") == 9
+
+    def test_identical_dates(self):
+        assert date_range_days("2024-06-15", "2024-06-15") == 0
+
+    def test_trailing_z_start(self):
+        assert date_range_days("2024-01-10Z", "2024-01-01") == 9
+
+    def test_trailing_z_end(self):
+        assert date_range_days("2024-01-01", "2024-01-10Z") == 9
+
+    def test_trailing_z_both(self):
+        assert date_range_days("2024-01-01Z", "2024-01-10Z") == 9
+
+    def test_invalid_start(self):
+        with pytest.raises(ValueError, match="Invalid date"):
+            date_range_days("not-a-date", "2024-01-01")
+
+    def test_invalid_end(self):
+        with pytest.raises(ValueError, match="Invalid date"):
+            date_range_days("2024-01-01", "not-a-date")
+
+
+class TestDateRangeDaysDocstring:
+    def test_has_runnable_example(self):
+        found = {
+            test.name.rsplit(".", 1)[-1]: test
+            for test in doctest.DocTestFinder().find(dateutils)
+        }
+        test = found.get("date_range_days")
+        assert test is not None, "date_range_days has no docstring"
+        assert test.examples, "date_range_days docstring has no >>> example"
+
+    def test_doctests_pass(self):
+        results = doctest.testmod(dateutils)
+        assert results.attempted > 0
+        assert results.failed == 0
+
+
+class TestDateRangeDaysExport:
+    def test_exported_from_package_root(self):
+        assert testbed_utils.date_range_days is dateutils.date_range_days
+
+    def test_in_all(self):
+        assert "date_range_days" in testbed_utils.__all__
