@@ -35,7 +35,7 @@ PLAY-92 adds one optional option, `--name NAME`, to the `testbed-hello` console 
 ## Locked decisions and assumptions
 
 **Locked decisions**
-- Output with a non-blank name is `Hello, <name>!`. The name has leading and trailing whitespace stripped, its inner whitespace and letter case are kept. Source: `spec.md` FR1 and `work-items.md` t1 AC1 and AC4.
+- Output with a non-blank name is `Hello, <name>!`. The name has leading and trailing whitespace stripped, its inner whitespace and letter case are kept. Source: `spec.md` FR1 and `work-items.md` t1 AC1, AC4 and AC14.
 - With no `--name`, output is byte-exact `Hello, world!\n` and stderr is empty. Source: FR2 and t1 AC2.
 - An empty or whitespace-only name falls back to `Hello, world!`. Source: FR3 and t1 AC3.
 - `--name` with no value exits 2 with usage and an error on stderr. Source: FR4 and t1 AC5. Unknown options and extra words behave as today. Source: FR6 and t1 AC6.
@@ -90,23 +90,24 @@ Extend the existing argparse parser in `main()` without restructuring the module
    - a name with inner whitespace, e.g. `["--name", " Ada  Lee "]`, gives `"Hello, Ada  Lee!\n"`.
 
    This advances AC4.
-4. **Test blank fallback.** Parametrize `""`, `" "` and `"   "`. Each gives `stdout == GREETING`, empty stderr and exit 0. This advances AC3.
-5. **Test the missing value.** `["--name"]` gives exit 2, `stdout == ""`, and `usage:` and `error` in stderr. It also asserts that `Hello,` is absent from stderr. This advances AC5.
-6. **Keep the regression tests unchanged.** Leave `TestGreeting.test_prints_greeting` and `TestBadOption` as they are. They already prove AC2 and AC6, and they must not be edited to pass.
-7. **Tighten the help test.** In `TestHelp.test_help`:
+4. **Test a name with an inner space.** In the same class, add a dedicated test: `["--name", "Ada Lovelace"]` (one argv element) gives `stdout == "Hello, Ada Lovelace!\n"`, empty stderr and exit 0. Assert the exact string, not a substring. This advances AC14.
+5. **Test blank fallback.** Parametrize `""`, `" "` and `"   "`. Each gives `stdout == GREETING`, empty stderr and exit 0. This advances AC3.
+6. **Test the missing value.** `["--name"]` gives exit 2, `stdout == ""`, and `usage:` and `error` in stderr. It also asserts that `Hello,` is absent from stderr. This advances AC5.
+7. **Keep the regression tests unchanged.** Leave `TestGreeting.test_prints_greeting` and `TestBadOption` as they are. They already prove AC2 and AC6, and they must not be edited to pass.
+8. **Tighten the help test.** In `TestHelp.test_help`:
    - pin `COLUMNS=80` with `patch.dict("os.environ", {"COLUMNS": "80"})`;
    - assert that `_DESCRIPTION` equals one stripped line of `stdout.splitlines()`, which proves the one-line summary;
    - assert that `--name` appears in stdout;
    - keep the exit 0, empty stderr, `usage:` and no-greeting assertions.
 
    Replace the whitespace-collapsed check rather than adding to it. This is a strengthening of the test, not a weakening. This advances AC7.
-8. **Leave the public API alone.** Do not change `tests/test_hello.py` or `src/testbed_utils/__init__.py`. Their existing tests prove AC8. If step 1 nevertheless introduces a public helper, add a `>>>` docstring and tests in `tests/test_hello.py` for the happy path, a blank name and no name (AC9).
-9. **Create the changelog.** Create `CHANGELOG.md` at the repo root with `# Changelog`, then `## Unreleased`, then one bullet. The bullet says that `testbed-hello` accepts `--name NAME` to print `Hello, NAME!`, with the default unchanged, and cites PLAY-92. This advances AC12. No test layer covers it; the repo gate's `PLAY-G4` rule checks it.
-10. **Check the diff size.** Confirm the diff is well under 300 changed lines (AC13). The expected size is about 60.
+9. **Leave the public API alone.** Do not change `tests/test_hello.py` or `src/testbed_utils/__init__.py`. Their existing tests prove AC8. If step 1 nevertheless introduces a public helper, add a `>>>` docstring and tests in `tests/test_hello.py` for the happy path, a blank name and no name (AC9).
+10. **Create the changelog.** Create `CHANGELOG.md` at the repo root with `# Changelog`, then `## Unreleased`, then one bullet. The bullet says that `testbed-hello` accepts `--name NAME` to print `Hello, NAME!`, with the default unchanged, and cites PLAY-92. This advances AC12. No test layer covers it; the repo gate's `PLAY-G4` rule checks it.
+11. **Check the diff size.** Confirm the diff is well under 300 changed lines (AC13). The expected size is about 60.
 
 **Invariants**
 - Authorization, tenancy, concurrency and idempotency: not applicable. This is a stateless single-process CLI.
-- Validation and error paths come entirely from argparse and are covered by steps 5 and 6.
+- Validation and error paths come entirely from argparse and are covered by steps 6 and 7.
 - No dependencies to acquire beyond the existing `pip install -e ".[test]"`.
 - No generated deliverables.
 
@@ -114,17 +115,17 @@ Extend the existing argparse parser in `main()` without restructuring the module
 
 | Step | Work item |
 | --- | --- |
-| 1–10 | `t1`: PLAY-92: add --name option to testbed-hello for a personalised greeting |
+| 1–11 | `t1`: PLAY-92: add --name option to testbed-hello for a personalised greeting |
 
 The breakdown has one work item, and every step maps to it.
 
 ## Verification and CI gate
 
 - **Canonical gate:** run `pip install -e ".[test]"` and then `pytest` from the repo root, once, on the committed SHA. This is the one required layer, `package-api`, and it runs unprivileged in a pod. The authoritative result is the `test` job of `.github/workflows/ci.yml` (Python 3.12) at the PR head.
-- **Pass criteria:** `pytest` is fully green. The new tests from steps 2–5 and 7 pass. `TestGreeting`, `TestBadOption` and every test in `tests/test_hello.py` pass unmodified. No other test file changes.
+- **Pass criteria:** `pytest` is fully green. The new tests from steps 2–6 and 8 pass. `TestGreeting`, `TestBadOption` and every test in `tests/test_hello.py` pass unmodified. No other test file changes.
 - **CI configuration:** no change. CI checks only Python 3.12, so 3.10 compatibility rests on code review: no syntax or standard-library APIs added after 3.10.
 - **Coverage:** no coverage tool exists, so the 90% target cannot be shown in CI. Do not add coverage tooling.
-- **Other gates:** `.factory/delivery-assets` does not apply (no binaries). The repo gate needs the `CHANGELOG.md` entry (step 9). `CI_FAIL` must not exist at the repo root.
+- **Other gates:** `.factory/delivery-assets` does not apply (no binaries). The repo gate needs the `CHANGELOG.md` entry (step 10). `CI_FAIL` must not exist at the repo root.
 
 ## Risks and scope guards
 

@@ -68,5 +68,5 @@ The whole flow is synchronous and runs in one process, with no I/O beyond stdout
 - **Python versions:** CI runs only Python 3.12, while the floor is 3.10. Avoid syntax newer than 3.10; `from __future__ import annotations` is already present.
 - **Repo gate PLAY-G4:** the PR must create `CHANGELOG.md` with a line under `## Unreleased`.
 - **Coverage:** the ≥ 90% target is not measured in CI and can only be checked by hand.
-- **Size and determinism:** well under the 300 changed-line limit. Tests run in-process with no network, clock or file access, and use placeholder names (Alice, Bob) only.
+- **Size and determinism:** well under the 300 changed-line limit. Tests run in-process with no network, clock or file access, and use placeholder names (Alice, Bob, Ada Lovelace) only.
 - **Scale and security:** not applicable. It is a single-line local CLI with no data at rest.
