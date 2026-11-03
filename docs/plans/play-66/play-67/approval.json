@@ -1,0 +1,10 @@
+{
+  "storyId": "afd9c44e-3f81-4602-b497-b98542245ecf",
+  "storyKey": "PLAY-67",
+  "epicKey": "PLAY-66",
+  "title": "Verify testbed-hello prints a usage line on --help and exits 0",
+  "decisionId": "3dc07902-ce2d-4e97-a957-e4b5896b1744",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-10-27T21:26:07Z",
+  "planHeadSha": "1f35c67024dee201d9dca2413893d36d2467dc4f"
+}
