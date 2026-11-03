@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype — Newsletter sign-up</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+<main class="page">
+  <div class="card">
+    <h1>Newsletter sign-up — clickable prototype</h1>
+    <p>This prototype walks the main path of the approved structure: a visitor to the public site
+      reads what the newsletter is on the Welcome screen, enters an email address and ticks the
+      consent on the Sign-up form, and lands on the Confirmation screen that tells them to check their
+      inbox. No account, no sign-in. Every page works on desktop and on a phone-width screen.</p>
+
+    <p><a class="btn" href="welcome.html">Start the journey</a></p>
+
+    <h2>Screens</h2>
+    <ol>
+      <li><a href="welcome.html">Welcome</a> — default state, with the latest release mentioned</li>
+      <li><a href="sign-up-form.html">Sign-up form</a> — sample email address filled in; the visitor ticks the consent</li>
+      <li><a href="confirmation.html">Confirmation</a> — default state, names the address</li>
+    </ol>
+
+    <h2>Choices made for the prototype</h2>
+    <ul class="plain small">
+      <li>"Subscribe" goes straight to Confirmation. The loading state, the validation errors
+        (invalid email, consent missing, both) and the failed submission are drawn in the next step.</li>
+      <li>The email field and the consent checkbox can be typed in and ticked, but the Confirmation
+        page always names the sample address <strong>dana.levi@example.com</strong>.</li>
+      <li>The consent checkbox starts unticked, with its full wording beside it.</li>
+      <li>"Back to the site" on Confirmation leads to the public home page, which is outside this
+        prototype; here it returns to this index.</li>
+    </ul>
+  </div>
+</main>
+</body>
+</html>
