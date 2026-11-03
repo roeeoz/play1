@@ -14,8 +14,8 @@ Three screens, no account: `Welcome` → `Sign-up form` → `Confirmation`. Ever
 ```mermaid
 flowchart TD
     Start([Visitor arrives on the public site page]) --> W{Release announced yet?}
-    W -- yes --> Welcome[Welcome — default]
-    W -- no --> WelcomeEmpty[Welcome — empty<br/>copy still invites sign-up]
+    W -- yes --> Welcome[Welcome — default<br/>subtitle 'Monthly, no spam']
+    W -- no --> WelcomeEmpty[Welcome — empty<br/>subtitle kept, copy still invites sign-up]
     Welcome -- "Sign up" --> Form[Sign-up form — default<br/>consent unticked]
     WelcomeEmpty -- "Sign up" --> Form
 
@@ -42,7 +42,7 @@ When both checks fail, the invalid-email and consent-missing messages show toget
 
 | Screen | Purpose | Main elements | States |
 |---|---|---|---|
-| **Welcome** | Explain what the newsletter is and invite the visitor in (FR1) | Heading; short copy: new releases, at most once a month, no account needed; one primary action "Sign up" | **default** — copy can reference the latest release; **empty** — no release announced yet, copy still invites the sign-up; loading — n/a; error — n/a |
+| **Welcome** | Explain what the newsletter is and invite the visitor in (FR1) | Heading; subtitle "Monthly, no spam" directly under the heading; short copy: new releases, at most once a month, no account needed; one primary action "Sign up" | **default** — copy can reference the latest release; **empty** — no release announced yet, heading and subtitle unchanged, copy still invites the sign-up; loading — n/a; error — n/a |
 | **Sign-up form** | Collect an email address and explicit consent, validate before submitting (FR2–FR5) | Email address field with label; consent checkbox, never pre-ticked, with the full wording "Send me the product newsletter. I can unsubscribe at any time."; primary action "Subscribe"; a way back to Welcome; inline error text beside each control; form-level failure message with "Try again" | **default** — empty field, consent unticked; **error: invalid email** — message in words beside the field, input kept; **error: consent missing** — message beside the checkbox asking for consent, input kept; **loading** — loading indicator, "Subscribe" disabled, input kept; **error: submission failed** — "Your sign-up did not go through" plus "Try again", all input kept; empty — n/a |
 | **Confirmation** | Tell the visitor to check their inbox to confirm (FR6) | Heading; "Check your inbox to confirm" copy naming the address the mail went to; a way back to the site | **default** — the same for new and already-listed addresses; loading / error / empty — n/a |
 
