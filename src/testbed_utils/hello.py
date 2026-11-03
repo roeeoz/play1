@@ -19,5 +19,15 @@ def hello_world() -> str:
 
 def main():
     parser = argparse.ArgumentParser(prog="testbed-hello", description=_DESCRIPTION)
-    parser.parse_args()
-    print(hello_world())
+    parser.add_argument(
+        "--name",
+        default=None,
+        metavar="NAME",
+        help="name to greet; blank or omitted greets the world",
+    )
+    args = parser.parse_args()
+    name = (args.name or "").strip()
+    if name:
+        print(f"Hello, {name}!")
+    else:
+        print(hello_world())

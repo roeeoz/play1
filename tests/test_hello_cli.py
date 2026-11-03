@@ -30,13 +30,53 @@ class TestGreeting:
         assert stderr == ""
 
 
+class TestName:
+    @pytest.mark.parametrize(
+        "name, expected",
+        [
+            ("Alice", "Hello, Alice!\n"),
+            ("alice", "Hello, alice!\n"),
+            ("  Bob ", "Hello, Bob!\n"),
+            (" Ada  Lee ", "Hello, Ada  Lee!\n"),
+        ],
+    )
+    def test_greets_name(self, name, expected):
+        exit_code, stdout, stderr = run_main(["--name", name])
+        assert exit_code == 0
+        assert stdout == expected
+        assert stderr == ""
+
+    def test_name_with_inner_space(self):
+        exit_code, stdout, stderr = run_main(["--name", "Ada Lovelace"])
+        assert exit_code == 0
+        assert stdout == "Hello, Ada Lovelace!\n"
+        assert stderr == ""
+
+    @pytest.mark.parametrize("name", ["", " ", "   "])
+    def test_blank_name_falls_back(self, name):
+        exit_code, stdout, stderr = run_main(["--name", name])
+        assert exit_code == 0
+        assert stdout == GREETING
+        assert stderr == ""
+
+    def test_missing_value(self):
+        exit_code, stdout, stderr = run_main(["--name"])
+        assert exit_code == 2
+        assert stdout == ""
+        assert "usage:" in stderr
+        assert "error" in stderr
+        assert "Hello," not in stderr
+
+
 class TestHelp:
     def test_help(self):
-        exit_code, stdout, stderr = run_main(["--help"])
+        with patch.dict("os.environ", {"COLUMNS": "80"}):
+            exit_code, stdout, stderr = run_main(["--help"])
         assert exit_code == 0
         assert stderr == ""
         assert "usage:" in stdout
-        assert _DESCRIPTION in " ".join(stdout.split())
+        assert _DESCRIPTION in [line.strip() for line in stdout.splitlines()]
+        assert "--name" in stdout
         assert "Hello, world!" not in stdout
 
 
