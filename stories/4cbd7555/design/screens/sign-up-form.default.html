@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-up form — Default (Desktop) — Newsletter sign-up</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="desktop">
+<div class="review-bar">
+  <span>Sign-up form · Default · Desktop</span>
+  <span class="links"><span>Validation:</span><a href="sign-up-form.invalid-email.html">invalid email</a><a href="sign-up-form.consent-missing.html">consent missing</a><a href="sign-up-form.invalid-email-consent-missing.html">both</a><a href="sign-up-form.default.mobile.html">Mobile version</a><a href="index.html">Gallery</a></span>
+</div>
+<header class="site-header">
+  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#2f5bd3" stroke-width="3"/></svg>
+  Halo
+</header>
+<main class="page">
+  <ol class="steps" aria-label="Progress">
+    <li class="done">1 · Welcome</li>
+    <li class="current" aria-current="step">2 · Your details</li>
+    <li>3 · Check your inbox</li>
+  </ol>
+  <div class="card">
+    <h1>Sign up for the newsletter</h1>
+    <p class="muted">We only need your email address.</p>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input class="input" id="email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com">
+    </div>
+
+    <div class="check-group">
+      <label class="check" for="consent">
+        <input id="consent" type="checkbox">
+        <span>Send me the product newsletter. I can unsubscribe at any time.</span>
+      </label>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-block" href="sign-up-form.loading.html">Subscribe</a>
+    </div>
+  </div>
+  <p class="small below"><a class="link-back" href="welcome.default.html">← Back</a></p>
+</main>
+</body>
+</html>
