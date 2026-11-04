@@ -1,0 +1,28 @@
+{
+  "storyId": "4cbd7555-f4a0-4d75-8725-61dc0fec45fc",
+  "storyKey": "4cbd7555",
+  "title": "20261103-081451Z Newsletter sign-up page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "0cc69d3f-f6b2-47ec-8c76-6fa93f7b70f3",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-03T08:18:43.374807Z",
+      "headSha": "9a30307259d915c6dbf1fdc2bcadb70b809b736b"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "cd4e5910-840a-4692-8629-89de68a29c11",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-03T08:22:23.824806Z",
+      "headSha": "e25984216c959c104e9a7278fb93a8bd840f5031"
+    },
+    {
+      "step": "screens",
+      "decisionId": "68f9c350-dabf-4dc9-972d-eb93fd902e91",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-03T08:28:34.864435Z",
+      "headSha": "31068224d20fb087875a4de200867e788f8a29c3"
+    }
+  ]
+}

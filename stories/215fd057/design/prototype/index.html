@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Prototype index</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .intro { margin-bottom: var(--space-xl); }
+    .screen-list { list-style: none; margin-bottom: var(--space-xl); }
+    .screen-list li {
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-md) 0;
+    }
+    .screen-list li:last-child { border-bottom: none; }
+    .screen-list a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .screen-list a:hover {
+      text-decoration: underline;
+      color: var(--color-link-hover);
+    }
+    .screen-desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-xs);
+    }
+    .start-box {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-lg);
+      text-align: center;
+    }
+    .start-box p {
+      margin-bottom: var(--space-md);
+      font-size: var(--font-size-sm);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Newsletter sign-up</h1>
+
+    <div class="intro">
+      <p>
+        This prototype walks through the newsletter sign-up journey: a visitor
+        arrives at the Welcome screen, continues to the sign-up form where they
+        enter their email address and give consent, then sees a Confirmation
+        screen. Click through the screens below to follow the happy path.
+      </p>
+    </div>
+
+    <h2>Screens</h2>
+    <ul class="screen-list">
+      <li>
+        <a href="welcome.html">Welcome</a>
+        <div class="screen-desc">Explains the newsletter and invites the visitor to sign up.</div>
+      </li>
+      <li>
+        <a href="sign-up-form.html">Sign-up form</a>
+        <div class="screen-desc">Collects email address and explicit consent.</div>
+      </li>
+      <li>
+        <a href="confirmation.html">Confirmation</a>
+        <div class="screen-desc">Tells the visitor to check their inbox.</div>
+      </li>
+    </ul>
+
+    <div class="start-box">
+      <p>Start the journey from the beginning:</p>
+      <a href="welcome.html" class="btn-primary">Start at Welcome</a>
+    </div>
+  </div>
+
+</body>
+</html>

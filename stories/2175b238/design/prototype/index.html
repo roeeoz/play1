@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Prototype</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .index-card {
+      max-width: 560px;
+    }
+
+    .index-card h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .screen-list {
+      list-style: none;
+      margin-bottom: var(--space-xl);
+    }
+
+    .screen-list li {
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .screen-list li:last-child {
+      border-bottom: none;
+    }
+
+    .screen-list a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .screen-list a:hover {
+      text-decoration: underline;
+    }
+
+    .screen-list .desc {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-xs);
+    }
+
+    .start-link {
+      margin-top: var(--space-md);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card index-card">
+    <h1>Newsletter sign-up — Prototype</h1>
+    <p>
+      This prototype covers the happy-path journey: a visitor arrives at the
+      Welcome screen, continues to the sign-up form, enters their email address
+      and consent, and reaches the Confirmation screen. Click through the screens
+      below or start the journey from the beginning.
+    </p>
+
+    <ul class="screen-list">
+      <li>
+        <a href="welcome.html">Welcome</a>
+        <span class="desc">Explains the newsletter and invites the visitor to sign up.</span>
+      </li>
+      <li>
+        <a href="sign-up-form.html">Sign-up form</a>
+        <span class="desc">Collects the email address and consent before subscribing.</span>
+      </li>
+      <li>
+        <a href="confirmation.html">Confirmation</a>
+        <span class="desc">Tells the visitor to check their inbox to confirm the subscription.</span>
+      </li>
+    </ul>
+
+    <a href="welcome.html" class="btn-primary start-link">Start the journey</a>
+  </div>
+
+</body>
+</html>

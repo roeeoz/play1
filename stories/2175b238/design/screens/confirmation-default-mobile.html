@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=375, initial-scale=1">
+  <title>Confirmation — Default (Mobile)</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    html {
+      max-width: 375px;
+      margin: 0 auto;
+    }
+
+    body {
+      padding: var(--space-md);
+      justify-content: flex-start;
+      padding-top: var(--space-xl);
+    }
+
+    .card {
+      padding: var(--space-xl);
+      border: none;
+      border-radius: 0;
+    }
+
+    .card h2 {
+      font-size: var(--font-size-lg);
+    }
+
+    .confirmation-icon {
+      margin-bottom: var(--space-lg);
+    }
+
+    .email-address {
+      display: inline-block;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      word-break: break-all;
+    }
+
+    .hint {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-xl);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="confirmation-icon">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect width="48" height="48" rx="12" fill="#F0FDF4"/>
+        <path d="M18 24L22 28L30 20" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="24" r="12" stroke="#16A34A" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <h2>Check your inbox</h2>
+    <p>
+      We sent a confirmation email to the address below.
+      Click the link in that email to complete your subscription.
+    </p>
+
+    <span class="email-address">alex.rivera@example.com</span>
+
+    <p class="hint">
+      If you do not see the email within a few minutes, check your spam folder.
+    </p>
+
+    <a href="welcome-default-mobile.html" class="btn-secondary">Back to site</a>
+  </div>
+
+  <nav class="gallery-nav">
+    <a href="index.html">← Back to gallery</a>
+  </nav>
+
+</body>
+</html>

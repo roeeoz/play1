@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmation — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .check-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      background: #ecfdf5;
+      border-radius: 50%;
+      margin-bottom: var(--space-lg);
+    }
+    .email-address {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="proto-nav">
+    <a href="index.html">Index</a>
+    <a href="welcome.html">Welcome</a>
+    <a href="sign-up-form.html">Sign-up form</a>
+    <span class="current">Confirmation</span>
+  </nav>
+
+  <div class="card">
+
+    <div class="step-indicator">
+      <div class="step active"></div>
+      <div class="step active"></div>
+      <div class="step active"></div>
+    </div>
+
+    <div class="check-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M20 6L9 17L4 12" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1>Check your inbox</h1>
+
+    <p>
+      We sent a confirmation email to
+      <span class="email-address">alex.morgan@example.com</span>.
+      Click the link in that email to complete your sign-up. If you don't
+      see it within a few minutes, check your spam folder.
+    </p>
+
+    <a href="welcome.html" class="btn-primary">Back to site</a>
+
+  </div>
+
+</body>
+</html>

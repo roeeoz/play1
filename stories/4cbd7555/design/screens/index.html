@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screens — Newsletter sign-up</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .wide { max-width: 960px; }
+  .gallery { width: 100%; border-collapse: collapse; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); }
+  .gallery th, .gallery td { text-align: left; vertical-align: top; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--c-border); }
+  .gallery th { font-size: var(--fs-sm); color: var(--c-muted); }
+  .gallery td { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main class="page wide">
+  <h1>Newsletter sign-up — screen set</h1>
+  <p>Every screen of the approved structure in every state it names, as a desktop page and a phone page side by side.
+    Start the journey at <a href="welcome.default.html">Welcome — default</a>
+    (or the <a href="welcome.default.mobile.html">mobile version</a>). Each page has a review bar with a link to
+    its desktop/mobile pair and back to this gallery.</p>
+  <h2>Welcome</h2>
+  <table class="gallery">
+    <thead><tr><th>State</th><th>Desktop</th><th>Mobile</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong><br><span class="small muted">Latest release mentioned below the benefits.</span></td><td><a class="link-back" href="welcome.default.html">welcome.default.html</a></td><td><a class="link-back" href="welcome.default.mobile.html">welcome.default.mobile.html</a></td></tr>
+      <tr><td><strong>Empty</strong><br><span class="small muted">No release announced yet — the copy still invites the sign-up; no release note.</span></td><td><a class="link-back" href="welcome.empty.html">welcome.empty.html</a></td><td><a class="link-back" href="welcome.empty.mobile.html">welcome.empty.mobile.html</a></td></tr>
+    </tbody>
+  </table>
+  <h2>Sign-up form</h2>
+  <table class="gallery">
+    <thead><tr><th>State</th><th>Desktop</th><th>Mobile</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong><br><span class="small muted">Empty email field, consent unticked.</span></td><td><a class="link-back" href="sign-up-form.default.html">sign-up-form.default.html</a></td><td><a class="link-back" href="sign-up-form.default.mobile.html">sign-up-form.default.mobile.html</a></td></tr>
+      <tr><td><strong>Invalid email</strong><br><span class="small muted">Message beside the field; input and consent kept.</span></td><td><a class="link-back" href="sign-up-form.invalid-email.html">sign-up-form.invalid-email.html</a></td><td><a class="link-back" href="sign-up-form.invalid-email.mobile.html">sign-up-form.invalid-email.mobile.html</a></td></tr>
+      <tr><td><strong>Consent missing</strong><br><span class="small muted">Valid email kept; message beside the checkbox.</span></td><td><a class="link-back" href="sign-up-form.consent-missing.html">sign-up-form.consent-missing.html</a></td><td><a class="link-back" href="sign-up-form.consent-missing.mobile.html">sign-up-form.consent-missing.mobile.html</a></td></tr>
+      <tr><td><strong>Invalid email + consent missing</strong><br><span class="small muted">Both messages together, each beside its control.</span></td><td><a class="link-back" href="sign-up-form.invalid-email-consent-missing.html">sign-up-form.invalid-email-consent-missing.html</a></td><td><a class="link-back" href="sign-up-form.invalid-email-consent-missing.mobile.html">sign-up-form.invalid-email-consent-missing.mobile.html</a></td></tr>
+      <tr><td><strong>Loading</strong><br><span class="small muted">Spinner on Subscribe, button disabled, input kept.</span></td><td><a class="link-back" href="sign-up-form.loading.html">sign-up-form.loading.html</a></td><td><a class="link-back" href="sign-up-form.loading.mobile.html">sign-up-form.loading.mobile.html</a></td></tr>
+      <tr><td><strong>Submission failed</strong><br><span class="small muted">Input kept, failure message with cause, Subscribe enabled again.</span></td><td><a class="link-back" href="sign-up-form.submission-failed.html">sign-up-form.submission-failed.html</a></td><td><a class="link-back" href="sign-up-form.submission-failed.mobile.html">sign-up-form.submission-failed.mobile.html</a></td></tr>
+    </tbody>
+  </table>
+  <h2>Confirmation</h2>
+  <table class="gallery">
+    <thead><tr><th>State</th><th>Desktop</th><th>Mobile</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong><br><span class="small muted">Names the address; same for new and already-listed addresses.</span></td><td><a class="link-back" href="confirmation.default.html">confirmation.default.html</a></td><td><a class="link-back" href="confirmation.default.mobile.html">confirmation.default.mobile.html</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Choices made in this set</h2>
+  <ul class="plain small">
+    <li>The layout, header, progress bar and palette follow the approved prototype; shared styles live in <code>tokens.css</code>.
+      Desktop and phone pages are separate files; phone pages use full-width buttons, tighter spacing and a smaller heading.</li>
+    <li>Every control is at least 44&nbsp;px tall; the consent checkbox is 24&nbsp;px with its whole label tappable. Nothing is wider than the phone viewport.</li>
+    <li>Validation errors are shown below each control (the field's message under the field, the consent message under the checkbox with a red bar beside the group), in words with an icon, never by colour alone.</li>
+    <li>In <em>Loading</em> the email field is read-only and the checkbox locked while the button shows a spinner and "Subscribing…"; nothing can be sent twice.</li>
+    <li>In <em>Submission failed</em> the message names the cause in plain words; there is no separate "Try again" button — Subscribe is enabled again, as agreed in the structure.</li>
+    <li>Confirmation always names the sample address dana.levi@example.com and looks the same whether or not the address was already on the list.</li>
+    <li>"Subscribe" links to the Loading state; the review bar on Loading offers the two answers (success → Confirmation, failure → Submission failed), and on the default form the three validation outcomes.
+      "Return to homepage" on Confirmation (and "Back to the site" on Welcome) lead to the public home page, outside this set; here they return to this gallery.</li>
+  </ul>
+</main>
+</body>
+</html>

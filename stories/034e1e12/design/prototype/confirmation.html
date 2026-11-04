@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmation — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .success-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: var(--color-success-bg);
+      border-radius: 50%;
+      margin-bottom: var(--space-md);
+    }
+
+    .confirmation-body p {
+      margin-bottom: var(--space-sm);
+    }
+
+    .confirmation-body .sent-to {
+      margin-bottom: var(--space-lg);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="step-indicator">
+      <span class="active"></span>
+      <span class="active"></span>
+      <span class="active"></span>
+    </div>
+
+    <div class="success-icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M7 14.5l5 5L21 9" stroke="#1a7a3a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <h2>Check your inbox</h2>
+    <div class="confirmation-body">
+      <p>
+        We sent a confirmation email to
+        <span class="email-highlight">alex@example.com</span>.
+      </p>
+      <p class="sent-to">
+        Click the link in the email to confirm your subscription. If you do not
+        see it within a few minutes, check your spam folder.
+      </p>
+    </div>
+
+    <a href="index.html" class="btn btn-secondary">Back to site</a>
+  </div>
+</body>
+</html>

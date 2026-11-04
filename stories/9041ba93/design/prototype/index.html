@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Prototype index</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .screen-list {
+      list-style: none;
+      margin: var(--spacing-lg) 0;
+    }
+
+    .screen-list li {
+      padding: var(--spacing-md);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .screen-list a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .screen-list a:hover {
+      text-decoration: underline;
+    }
+
+    .screen-desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--spacing-xs);
+    }
+
+    .journey-start {
+      margin-top: var(--spacing-xl);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <h1>Newsletter sign-up prototype</h1>
+
+    <p>
+      This prototype covers the main path of the newsletter sign-up journey:
+      a visitor arrives at the Welcome screen, continues to the sign-up form,
+      enters their email address with consent, and reaches the Confirmation
+      screen. Error and empty states are covered in the full design step.
+    </p>
+
+    <h2>Screens</h2>
+
+    <ul class="screen-list">
+      <li>
+        <a href="welcome.html">Welcome</a>
+        <div class="screen-desc">Explains the newsletter and invites the visitor to sign up.</div>
+      </li>
+      <li>
+        <a href="sign-up-form.html">Sign-up form</a>
+        <div class="screen-desc">Collects an email address and explicit consent.</div>
+      </li>
+      <li>
+        <a href="confirmation.html">Confirmation</a>
+        <div class="screen-desc">Tells the visitor to check their inbox.</div>
+      </li>
+    </ul>
+
+    <div class="journey-start">
+      <a class="btn-primary" href="welcome.html">Start the journey</a>
+    </div>
+  </div>
+</body>
+</html>

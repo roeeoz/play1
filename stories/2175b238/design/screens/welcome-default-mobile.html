@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=375, initial-scale=1">
+  <title>Welcome — Default (Mobile)</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    html {
+      max-width: 375px;
+      margin: 0 auto;
+    }
+
+    body {
+      padding: var(--space-md);
+      justify-content: flex-start;
+      padding-top: var(--space-xl);
+    }
+
+    .card {
+      padding: var(--space-xl);
+      border: none;
+      border-radius: 0;
+    }
+
+    .card h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .welcome-icon {
+      margin-bottom: var(--space-lg);
+    }
+
+    .frequency {
+      display: inline-block;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="welcome-icon">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect width="48" height="48" rx="12" fill="#EFF6FF"/>
+        <path d="M14 18L24 25L34 18" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="12" y="16" width="24" height="16" rx="3" stroke="#2563EB" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <h1>Stay in the loop</h1>
+    <p>
+      Get notified when we ship new features and releases.
+      Short updates, no spam — at most once a month, straight to your inbox.
+    </p>
+
+    <span class="frequency">Once a month, at most</span>
+
+    <a href="sign-up-form-default-mobile.html" class="btn-primary">Sign up</a>
+  </div>
+
+  <nav class="gallery-nav">
+    <a href="index.html">← Back to gallery</a>
+  </nav>
+
+</body>
+</html>
