@@ -2,4 +2,4 @@
 
 ## Unreleased
 
-- Add hello-world bash script (`hello-world/hello.sh`) that prints "hello world" to stdout
+- PLAY-114: add `qa/s3-hello.sh`, a helper script that prints `hello`.
