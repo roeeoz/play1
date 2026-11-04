@@ -1,2 +1,2 @@
-#!/bin/sh
-echo s7-a-from-base
+#!/usr/bin/env sh
+echo s7-a
