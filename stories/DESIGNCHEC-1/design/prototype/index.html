@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototype — Newsletter sign-up (DESIGNCHEC-1)</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .screens { margin: 0 0 var(--space-3); padding-left: var(--space-3); }
+    .screens li { margin-bottom: var(--space-2); }
+    .screens a { color: var(--color-brand); font-weight: bold; }
+    .tag { font-size: var(--text-small); color: var(--color-muted); }
+    .notes li { margin-bottom: var(--space-1); }
+  </style>
+</head>
+<body>
+  <main class="page page--single">
+    <section>
+      <h1>Newsletter sign-up — prototype</h1>
+      <p class="intro">A clickable walk through the main path of the approved structure: a visitor to The Harbour Gazette reads what the newsletter is, signs up with an email address and an explicit consent, and is told to check their inbox. The Sign-up form is rebuilt from today's page (harbour-signup-today.png) and keeps its look; Welcome and Confirmation are new and use the same header, palette, type and footer. Every page also works at phone width.</p>
+
+      <h2>Screens</h2>
+      <ol class="screens">
+        <li><a href="welcome.html">Welcome</a> <span class="tag">new</span><br>What the newsletter is (new releases, at most once a month), one primary action "Sign up".</li>
+        <li><a href="sign-up-form.html">Sign-up form</a> <span class="tag">changed from today</span><br>Changed from today: an unticked consent checkbox with the full wording, a "Back" link to Welcome, the button reads "Subscribe" instead of "Sign me up", and the intro states "at most once a month" instead of "One letter a week"; the header, card, field, button style and "Past dispatches" column are unchanged.</li>
+        <li><a href="confirmation.html">Confirmation</a> <span class="tag">new</span><br>"Check your inbox to confirm", names the address, "Back to the site".</li>
+      </ol>
+
+      <div class="actions">
+        <a class="button" href="welcome.html">Start the journey</a>
+      </div>
+
+      <h2>Prototype choices</h2>
+      <ul class="notes">
+        <li>Subscribe always goes to Confirmation here; the validation errors, the loading state and the submission-failed state are drawn in the next step.</li>
+        <li>The checkbox can be ticked but nothing checks it; it starts unticked, as it must.</li>
+        <li>"Back to the site" leads to Welcome, standing in for the public site home page, which is outside this story.</li>
+        <li>In the site header only "Subscribe" is a link (to Welcome); Stories and Archive are shown as they are today but lead nowhere in the prototype.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
