@@ -1,0 +1,4 @@
+id,date,amount,currency,category,memo
+a1,2026-03-01,-2.50,ILS,food,ok
+a2,2026-03-02,-2.505,ILS,food,too precise
+a3,2026-03-03,-1,ILS,food,never reached
