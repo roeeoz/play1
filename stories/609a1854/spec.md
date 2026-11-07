@@ -85,6 +85,6 @@ Deferred to STRUCTURE. Constraints the product imposes:
 - The CLI tests must use a subprocess (Scenario 25).
 
 ## 8. Open Questions
-- **P0:** the story's scope rule conflicts with repository rule PLAY-G4 (the CHANGELOG entry). Option (a) narrows the scope to allow one `## Unreleased` line. Option (b) changes the rule in the repository first. The developer has repeated the instruction to take the simplest reading where the story is silent five times, but the story is explicit on this point, so the choice stays open. The developer may instead approve the stage as it stands, knowing the pull request will fail PLAY-G4.
+- **P0:** the story's scope rule conflicts with repository rule PLAY-G4 (the CHANGELOG entry). Option (a) narrows the scope to allow one `## Unreleased` line. Option (b) changes the rule in the repository first. The developer has repeated the instruction to take the simplest reading where the story is silent six times, but the story is explicit on this point, so the choice stays open. The developer may instead approve the stage as it stands, knowing the pull request will fail PLAY-G4.
 - **Settled by assumption:** A1–A7 above, per the developer's instruction to take the simplest reading where the story is silent.
 - The epic PRD, the sibling stories and the Confluence research were not available. This spec relies on the story text alone, which the developer confirmed is the whole requirement.
