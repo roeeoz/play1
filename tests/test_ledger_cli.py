@@ -107,3 +107,30 @@ def test_help_documents_month():
 
     assert result.returncode == 0
     assert "--month" in result.stdout
+
+
+def test_non_utf8_file_is_a_clean_data_error(tmp_path):
+    path = tmp_path / "latin1.csv"
+    path.write_bytes(
+        b"id,date,amount,currency,category,memo\nt1,2026-03-01,5.00,ILS,food,caf\xe9\n"
+    )
+    result = run("report", str(path), "--month", "2026-03")
+
+    assert result.returncode == 3
+    assert result.stdout == ""
+    assert result.stderr == f"error: {path}: not valid UTF-8 text\n"
+
+
+def test_malformed_csv_is_a_clean_data_error(tmp_path):
+    path = tmp_path / "huge.csv"
+    path.write_text(
+        "id,date,amount,currency,category,memo\n"
+        "t1,2026-03-01,5.00,ILS,food," + "x" * 200_000 + "\n",
+        encoding="utf-8",
+    )
+    result = run("report", str(path), "--month", "2026-03")
+
+    assert result.returncode == 3
+    assert result.stdout == ""
+    assert result.stderr.startswith(f"error: {path}: malformed CSV: ")
+    assert result.stderr.count("\n") == 1 and "Traceback" not in result.stderr

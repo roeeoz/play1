@@ -1,12 +1,13 @@
 """Command line: ``python -m ledger report FILE --month YYYY-MM [...]``.
 
 Exit codes: 0 success, 2 usage error (including an unreadable FILE),
-3 a bad ledger row.
+3 bad ledger data (a bad row, text that is not UTF-8, or malformed CSV).
 """
 
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import sys
 
@@ -77,6 +78,12 @@ def main(argv: list[str] | None = None) -> int:
         transactions = parse_csv(args.file)
     except LedgerError as error:
         sys.stderr.write(f"error: {args.file}:{error.line}: {error.reason}\n")
+        return 3
+    except UnicodeDecodeError:
+        sys.stderr.write(f"error: {args.file}: not valid UTF-8 text\n")
+        return 3
+    except csv.Error as error:
+        sys.stderr.write(f"error: {args.file}: malformed CSV: {error}\n")
         return 3
     except OSError as error:
         sys.stderr.write(f"error: cannot read {args.file}: {error.strerror}\n")
