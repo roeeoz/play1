@@ -1,0 +1,5 @@
+﻿id,date,amount,currency,category,memo
+b1,2026-03-01,10.00,ILS,food,
+
+   
+b2,2026-03-02,-5.50,EUR,books,"Novel, used"

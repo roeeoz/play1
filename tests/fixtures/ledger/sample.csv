@@ -1,0 +1,10 @@
+id,date,amount,currency,category,memo
+t001,2026-02-27,-99.99,ILS,groceries,February shop
+t002,2026-03-01,12000.00,ILS,salary,March salary
+t003,2026-03-02,-1500.00,ILS,rent,
+t004,2026-03-05,250.00,USD,freelance,"Invoice 42, website"
+t005,2026-03-08,-500.25,ILS,groceries,Weekly shop
+t006,2026-03-12,-444.00,ILS,software,Annual licence
+t007,2026-03-20,-260.25,ILS,groceries,Market
+t008,2026-03-28,-321.00,ILS,travel,Train tickets
+t009,2026-04-01,-1500.00,ILS,rent,April rent
