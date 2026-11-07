@@ -1,32 +1,34 @@
-# Feature Specification Document (DRAFT, not ready: P0 on CHANGELOG scope is open)
+# Feature Specification Document
 
 ## 1. Feature Overview
 - **What:** A new stdlib-only Python package `ledger` in roeeoz/play1. It provides `python -m ledger report FILE --month YYYY-MM [--base ILS|USD|EUR] [--top N] [--json]`, which totals one month of a CSV ledger by category in a base currency.
 - **Problem:** A developer who keeps a ledger as a CSV file wants a deterministic monthly summary (income, expenses, net, largest categories) from the terminal, without a spreadsheet. A bad row should be pointed to by its line number, never folded silently into a wrong total.
 - **Actor:** A developer who keeps a personal or small-team ledger as a CSV file.
+- **Traces to:** R1 (CSV parsing), R2 (row validation), R3 (monthly report), R4 (currency conversion and rounding), R5 (command line) · steps 1–8 · RK1, RK2. Priority: Must. Size: M (≈5).
 
 ## 2. Goals & Non-Goals
 ### Story context
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
-
-> PENDING P0: under option (a), the last sentence becomes "…changes to any existing file of the repository, except one line describing the change under `## Unreleased` in `CHANGELOG.md`." Under option (b) it stays as written, and repository rule PLAY-G4 must be changed first in separate work.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository, except one line describing the change under `## Unreleased` in `CHANGELOG.md`.
 
 ### Goals
 - Parse a CSV ledger into validated transactions. Stop at the first bad row and report its physical line number and an exact reason.
 - Build a monthly report in a chosen base currency. Round once, after summing. Order categories by absolute total and support an optional top-N.
 - Provide a CLI with text and JSON output and distinct exit codes: 0 for success, 2 for usage errors, 3 for data errors.
+- Record the change with one line under `## Unreleased` in `CHANGELOG.md`, as repository rule PLAY-G4 requires.
 
 ### Non-Goals
-- Other file formats, live exchange rates, persistent configuration, charts, third-party dependencies, and changes to existing repository files (subject to the P0 decision).
+- Other file formats, live exchange rates, persistent configuration, charts, and any third-party dependency.
+- Changes to any existing file of the repository, except the one `CHANGELOG.md` line above.
 
 ## 3. Functional Requirements
-- **FR1 (R1, t1) CSV parsing:** `parse_lines(lines)` and `parse_csv(path)` return frozen `Transaction(id, date, amount, currency, category, memo)` values in file order. Columns are matched by header name, fields are trimmed, and extra columns are ignored. A BOM, blank lines and whitespace-only lines are ignored. Quoted memos keep their commas. A header with no data rows gives an empty list. (Scenarios 1–4, 8)
-- **FR2 (R2, t1) Row validation:** The first bad row raises `LedgerError(line, reason)`, where `str()` is `line {line}: {reason}`. The exact reasons are listed in Scenarios 5–7. See A1–A5 for the cases the story leaves open.
-- **FR3 (R3, t2) Monthly report:** `monthly_report(transactions, month, base="ILS", top=None, rates=RATES)` gives the month, base, count, income, expense, net, and categories. Categories are ordered by absolute total descending, with ties broken by name ascending. An empty month gives a zero report. `to_dict()` returns amounts as strings. (Scenarios 9, 13–16)
-- **FR4 (R4, t2) Conversion and rounding:** Each amount is converted as `amount × rates[currency] ÷ rates[base]` at full precision. Each figure is summed exactly, then quantized once to two places with `ROUND_HALF_EVEN`. An invalid month, base or top raises `ValueError`. (Scenarios 10–12, 17–18)
-- **FR5 (R5, t3) CLI:** Text and JSON output are byte-exact as in Scenarios 19–21. Usage errors exit 2 and data errors exit 3. Errors print nothing on stdout and a message on stderr. (Scenarios 19–25)
+- **FR1 (R1, t1) CSV parsing:** `parse_lines(lines)` and `parse_csv(path)` return frozen `Transaction(id, date, amount, currency, category, memo)` values in file order. Columns are matched by header name, fields are trimmed, and extra columns are ignored. A BOM, blank lines and whitespace-only lines are ignored. Quoted memos keep their commas. A header with no data rows gives an empty list. `parse_csv` opens the file with `utf-8-sig` and `newline=""` and delegates to `parse_lines`. (Scenarios 1–4, 8)
+- **FR2 (R2, t1) Row validation:** The first bad row raises `LedgerError(line, reason)`, where `line` is the physical line number (the header is line 1 and blank lines count) and `str()` is `line {line}: {reason}`. The exact reasons for bad dates, amounts, currencies, empty category or id, field count, duplicate id, missing columns and missing header are those in Scenarios 5–7. A1–A5 cover the cases the story leaves open.
+- **FR3 (R3, t2) Monthly report:** `monthly_report(transactions, month, base="ILS", top=None, rates=RATES)` gives the month, base, count, income, expense, net, and categories as `CategoryTotal(name, total, count)`. Categories are ordered by absolute total descending, with ties broken by name ascending. `top` limits only the categories list. An empty month gives a zero report. `to_dict()` returns amounts as strings. (Scenarios 9, 13–16)
+- **FR4 (R4, t2) Conversion and rounding:** Each amount is converted as `amount × rates[currency] ÷ rates[base]` at full precision. Each figure (income, expense, net and each category total) is summed exactly, then quantized once and independently to two places with `ROUND_HALF_EVEN`. `RATES` is a module constant: ILS 1, USD 3.70, EUR 4.00. An invalid month, base or top raises `ValueError`, never `LedgerError`. (Scenarios 10–12, 17–18)
+- **FR5 (R5, t3) CLI:** `python -m ledger report FILE --month YYYY-MM [--base ILS|USD|EUR] [--top N] [--json]`. Text and JSON output are byte-exact as in Scenarios 19–21. Usage errors, including a FILE that can't be opened, exit 2. Data errors exit 3 with stderr `error: {FILE}:{line}: {reason}`. Errors print nothing on stdout. `report --help` exits 0 and documents `--month`. The CLI tests drive the installed package through a subprocess. (Scenarios 19–25)
+- **FR6 (repository rule PLAY-G4) Changelog:** The pull request adds exactly one line describing the change under `## Unreleased` in `CHANGELOG.md`. Every other change is a new file under `src/ledger/` or `tests/`, including `tests/fixtures/ledger/`. (Criterion 26)
 
-### Assumptions where the story is silent (simplest reading, per the developer's instruction)
+### Assumptions where the story is silent (simplest reading, confirmed by the developer)
 - **A1 Field count with extra columns:** N in `expected N fields, got M` is the number of fields in the header row. A six-column header gives `expected 6 fields, got 5`, as in Scenario 5. A seven-column header gives `expected 7 fields, got 5`.
 - **A2 Multi-line quoted rows:** A row whose quoted memo spans several physical lines is reported at the physical line where the row starts. Its later lines still count toward the line numbers of the rows after it.
 - **A3 Duplicate header column:** The header is not rejected. The first column carrying a name is the one used, and no new error message is introduced.
@@ -36,11 +38,11 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - **A7 Help text:** Only `--month` must appear in `report --help`. Documenting `--base`, `--top` and `--json` is welcome but not required.
 
 ## 4. User Experience & Behavior
-- The text report has exactly the layout in Scenario 19: seven summary lines, then category lines indented by two spaces. An empty month shows `categories: none`.
-- JSON output is a single object with amounts as strings (Scenario 20).
-- A data error appears on stderr exactly as `error: {FILE}:{line}: {reason}`, where FILE is the path as typed (Scenario 23).
-- `--help` documents `--month` (Scenario 24).
-- The output is deterministic: the same file and arguments always give byte-identical output.
+- **Main flow:** the developer runs `python -m ledger report ledger.csv --month 2026-03` and reads a short text summary. Adding `--json` gives machine-readable output, `--base` changes the currency, and `--top N` shows only the largest categories.
+- **Text layout (Scenario 19):** `month:`, `base:`, `transactions:`, `income:`, `expense:` and `net:` lines, then `categories:`, then one line per category indented by two spaces as `  {name}: {total} ({count})`. Amounts always have two decimal places. An empty month shows `categories: none` (Scenario 21).
+- **JSON (Scenarios 15, 20):** a single object with the keys `month`, `base`, `count`, `income`, `expense`, `net` and `categories` (each category has `name`, `total` and `count`). Amounts are strings with two decimals.
+- **Errors:** a usage error exits 2 with a message on stderr. A data error exits 3, and stderr is exactly `error: {FILE}:{line}: {reason}` plus a newline, where FILE is the path as typed. stdout is empty in both cases.
+- **Determinism:** the same file and arguments always give byte-identical output.
 
 ## 5. Acceptance Criteria
 
@@ -69,22 +71,22 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 23. Scenario 23 — Error: data. When the FILE has a bad row (`tests/fixtures/ledger/bad_amount.csv`, whose third line carries the amount `-2.505`), Then the process exits 3, prints nothing on stdout and stderr is exactly `error: {FILE}:3: amount '-2.505' has more than 2 decimal places` followed by a newline, FILE being the path as given on the command line.
 24. Scenario 24 — Happy path: help. When `python -m ledger report --help` runs, Then it exits 0 and stdout documents `--month`.
 25. Scenario 25 — Edge: the tests run the real entry point. Given `tests/test_ledger_cli.py`, When it drives the command, Then it does so through `subprocess` with `[sys.executable, "-m", "ledger", ...]`, relying on the installed package and on no `sys.path` manipulation.
-
-> PENDING P0: under option (a), one criterion is added: the pull request adds one line describing the change under `## Unreleased` in `CHANGELOG.md` and changes no other existing file of the repository. Under option (b), nothing is added here.
+26. Changelog — repository rule PLAY-G4. Given the story's pull request, When its diff is compared with `main`, Then it adds exactly one line describing the `ledger` report command under `## Unreleased` in `CHANGELOG.md`, changes no other existing file of the repository, and every other changed path is a new file under `src/ledger/` or `tests/`.
 
 ## 6. Dependencies & Constraints
 - roeeoz/play1, base branch `main`. Python 3.10 or newer. CI runs `pip install -e ".[test]"` and then `pytest` on 3.12. No linter, formatter or type checker is configured.
-- The repository rules require source under `src/`, tests under `tests/`, no file over 200 KB, and a `CHANGELOG.md` entry under `## Unreleased` (PLAY-G4). That last rule is the open P0, because the story forbids changes to existing files. The rule runs on every pull request and cannot be waived per ticket.
-- Work items are ordered t1 → t2 → t3.
-- The project already depends on `pypdf` and `flask`. The `ledger` package adds no dependency.
+- Repository rules: source under `src/`, tests under `tests/`, no file over 200 KB, and a `CHANGELOG.md` entry under `## Unreleased` (PLAY-G4). The story's scope now allows exactly that one line, so the pull request meets the rule without any exception.
+- Work items are ordered t1 (model and parser) → t2 (report) → t3 (CLI). The `CHANGELOG.md` line may go in with whichever work item the plan chooses, but it appears once in the story's pull request.
+- No third-party dependency. The project already depends on `pypdf` and `flask`, and `ledger` adds nothing.
+- A person reviews and merges the pull request. The factory never merges.
 
 ## 7. Technical Design (deferred to STRUCTURE)
-Deferred to STRUCTURE. Constraints the product imposes:
+Deferred to STRUCTURE: module layout, the internals of the dataclasses and errors, the argparse structure and the test layout. Constraints the product imposes:
 - Scenarios 19, 20 and 23 require byte-exact stdout and stderr.
-- The published figures assume the default `Decimal` context: 28 digits of precision before rounding once with `ROUND_HALF_EVEN`.
-- The CLI tests must use a subprocess (Scenario 25).
+- The published figures assume the default `Decimal` context: 28 digits of precision before rounding once with `ROUND_HALF_EVEN`. The design must not lower that precision.
+- The CLI tests must use a subprocess with `[sys.executable, "-m", "ledger", ...]` (Scenario 25). That means `src/ledger/__main__.py` must exist and no `sys.path` manipulation is allowed.
+- Nothing may depend on `argparse` or `csv` behaviour newer than Python 3.10.
 
 ## 8. Open Questions
-- **P0:** the story's scope rule conflicts with repository rule PLAY-G4 (the CHANGELOG entry). Option (a) narrows the scope to allow one `## Unreleased` line. Option (b) changes the rule in the repository first. The developer has repeated the instruction to take the simplest reading where the story is silent six times, but the story is explicit on this point, so the choice stays open. The developer may instead approve the stage as it stands, knowing the pull request will fail PLAY-G4.
-- **Settled by assumption:** A1–A7 above, per the developer's instruction to take the simplest reading where the story is silent.
+- None blocking. A1–A7 are recorded assumptions where the story is silent, confirmed by the developer.
 - The epic PRD, the sibling stories and the Confluence research were not available. This spec relies on the story text alone, which the developer confirmed is the whole requirement.
