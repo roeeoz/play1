@@ -9,7 +9,7 @@
 ### Story context
 The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
 
-> PENDING P0: under option (a), the last sentence becomes "…changes to any existing file of the repository, except one line describing the change under `## Unreleased` in `CHANGELOG.md`." Under option (b) it stays as written, and the repository gate PLAY-G4 must be changed first in separate work.
+> PENDING P0: under option (a), the last sentence becomes "…changes to any existing file of the repository, except one line describing the change under `## Unreleased` in `CHANGELOG.md`." Under option (b) it stays as written, and repository rule PLAY-G4 must be changed first in separate work.
 
 ### Goals
 - Parse a CSV ledger into validated transactions. Stop at the first bad row and report its physical line number and an exact reason.
@@ -21,14 +21,14 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 
 ## 3. Functional Requirements
 - **FR1 (R1, t1) CSV parsing:** `parse_lines(lines)` and `parse_csv(path)` return frozen `Transaction(id, date, amount, currency, category, memo)` values in file order. Columns are matched by header name, fields are trimmed, and extra columns are ignored. A BOM, blank lines and whitespace-only lines are ignored. Quoted memos keep their commas. A header with no data rows gives an empty list. (Scenarios 1–4, 8)
-- **FR2 (R2, t1) Row validation:** The first bad row raises `LedgerError(line, reason)`, where `str()` is `line {line}: {reason}`. The exact reasons are listed in Scenarios 5–7. See assumptions A1–A5 for the cases the story leaves open.
+- **FR2 (R2, t1) Row validation:** The first bad row raises `LedgerError(line, reason)`, where `str()` is `line {line}: {reason}`. The exact reasons are listed in Scenarios 5–7. See A1–A5 for the cases the story leaves open.
 - **FR3 (R3, t2) Monthly report:** `monthly_report(transactions, month, base="ILS", top=None, rates=RATES)` gives the month, base, count, income, expense, net, and categories. Categories are ordered by absolute total descending, with ties broken by name ascending. An empty month gives a zero report. `to_dict()` returns amounts as strings. (Scenarios 9, 13–16)
-- **FR4 (R4, t2) Conversion and rounding:** Each amount is converted as `amount × rates[currency] ÷ rates[base]` at full precision. Each figure is summed exactly, then quantized once to two places with `ROUND_HALF_EVEN`. Invalid month, base or top raises `ValueError`. (Scenarios 10–12, 17–18)
+- **FR4 (R4, t2) Conversion and rounding:** Each amount is converted as `amount × rates[currency] ÷ rates[base]` at full precision. Each figure is summed exactly, then quantized once to two places with `ROUND_HALF_EVEN`. An invalid month, base or top raises `ValueError`. (Scenarios 10–12, 17–18)
 - **FR5 (R5, t3) CLI:** Text and JSON output are byte-exact as in Scenarios 19–21. Usage errors exit 2 and data errors exit 3. Errors print nothing on stdout and a message on stderr. (Scenarios 19–25)
 
 ### Assumptions where the story is silent (simplest reading, per the developer's instruction)
 - **A1 Field count with extra columns:** N in `expected N fields, got M` is the number of fields in the header row. A six-column header gives `expected 6 fields, got 5`, as in Scenario 5. A seven-column header gives `expected 7 fields, got 5`.
-- **A2 Multi-line quoted rows:** A row whose quoted memo spans several physical lines is reported at the physical line where the row starts. Later lines still count toward the line numbers of the rows after it.
+- **A2 Multi-line quoted rows:** A row whose quoted memo spans several physical lines is reported at the physical line where the row starts. Its later lines still count toward the line numbers of the rows after it.
 - **A3 Duplicate header column:** The header is not rejected. The first column carrying a name is the one used, and no new error message is introduced.
 - **A4 Blank lines before the header:** Blank or whitespace-only lines before the header are skipped, and the first non-blank line is the header. Line numbers stay physical. A file containing only blank lines gives `LedgerError(1, "missing header")`, as the empty file does.
 - **A5 Header names:** Header names are trimmed like fields and matched case-sensitively against `id, date, amount, currency, category, memo`.
@@ -36,7 +36,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - **A7 Help text:** Only `--month` must appear in `report --help`. Documenting `--base`, `--top` and `--json` is welcome but not required.
 
 ## 4. User Experience & Behavior
-- The text report has exactly the layout in Scenario 19: seven header lines, then category lines indented by two spaces. An empty month shows `categories: none`.
+- The text report has exactly the layout in Scenario 19: seven summary lines, then category lines indented by two spaces. An empty month shows `categories: none`.
 - JSON output is a single object with amounts as strings (Scenario 20).
 - A data error appears on stderr exactly as `error: {FILE}:{line}: {reason}`, where FILE is the path as typed (Scenario 23).
 - `--help` documents `--month` (Scenario 24).
@@ -74,17 +74,17 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 
 ## 6. Dependencies & Constraints
 - roeeoz/play1, base branch `main`. Python 3.10 or newer. CI runs `pip install -e ".[test]"` and then `pytest` on 3.12. No linter, formatter or type checker is configured.
-- The repo gate requires source under `src/`, tests under `tests/`, no file over 200 KB, and a `CHANGELOG.md` entry under `## Unreleased` (PLAY-G4). That last rule is the open P0, because the story forbids changes to existing files. The gate runs automatically and cannot be waived per ticket.
+- The repository rules require source under `src/`, tests under `tests/`, no file over 200 KB, and a `CHANGELOG.md` entry under `## Unreleased` (PLAY-G4). That last rule is the open P0, because the story forbids changes to existing files. The rule runs on every pull request and cannot be waived per ticket.
 - Work items are ordered t1 → t2 → t3.
 - The project already depends on `pypdf` and `flask`. The `ledger` package adds no dependency.
 
-## 7. Technical Design
+## 7. Technical Design (deferred to STRUCTURE)
 Deferred to STRUCTURE. Constraints the product imposes:
 - Scenarios 19, 20 and 23 require byte-exact stdout and stderr.
 - The published figures assume the default `Decimal` context: 28 digits of precision before rounding once with `ROUND_HALF_EVEN`.
 - The CLI tests must use a subprocess (Scenario 25).
 
 ## 8. Open Questions
-- **P0:** the story's scope rule conflicts with the CHANGELOG gate (PLAY-G4). Option (a) narrows the scope to allow one `## Unreleased` line. Option (b) changes the gate in the repository first.
+- **P0:** the story's scope rule conflicts with repository rule PLAY-G4 (the CHANGELOG entry). Option (a) narrows the scope to allow one `## Unreleased` line. Option (b) changes the rule in the repository first.
 - **Settled by assumption:** A1–A7 above, per the developer's instruction to take the simplest reading where the story is silent.
 - The epic PRD, the sibling stories and the Confluence research were not available. This spec relies on the story text alone, which the developer confirmed is the whole requirement.
