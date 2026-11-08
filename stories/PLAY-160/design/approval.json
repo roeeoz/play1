@@ -1,0 +1,15 @@
+{
+  "storyId": "30d7e5a8-9a1c-56f5-8cbc-5e6161f1e7ec",
+  "storyKey": "PLAY-160",
+  "epicKey": "PLAY-159",
+  "title": "QA-20261108-S5 Design the newsletter sign-up banner on the home page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "8091e998-f485-4d88-89eb-8c9f1355135b",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-08T06:47:30.269101Z",
+      "headSha": "98676289065e8d8c6a410aba24ce9f6c4b066f85"
+    }
+  ]
+}
