@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLAY-160 · Newsletter banner · Screen set</title><link rel="stylesheet" href="tokens.css">
+<style>
+main { max-width: 900px; margin: 0 auto; padding: 40px var(--gutter); background: #fff; min-height: 100vh; }
+h1 { font-size: 28px; margin: 0 0 12px; } h2 { font-size: 20px; margin: 32px 0 6px; } h3 { font-size: 16px; margin: 14px 0 6px; }
+p, li { line-height: 1.5; } a { color: var(--c-topbar); }
+.changed { color: var(--c-muted); margin: 0 0 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e3e6ec; vertical-align: top; }
+th { background: var(--c-section-bg); }
+.note { color: var(--c-muted); font-size: 14px; }
+</style></head>
+<body><main>
+<h1>Acme home page with a newsletter sign-up banner: screen set</h1>
+<p>This is the complete set for PLAY-160, which PLAY-161 builds as <code>qa/s5-banner.html</code>. The page is rebuilt from the attached screenshot <em>QA-20261108-S5-home-page</em>, and the approved prototype's banner is added directly under "Welcome to Acme". Every screen has a desktop page and a phone page. Following the approved structure, the page has <strong>no loading or error state</strong>, because it is static with no backend and no network call. It also has <strong>no success or confirmation state</strong> (AC 3). A dark strip at the top of each page is a review aid, not part of the design.</p>
+
+<h2>1 · Home page — banner, default</h2>
+<p class="changed">What changed from today: a banner with an empty email field ("Your email address") and a Subscribe button now sits between the heading and the tagline. Everything else matches the screenshot.</p>
+<table><tr><th>State</th><th>Desktop</th><th>Mobile</th><th>Shows</th></tr>
+<tr><td>default (empty field)</td><td><a href="home-page-banner-default.default.html">Desktop</a></td><td><a href="home-page-banner-default.default.mobile.html">Mobile</a></td><td>First view. The empty field shows only neutral helper text, never a real address (R5).</td></tr></table>
+
+<h2>2 · Home page — banner, email typed</h2>
+<p class="changed">What changed from today: only the banner, with the field focused and showing the visitor's text.</p>
+<table><tr><th>State</th><th>Desktop</th><th>Mobile</th><th>Shows</th></tr>
+<tr><td>default (filled)</td><td><a href="home-page-banner-email-typed.default.html">Desktop</a></td><td><a href="home-page-banner-email-typed.default.mobile.html">Mobile</a></td><td>Focus ring in the top-bar blue. Sample address reader@example.com (a reserved test domain). Clearing the field goes back to screen 1.</td></tr></table>
+
+<h2>3 · Home page — after Subscribe</h2>
+<p class="changed">What changed from today: only the banner. After the press the page looks exactly as before: no message, no toast, no new screen (RK1, AC 3).</p>
+<table><tr><th>State</th><th>Desktop</th><th>Mobile</th><th>Shows</th></tr>
+<tr><td>default (typed text stays)</td><td><a href="home-page-after-subscribe.default.html">Desktop</a></td><td><a href="home-page-after-subscribe.default.mobile.html">Mobile</a></td><td>The button keeps its focus ring after the press. The address stays in the field and is not sent or saved.</td></tr>
+<tr><td>empty (pressed with an empty field)</td><td><a href="home-page-after-subscribe.empty.html">Desktop</a></td><td><a href="home-page-after-subscribe.empty.mobile.html">Mobile</a></td><td>Same unchanged page with the helper text still in the field. No invalid-email hint (open branch 2 default).</td></tr></table>
+
+<h2>Choices made</h2>
+<ul class="note">
+  <li>Position, copy and behaviour follow the structure's defaults, as approved in the prototype: the banner sits directly under the heading, holds only the field and Subscribe, shows no invalid-email state, and keeps the typed text after Subscribe.</li>
+  <li><strong>Mobile is derived, not sourced.</strong> The screenshot is desktop only, so the phone pages keep the same parts, order and colours. The top bar is tighter (16px gutter, 14px nav), the heading is 32px, the field sits above a full-width Subscribe button, and the feature cards stack into one column.</li>
+  <li>Build hints for PLAY-161: the banner is a plain <code>&lt;div role="group"&gt;</code>, not a <code>&lt;form&gt;</code>, and the button is <code>type="button"</code>, so pressing Subscribe or Enter never submits, reloads or sends anything (R4). The input has a visually hidden "Email address" label and <code>autocomplete="off"</code>.</li>
+  <li>The nav items and Shop now are drawn as in the screenshot but have no targets, because they are outside this story.</li>
+</ul>
+</main></body></html>

@@ -1,0 +1,81 @@
+/* PLAY-160 · Acme home page + newsletter banner.
+   Page tokens read from the attached screenshot QA-20261108-S5-home-page (1200px desktop);
+   banner tokens as approved in the prototype. Mobile overrides live under body.mobile
+   (separate .mobile.html files, no media queries). */
+:root {
+  --font: Helvetica, Arial, sans-serif;
+  --c-topbar: #1e3a8a;
+  --c-topbar-text: #ffffff;
+  --c-nav-text: #e0e7ff;
+  --c-text: #222222;
+  --c-muted: #555555;
+  --c-hero-bg: #ffffff;
+  --c-section-bg: #f5f7fa;
+  --c-card-bg: #ffffff;
+  --c-cta: #f59e0b;
+  --c-cta-text: #ffffff;
+  /* new: newsletter banner */
+  --c-banner-bg: #eef2ff;
+  --c-banner-border: #c7d2fe;
+  --c-field-border: #b8c0cc;
+  --c-field-placeholder: #8a8f98;
+  --c-focus: #1e3a8a;
+  --fs-wordmark: 22px;
+  --fs-h1: 44px;
+  --fs-h3: 18px;
+  --fs-body: 16px;
+  --fs-small: 13px;
+  --radius-btn: 6px;
+  --radius-card: 8px;
+  --shadow-card: 0 1px 4px rgba(0,0,0,.10);
+  --gutter: 32px;
+  --gap: 20px;
+  --topbar-h: 62px;
+  --control-h: 42px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); color: var(--c-text); background: var(--c-section-bg); font-size: var(--fs-body); }
+
+/* Review strip: gallery aid, not part of the design */
+.review { background: #2b2b2b; color: #f0f0f0; font-size: 13px; padding: 8px var(--gutter); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-family: var(--font); }
+.review strong { color: #fff; }
+.review a { color: #ffd88a; }
+.review .sp { flex: 1; }
+
+/* Existing page: unchanged from the screenshot */
+.topbar { background: var(--c-topbar); height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); }
+.wordmark { color: var(--c-topbar-text); font-size: var(--fs-wordmark); font-weight: 700; }
+.nav { display: flex; gap: var(--gap); }
+.nav a { color: var(--c-nav-text); text-decoration: none; }
+.hero { background: var(--c-hero-bg); text-align: center; padding: 60px var(--gutter); }
+.hero h1 { font-size: var(--fs-h1); line-height: 1.15; margin: 0 0 12px; font-weight: 700; }
+.hero .tagline { margin: 0 0 16px; }
+.cta { display: inline-block; background: var(--c-cta); color: var(--c-cta-text); padding: 11px 28px; border-radius: var(--radius-btn); min-width: 128px; text-decoration: none; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); padding: var(--gutter); }
+.card { background: var(--c-card-bg); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 28px 20px; }
+.card h3 { font-size: var(--fs-h3); margin: 0 0 14px; }
+.card p { margin: 0; }
+footer { padding: 20px var(--gutter) 140px; font-size: var(--fs-small); color: var(--c-muted); }
+
+/* NEW: newsletter banner, directly under the hero heading */
+.banner { max-width: 520px; margin: 0 auto 20px; background: var(--c-banner-bg); border: 1px solid var(--c-banner-border); border-radius: var(--radius-card); padding: 14px; display: flex; gap: 10px; }
+.banner input { flex: 1; min-width: 0; height: var(--control-h); padding: 0 14px; font: inherit; color: var(--c-text); background: #fff; border: 1px solid var(--c-field-border); border-radius: var(--radius-btn); }
+.banner input::placeholder { color: var(--c-field-placeholder); }
+.banner input:focus, .banner input.is-focus { outline: 2px solid var(--c-focus); outline-offset: 1px; }
+.banner button { height: var(--control-h); padding: 0 22px; font: inherit; font-weight: 700; color: #fff; background: var(--c-topbar); border: 0; border-radius: var(--radius-btn); cursor: pointer; }
+.banner button:hover { filter: brightness(1.08); }
+.banner button:focus-visible, .banner button.is-focus { outline: 2px solid var(--c-focus); outline-offset: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Phone layout (≈375px), used only by the .mobile.html pages */
+body.mobile { max-width: 390px; margin: 0 auto; }
+body.mobile .review { padding: 8px 16px; }
+body.mobile .topbar { padding: 0 16px; height: 56px; }
+body.mobile .wordmark { font-size: 20px; }
+body.mobile .nav { gap: 12px; font-size: 14px; }
+body.mobile .hero { padding: 40px 16px; }
+body.mobile .hero h1 { font-size: 32px; }
+body.mobile .banner { flex-direction: column; padding: 12px; }
+body.mobile .banner button { width: 100%; }
+body.mobile .features { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+body.mobile footer { padding: 16px 16px 80px; }
