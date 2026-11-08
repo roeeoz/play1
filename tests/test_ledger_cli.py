@@ -85,6 +85,18 @@ def test_unreadable_file_message():
     assert result.stderr == f"error: cannot read {path}: No such file or directory\n"
 
 
+def test_non_utf8_file(tmp_path):
+    path = tmp_path / "latin1.csv"
+    path.write_bytes(
+        b"id,date,amount,currency,category,memo\n"
+        b"x1,2026-03-01,10.00,ILS,food,caf\xe9 \xff\n"
+    )
+    result = run("report", str(path), "--month", "2026-03")
+    assert result.returncode == 2
+    assert result.stdout == ""
+    assert result.stderr == f"error: cannot read {path}: not valid UTF-8 text\n"
+
+
 def test_data_error():
     path = "tests/fixtures/ledger/bad_amount.csv"
     result = subprocess.run(

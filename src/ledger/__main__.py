@@ -79,6 +79,9 @@ def main(argv: list[str] | None = None) -> int:
     except OSError as exc:
         print(f"error: cannot read {args.file}: {exc.strerror}", file=sys.stderr)
         return 2
+    except UnicodeDecodeError:
+        print(f"error: cannot read {args.file}: not valid UTF-8 text", file=sys.stderr)
+        return 2
     except LedgerError as exc:
         print(f"error: {args.file}:{exc.line}: {exc.reason}", file=sys.stderr)
         return 3
