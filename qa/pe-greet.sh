@@ -1,3 +1,3 @@
 #!/bin/sh
-# PE2-20261108 base-side greeting (conflict probe for f2).
-printf 'hello from base\n'
+# Prints "hello pe"; the PE-20261108 greeting helper script. Ignores its arguments on purpose.
+printf 'hello pe\n'
