@@ -89,6 +89,7 @@ Implicit invariants: the change has no authorization, tenancy, concurrency or in
 - **Provider CI.** `.github/workflows/ci.yml` jobs `test` and `gate` must both be green. `gate` stays green as long as no `CI_FAIL` file is added. No CI configuration change is needed.
 - **mr-gate.** It must pass with no findings: rule 2 (mode `100755` plus shebang), rule 3 (size limit) and rule 4 / `PLAY-G4` (CHANGELOG line).
 - **The gate does not cover AC1.** No automated test checks AC1, by PO decision Q1. The PR description must show the step 3 evidence: `qa/s3-a.sh` output, exit code 0, empty stderr, and the `git ls-files -s qa/s3-a.sh` mode `100755`. It must also reference PLAY-156 and the Epic PRD (pageId 33292289).
+- **Manual check.** The reviewer runs `sh qa/s3-a.sh` from the repo root and expects exactly `A` (one line, nothing else).
 - **Done means:** `pytest` passes with every existing test, including `tests/test_qa_s3_greeting.py` (AC2); both CI jobs and the mr-gate are green (AC3); and the AC1 manual evidence is recorded.
 
 ## Risks and scope guards
