@@ -1,0 +1,10 @@
+{
+  "storyId": "79b15df0-2c9b-5a02-92c2-a4ff0c6e0cd1",
+  "storyKey": "PLAY-163",
+  "epicKey": "PLAY-162",
+  "title": "הרצת התסריט qa/pe-greet.sh מדפיסה \"hello pe\" ומסתיימת בהצלחה",
+  "decisionId": "f6fec3de-a5da-4c34-8ad2-6e4b3845d929",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-08T09:45:24Z",
+  "planHeadSha": "baa31f7fe5935e3a115063e84deecf8a50dbebd8"
+}
