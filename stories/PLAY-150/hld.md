@@ -4,7 +4,7 @@ Story: PLAY-150 ("QA-20261108-S4 — greeting script that prints 'hello from s4'
 
 ## 1. System Overview
 - **What is being built:** two standalone POSIX shell scripts under `qa/`:
-  - `qa/s4-greet.sh` prints exactly `hello from s4\n` and exits 0.
+  - `qa/s4-greet.sh` prints exactly `HELLO FROM S4\n` and exits 0.
   - `qa/s4-greet.test.sh` runs it and reports PASS or FAIL with a matching exit status.
   - Plus one `CHANGELOG.md` line under `## Unreleased`.
 - **Problem:** the QA run needs proof that the factory can deliver a tiny, closed initiative end to end in one small PR.
@@ -25,20 +25,20 @@ Story: PLAY-150 ("QA-20261108-S4 — greeting script that prints 'hello from s4'
 3. The test executes that script directly, so the shebang and executable bit are exercised. It captures stdout in memory, preserving trailing newlines, and records the exit status.
 4. Results:
    - Script missing, not executable, or non-zero exit: FAIL.
-   - stdout not byte-identical to `hello from s4\n`: FAIL.
+   - stdout not byte-identical to `HELLO FROM S4\n`: FAIL.
    - Otherwise: PASS.
 5. Everything is synchronous and single-process. There are no events and no persisted state.
 
 ## 4. Component Breakdown
 | Component | Responsibility | Inputs / Outputs | Repo |
 |---|---|---|---|
-| `qa/s4-greet.sh` | Print the greeting | In: none (ignores args). Out: stdout `hello from s4\n`; exit 0 | roeeoz/play1 |
+| `qa/s4-greet.sh` | Print the greeting | In: none (ignores args). Out: stdout `HELLO FROM S4\n`; exit 0 | roeeoz/play1 |
 | `qa/s4-greet.test.sh` | Verify the greeting without bats | In: sibling `s4-greet.sh`. Out: a PASS line on stdout with exit 0, or a FAIL line on stderr (with reason) and exit 1 | roeeoz/play1 |
 | `CHANGELOG.md` entry | Satisfy the repo PR gate (PLAY-G4) | One appended bullet under `## Unreleased`, in the same form as the PLAY-114 line | roeeoz/play1 |
 
 ## 5. Interface Contracts
 - **Greeting CLI contract:**
-  - stdout is exactly the 14 bytes `hello from s4` followed by LF;
+  - stdout is exactly the 14 bytes `HELLO FROM S4` followed by LF;
   - exit status 0;
   - no stderr output expected.
 - **Test CLI contract:**
