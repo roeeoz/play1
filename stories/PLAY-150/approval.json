@@ -1,0 +1,10 @@
+{
+  "storyId": "7808ab64-fd6c-5ea3-885a-3a5298aba599",
+  "storyKey": "PLAY-150",
+  "epicKey": "PLAY-149",
+  "title": "QA-20261108-S4 — סקריפט ברכה שמדפיס \"hello from s4\" ובדיקה שמוודאת אותו",
+  "decisionId": "8f5d073b-760d-47ef-a559-5503f679e4e7",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-08T06:52:14Z",
+  "planHeadSha": "defe5c37e46f66b5332bd582fff65f7dd76970ca"
+}
