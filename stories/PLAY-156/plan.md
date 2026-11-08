@@ -110,3 +110,5 @@ Implicit invariants: the change has no authorization, tenancy, concurrency or in
 ## Clarification outcomes
 
 None. Q1 (no tests and no `--help`) and Q2 (run from the repo root) were answered by the PO on 2026-11-08 before this stage. They appear above as locked decisions.
+
+S3-GIT-EDIT
