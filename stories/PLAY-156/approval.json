@@ -1,0 +1,10 @@
+{
+  "storyId": "4565ecf5-a879-5ea9-b9e2-f21d9b93a9ea",
+  "storyKey": "PLAY-156",
+  "epicKey": "PLAY-155",
+  "title": "הרצת סקריפט A מדפיסה A",
+  "decisionId": "5673e661-821f-44c9-8e64-a64f31f65bb1",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-08T06:47:36Z",
+  "planHeadSha": "bee6417deda86314d6475887188c59b6ba3fa915"
+}
