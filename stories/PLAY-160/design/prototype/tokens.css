@@ -1,0 +1,61 @@
+/* Tokens read from the attached screenshot QA-20261108-S5-home-page (1200px desktop). */
+:root {
+  --font: Helvetica, Arial, sans-serif;
+  --c-topbar: #1e3a8a;
+  --c-topbar-text: #ffffff;
+  --c-nav-text: #e0e7ff;
+  --c-text: #222222;
+  --c-muted: #555555;
+  --c-hero-bg: #ffffff;
+  --c-section-bg: #f5f7fa;
+  --c-card-bg: #ffffff;
+  --c-cta: #f59e0b;
+  --c-cta-text: #ffffff;
+  /* new: newsletter banner */
+  --c-banner-bg: #eef2ff;
+  --c-banner-border: #c7d2fe;
+  --c-field-border: #b8c0cc;
+  --c-field-placeholder: #8a8f98;
+  --fs-wordmark: 22px;
+  --fs-h1: 44px;
+  --fs-h3: 18px;
+  --fs-body: 16px;
+  --fs-small: 13px;
+  --radius-btn: 6px;
+  --radius-card: 8px;
+  --shadow-card: 0 1px 4px rgba(0,0,0,.10);
+  --gutter: 32px;
+  --gap: 20px;
+  --topbar-h: 62px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); color: var(--c-text); background: var(--c-section-bg); font-size: var(--fs-body); }
+
+/* Prototype strip — not part of the design */
+.proto { background: #2b2b2b; color: #f0f0f0; font-size: 13px; padding: 8px var(--gutter); display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.proto strong { color: #fff; }
+.proto a { color: #ffd88a; }
+.proto .sp { flex: 1; }
+
+/* Existing page, rebuilt from the screenshot */
+.topbar { background: var(--c-topbar); height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); }
+.wordmark { color: var(--c-topbar-text); font-size: var(--fs-wordmark); font-weight: 700; }
+.nav { display: flex; gap: var(--gap); color: var(--c-nav-text); font-size: var(--fs-body); }
+.hero { background: var(--c-hero-bg); text-align: center; padding: 60px var(--gutter) 60px; }
+.hero h1 { font-size: var(--fs-h1); margin: 0 0 12px; font-weight: 700; }
+.hero .tagline { margin: 0 0 16px; }
+.cta { display: inline-block; background: var(--c-cta); color: var(--c-cta-text); padding: 11px 28px; border-radius: var(--radius-btn); width: 128px; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); padding: var(--gutter); }
+.card { background: var(--c-card-bg); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 28px 20px; }
+.card h3 { font-size: var(--fs-h3); margin: 0 0 14px; }
+.card p { margin: 0; }
+footer { padding: 20px var(--gutter) 140px; font-size: var(--fs-small); color: var(--c-muted); }
+
+/* NEW: newsletter banner, directly under the hero heading */
+.banner { max-width: 520px; margin: 0 auto 20px; background: var(--c-banner-bg); border: 1px solid var(--c-banner-border); border-radius: var(--radius-card); padding: 14px; display: flex; gap: 10px; }
+.field { flex: 1; height: 42px; display: flex; align-items: center; padding: 0 14px; background: #fff; border: 1px solid var(--c-field-border); border-radius: var(--radius-btn); text-align: left; text-decoration: none; color: var(--c-text); }
+.field .ph { color: var(--c-field-placeholder); }
+.field:focus, .field.focus { outline: 2px solid var(--c-topbar); outline-offset: 1px; }
+.subscribe { height: 42px; display: inline-flex; align-items: center; padding: 0 22px; background: var(--c-topbar); color: #fff; border-radius: var(--radius-btn); text-decoration: none; font-weight: 700; }
+.subscribe:hover, .field:hover { filter: brightness(1.08); }
+.vh { position: absolute; left: -9999px; }
