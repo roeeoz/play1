@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>PLAY-160 · Newsletter banner prototype</title><link rel="stylesheet" href="tokens.css">
+<style>
+main { max-width: 760px; margin: 0 auto; padding: 40px var(--gutter); background: #fff; min-height: 100vh; }
+h1 { font-size: 28px; margin: 0 0 12px; } h2 { font-size: 18px; margin: 28px 0 10px; }
+ol li, ul li { margin-bottom: 10px; line-height: 1.45; }
+a { color: var(--c-topbar); }
+.start { display: inline-block; margin-top: 8px; background: var(--c-topbar); color: #fff; padding: 10px 20px; border-radius: var(--radius-btn); text-decoration: none; font-weight: 700; }
+.note { color: var(--c-muted); font-size: 14px; }
+</style></head>
+<body><main>
+<h1>Acme home page with a newsletter sign-up banner</h1>
+<p>This prototype rebuilds the existing Acme home page from the attached screenshot <em>QA-20261108-S5-home-page</em> and adds one thing: a newsletter banner directly under the hero heading "Welcome to Acme", with an email field and a <strong>Subscribe</strong> button. Everything else matches the screenshot. Nobody is actually signed up, so pressing Subscribe shows no success message and no confirmation screen (PLAY-160, AC 2 and AC 3). A dark strip at the top of each page is a prototype aid, not part of the design.</p>
+<a class="start" href="home-page-banner-default.html">Start the journey →</a>
+
+<h2>Screens</h2>
+<ol>
+  <li><a href="home-page-banner-default.html">Home page — banner, default</a>. <strong>What changed from today:</strong> a new banner sits between the heading and the tagline, with an empty field showing the neutral helper text "Your email address" and a Subscribe button. The top bar, tagline, Shop now, cards and footer are unchanged.</li>
+  <li><a href="home-page-banner-email-typed.html">Home page — banner, email typed</a>. <strong>What changed from today:</strong> same banner, with the field focused and showing an address the visitor typed (sample: reader@example.com, a reserved test domain).</li>
+  <li><a href="home-page-after-subscribe.html">Home page — after Subscribe</a>. <strong>What changed from today:</strong> only the banner. After the press the page looks the same and shows no message. <a href="home-page-after-subscribe.html#empty">Variant: Subscribe pressed with an empty field</a>.</li>
+</ol>
+
+<h2>Paths</h2>
+<ul>
+  <li>Default → click the field → Email typed → Subscribe → After Subscribe → "Type again" goes back to Email typed.</li>
+  <li>Default → Subscribe with the field empty → After Subscribe (empty variant).</li>
+  <li>Email typed → "Clear the field" → back to Default.</li>
+</ul>
+
+<h2>Choices made (defaults from the approved structure)</h2>
+<ul class="note">
+  <li>Position: directly under "Welcome to Acme", above the tagline (open branch 1, default).</li>
+  <li>No invalid-email state is drawn (open branch 2).</li>
+  <li>After Subscribe the typed text stays and nothing else happens (open branch 3).</li>
+  <li>The banner holds only the field and Subscribe: no heading or extra copy, desktop width only (open branch 4).</li>
+  <li>Subscribe uses the top-bar blue, so it doesn't compete with the orange Shop now button. The banner uses a light tint of the same blue.</li>
+  <li>Typing can't be simulated without scripts, so clicking the field moves to the "email typed" page. The nav links and Shop now are drawn but not clickable, because they are outside this story.</li>
+</ul>
+</main></body></html>
