@@ -4,4 +4,3 @@ printf 'bye\n'
 if [ -n "${1-}" ]; then
   printf 'bye %s\n' "$1"
 fi
-exit 0
