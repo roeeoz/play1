@@ -1,3 +1,3 @@
-#!/usr/bin/env bash
-# QA-20261109-S6 conflicting version pushed straight to the base branch
-echo "conflict-from-base"
+#!/bin/bash
+# Prints c; the QA-20261109-S6 delivery probe script (PLAY-165).
+printf 'c\n'

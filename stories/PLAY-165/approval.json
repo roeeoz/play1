@@ -1,0 +1,10 @@
+{
+  "storyId": "708423ea-e0cc-4403-a804-40e6038caf82",
+  "storyKey": "PLAY-165",
+  "epicKey": "PLAY-164",
+  "title": "תסריט QA שמדפיס \"c\" ומסתיים בהצלחה",
+  "decisionId": "1ed82550-74df-4132-a163-79aa150cfb33",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-09T12:52:28Z",
+  "planHeadSha": "8d35760f11e05af23da520f4d848e70b3e0fd1fd"
+}
