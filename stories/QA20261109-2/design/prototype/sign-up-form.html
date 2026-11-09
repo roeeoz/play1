@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign up — Newsletter sign-up</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .form-group input[type="email"]:read-only {
+      background: var(--color-surface);
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body class="theme-brand">
+
+  <span id="loading"></span>
+
+  <div class="card">
+    <h2>Sign up for the newsletter</h2>
+    <p>Enter your email address and we will send you a confirmation.</p>
+
+    <form action="confirmation.html" method="get">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="language">Preferred language</label>
+        <div class="select-wrap">
+          <select id="language" name="language">
+            <option class="placeholder" value="" selected disabled hidden>Select a language</option>
+            <option value="he">Hebrew</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="consent" name="consent" required>
+        <label for="consent">
+          Send me the product newsletter. I can unsubscribe at any time.
+        </label>
+      </div>
+
+      <a href="#loading" class="btn-primary">Subscribe</a>
+      <span class="btn-disabled" aria-disabled="true">
+        <span class="spinner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="6" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+            <path d="M14 8a6 6 0 0 0-6-6" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Subscribing…
+      </span>
+    </form>
+
+    <a href="welcome.html" class="link-back">← Back</a>
+  </div>
+
+  <nav class="proto-nav">
+    <span class="proto-default-only">
+      Prototype: <a href="index.html">Index</a> · <a href="welcome.html">Welcome</a> → Sign-up form → <a href="confirmation.html">Confirmation</a>
+    </span>
+    <span class="proto-loading-only">
+      Prototype: loading state, with your choices kept and locked. The request succeeds → <a href="confirmation.html">Continue to Confirmation</a> · <a href="sign-up-form.html">Start the form again</a> · <a href="index.html">Index</a>
+    </span>
+  </nav>
+
+</body>
+</html>
