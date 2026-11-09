@@ -1,0 +1,10 @@
+{
+  "storyId": "0675f1bc-a13b-4ca8-86f6-e7d3890ad54b",
+  "storyKey": "PLAY-169",
+  "epicKey": "PLAY-168",
+  "title": "סקריפט הבדיקה a מדפיס \"a\" ומסתיים בהצלחה",
+  "decisionId": "3195293e-fe2c-4b1c-bc8b-517e24d6a26b",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-09T12:47:07Z",
+  "planHeadSha": "e791ca58edbb96cf40b7bf8127d0c2b2e0b51b37"
+}
