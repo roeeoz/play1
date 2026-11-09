@@ -1,0 +1,10 @@
+{
+  "storyId": "0ac037ba-3e68-4866-998a-e46019230512",
+  "storyKey": "PLAY-167",
+  "epicKey": "PLAY-166",
+  "title": "סקריפט פרידה שמדפיס \"bye\", ועם שם גם פרידה אישית",
+  "decisionId": "770d5ce6-e957-49f6-a098-d8d9c8c31939",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-09T12:48:53Z",
+  "planHeadSha": "075e23077ee2c85d81762c98fb34252df0253703"
+}
