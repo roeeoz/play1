@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Preferred language — Prototype</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .index-card {
+      max-width: 560px;
+    }
+
+    .index-card h1 {
+      font-size: var(--font-size-xl);
+    }
+
+    .index-card h3 {
+      font-size: var(--font-size-base);
+      margin-bottom: var(--space-sm);
+    }
+
+    .screen-list {
+      list-style: none;
+      margin-bottom: var(--space-xl);
+    }
+
+    .screen-list li {
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .screen-list li:last-child {
+      border-bottom: none;
+    }
+
+    .screen-list a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .screen-list a:hover {
+      text-decoration: underline;
+    }
+
+    .screen-list .desc {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--space-xs);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0 var(--space-sm);
+      border-radius: var(--radius);
+      margin-left: var(--space-sm);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+    }
+
+    .tag-changed {
+      background: #ecf7f3;
+      border-color: #8cc9b5;
+      color: #0a7f5a;
+    }
+
+    .notes {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin: 0 0 var(--space-xl) var(--space-lg);
+      line-height: 1.6;
+    }
+
+    .notes li {
+      margin-bottom: var(--space-xs);
+    }
+
+    .start-link {
+      margin-top: var(--space-md);
+    }
+  </style>
+</head>
+<body>
+  <div class="card index-card">
+    <h1>Newsletter sign-up — Preferred language — Prototype</h1>
+    <p>
+      This is the approved newsletter sign-up journey from 29 October 2026, with one change.
+      The Sign-up form gets a "Preferred language" dropdown (Hebrew or English) between
+      the email field and the consent checkbox, and it now uses the brand green #0a7f5a.
+      Walk the happy path: Welcome → Sign-up form → pick a language → Subscribe →
+      loading → Confirmation. You can also Subscribe without picking a language: there is
+      no language error. Picking a language does not change the form's text or direction.
+    </p>
+
+    <ul class="screen-list">
+      <li>
+        <a href="welcome.html">Welcome</a><span class="tag">unchanged</span>
+        <span class="desc">Explains the newsletter and invites the visitor to sign up. Same as the approved design.</span>
+      </li>
+      <li>
+        <a href="sign-up-form.html">Sign-up form</a><span class="tag tag-changed">changed</span>
+        <span class="desc">Adds the "Preferred language" dropdown below the email field. It shows the neutral placeholder "Select a language", nothing is preselected, and opening it lists exactly Hebrew and English. The Subscribe button, the Back link and the focus rings use the brand green #0a7f5a. Everything else is as approved.</span>
+      </li>
+      <li>
+        <a href="sign-up-form.html#loading">Sign-up form — loading</a><span class="tag tag-changed">changed</span>
+        <span class="desc">After Subscribe, the form shows "Subscribing…". The chosen language stays visible and is locked, like the email field and the checkbox. The state appears on the same page, so your choice is kept. If you open it from here, the fields are empty.</span>
+      </li>
+      <li>
+        <a href="confirmation.html">Confirmation</a><span class="tag">unchanged</span>
+        <span class="desc">Tells the visitor to check their inbox. Same as the approved design, with no mention of the language.</span>
+      </li>
+    </ul>
+
+    <h3>Choices made in this prototype</h3>
+    <ul class="notes">
+      <li>The dropdown is the browser's native select, styled like the email field, with a chevron drawn in CSS. No new component, icon or font was added.</li>
+      <li>The open list is the browser's own list. Its two options are "Hebrew" and "English", written in English.</li>
+      <li>As in the approved prototype, Subscribe does not validate. The error states (invalid email, consent missing, submission failed) are drawn in the screens step.</li>
+      <li>The brand green applies to the Sign-up form only. Welcome and Confirmation keep the approved blue. The hover shade is #086848, and the disabled shade during loading is #8cc9b5.</li>
+    </ul>
+
+    <a href="welcome.html" class="btn-primary start-link">Start the journey</a>
+  </div>
+</body>
+</html>

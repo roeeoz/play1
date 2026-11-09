@@ -1,0 +1,29 @@
+{
+  "storyId": "8733f621-e93e-4644-88b4-a7c647c265e0",
+  "storyKey": "QA20261109-2",
+  "epicKey": "QA20261109-1",
+  "title": "עיצוב מעודכן של טופס ההרשמה לניוזלטר עם שדה Preferred language",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "a4a36d26-4568-4770-bd2c-b0af3435d263",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-09T12:48:43.127374Z",
+      "headSha": "a1aded86d4a1f89ab0fb98b42ab35a591add8d44"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "695582ca-0242-4fe3-8aff-e35f51df53ee",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-09T12:53:19.41008Z",
+      "headSha": "102cafb4826784a0a90de4e5e2a80fbb684305b4"
+    },
+    {
+      "step": "screens",
+      "decisionId": "7fa387bf-16be-4dae-adc5-255f75fe5b76",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-09T12:56:25.014254Z",
+      "headSha": "15b2d748c9bc7ce59531130534cfe28819e906d1"
+    }
+  ]
+}

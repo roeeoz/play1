@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter sign-up — Preferred language — Screen designs</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .gallery {
+      width: 100%;
+      max-width: 720px;
+      padding: var(--space-xl);
+    }
+
+    .gallery h1 {
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .gallery > p {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-2xl);
+      line-height: 1.6;
+    }
+
+    .screen-section {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .screen-section h2 {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 2px solid var(--color-text);
+    }
+
+    .state-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+
+    .state-table th,
+    .state-table td {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .state-table th {
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .state-table td a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .state-table td a:hover {
+      text-decoration: underline;
+    }
+
+    .state-name {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    body {
+      justify-content: flex-start;
+      padding-top: var(--space-2xl);
+    }
+  
+    .changed-note {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-md);
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0 var(--space-sm);
+      border-radius: var(--radius);
+      margin-left: var(--space-sm);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      vertical-align: middle;
+    }
+
+    .tag-changed {
+      background: #ecf7f3;
+      border-color: #8cc9b5;
+      color: #0a7f5a;
+    }
+
+    .notes {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin: 0 0 var(--space-2xl) var(--space-lg);
+      line-height: 1.6;
+    }
+
+    .notes li {
+      margin-bottom: var(--space-xs);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery">
+    <h1>Newsletter sign-up — Preferred language</h1>
+    <p>
+      This is the complete screen set for the newsletter sign-up journey, rebuilt from the
+      design approved on 29 October 2026. It covers every screen in every state the structure
+      names, in desktop and mobile layout. Only the Sign-up form changes: it gets the
+      "Preferred language" dropdown and the brand green #0a7f5a.
+    </p>
+
+    <div class="screen-section">
+      <h2>Welcome<span class="tag">unchanged</span></h2>
+      <p class="changed-note">Same as the approved design (R6).</p>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="welcome.default.html">Desktop</a></td>
+            <td><a href="welcome.default.mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="screen-section">
+      <h2>Sign-up form<span class="tag tag-changed">changed</span></h2>
+      <p class="changed-note">New "Preferred language" dropdown (Hebrew or English) below the email field and above consent, at the same position and in the same style in all five states. It shows the neutral placeholder "Select a language" in Default and "English" in every other state, and in Loading it is locked like the email field. The Subscribe button, the Back link and the focus rings use the brand green #0a7f5a. Everything else is as approved.</p>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="sign-up-form.default.html">Desktop</a></td>
+            <td><a href="sign-up-form.default.mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Invalid email</td>
+            <td><a href="sign-up-form.invalid-email.html">Desktop</a></td>
+            <td><a href="sign-up-form.invalid-email.mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Consent missing</td>
+            <td><a href="sign-up-form.consent-missing.html">Desktop</a></td>
+            <td><a href="sign-up-form.consent-missing.mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Loading</td>
+            <td><a href="sign-up-form.loading.html">Desktop</a></td>
+            <td><a href="sign-up-form.loading.mobile.html">Mobile</a></td>
+          </tr>
+          <tr>
+            <td class="state-name">Submission failed</td>
+            <td><a href="sign-up-form.submission-failed.html">Desktop</a></td>
+            <td><a href="sign-up-form.submission-failed.mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="screen-section">
+      <h2>Confirmation<span class="tag">unchanged</span></h2>
+      <p class="changed-note">Same as the approved design (R6), with no mention of the language.</p>
+      <table class="state-table">
+        <thead>
+          <tr><th>State</th><th>Desktop</th><th>Mobile</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="state-name">Default</td>
+            <td><a href="confirmation.default.html">Desktop</a></td>
+            <td><a href="confirmation.default.mobile.html">Mobile</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 style="font-size: var(--font-size-lg); margin-bottom: var(--space-sm);">Choices made in this set</h2>
+    <ul class="notes">
+      <li>Every form state except Default shows "English" as the selected language, so the ten form pages can be compared one-to-one (structure, open branch 5).</li>
+      <li>The language is optional, so there is no language error state (Q2). The form keeps its five approved states.</li>
+      <li>The dropdown is the browser's native select with a CSS-drawn chevron. No new component, icon or font was added (R9). The open list is the browser's own list, which you can try in the prototype.</li>
+      <li>The sample email address, error messages and all other copy are unchanged from the approved screens.</li>
+      <li>The brand green applies to the Sign-up form only. The hover shade is #086848, and the disabled "Subscribing…" button is #8cc9b5. Welcome and Confirmation keep the approved blue (R6).</li>
+    </ul>
+  </div>
+
+</body>
+</html>
