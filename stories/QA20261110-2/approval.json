@@ -1,0 +1,10 @@
+{
+  "storyId": "ef3adcb0-cc62-47e9-b31a-e3dd2260e2ba",
+  "storyKey": "QA20261110-2",
+  "epicKey": "QA20261110-1",
+  "title": "QA-20261110-S4 hello.sh prints hello s4",
+  "decisionId": "895457a5-c952-4a4b-9236-bb812a902e74",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-10T05:57:50Z",
+  "planHeadSha": "161e3f3b08f9d9866545c93917625634555277f3"
+}
