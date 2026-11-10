@@ -1,0 +1,10 @@
+{
+  "storyId": "30087843-b06b-4100-80f5-24dddf786144",
+  "storyKey": "PLAY-175",
+  "epicKey": "PLAY-174",
+  "title": "סקריפט שמדפיס \"hello s3\" ובדיקה שמוודאת אותו",
+  "decisionId": "28d76b5d-ac98-4ef7-b6a9-a9506b29233a",
+  "actor": "Dave Dev",
+  "approvedAt": "2026-11-10T05:55:33Z",
+  "planHeadSha": "6bf9eae7f01af5960abd2651f3a60a211985427c"
+}
