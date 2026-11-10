@@ -1,0 +1,15 @@
+{
+  "storyId": "7409127e-e9e7-496d-8d93-01a3cac36714",
+  "storyKey": "QA20261110-4",
+  "epicKey": "QA20261110-3",
+  "title": "עיצוב מסך באנר ההרשמה הסטטי",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "db442adc-afd1-4b62-9076-1227c7f531f0",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-10T05:46:53.135166Z",
+      "headSha": "043c8f12c4c3e0e83c7c5fed7d587ce3073ef887"
+    }
+  ]
+}
