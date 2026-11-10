@@ -1,0 +1,29 @@
+{
+  "storyId": "7409127e-e9e7-496d-8d93-01a3cac36714",
+  "storyKey": "QA20261110-4",
+  "epicKey": "QA20261110-3",
+  "title": "עיצוב מסך באנר ההרשמה הסטטי",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "db442adc-afd1-4b62-9076-1227c7f531f0",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-10T05:46:53.135166Z",
+      "headSha": "043c8f12c4c3e0e83c7c5fed7d587ce3073ef887"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "4fff6b8c-12d6-456e-a338-3c71405ee89a",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-10T05:50:55.507182Z",
+      "headSha": "b85452cd95f82aeca6079cc98e946849721ca9af"
+    },
+    {
+      "step": "screens",
+      "decisionId": "50b29827-37ee-4589-9d62-8182fada19cd",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-10T05:53:13.630288Z",
+      "headSha": "1de5727970a7c5f3d8bbeab5dd582dfc53c8ab1f"
+    }
+  ]
+}

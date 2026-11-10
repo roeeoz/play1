@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Static sign-up banner — Prototype index</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .card { max-width: 36rem; }
+    .screen-list { list-style: none; margin-bottom: var(--space-xl); }
+    .screen-list li { border-bottom: 1px solid var(--color-border); padding: var(--space-md) 0; }
+    .screen-list a { color: var(--color-link); text-decoration: none; font-weight: 500; }
+    .screen-list a:hover { text-decoration: underline; color: var(--color-link-hover); }
+    .screen-desc { font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: var(--space-xs) 0 0; }
+    .notes { margin: 0 0 var(--space-xl) var(--space-lg); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+    .notes li { margin-bottom: var(--space-sm); }
+    .start-box { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: var(--space-lg); text-align: center; }
+    .start-box p { margin-bottom: var(--space-md); font-size: var(--font-size-sm); }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Static sign-up banner</h1>
+    <p>
+      QA20261110-4 · epic QA-20261110-S5. This prototype is the whole journey of the story:
+      the product manager opens one static, desktop-only sign-up banner — a headline, one
+      email field and a "Sign up" button — looks it over, and approves it or asks for a change.
+      Nothing is built, sent or stored: clicking "Sign up" keeps you on the same screen.
+    </p>
+
+    <h2>Screens</h2>
+    <ul class="screen-list">
+      <li>
+        <a href="sign-up-banner.html">Sign-up banner</a>
+        <p class="screen-desc">New screen. Exactly three elements: headline, one email field with sample text, "Sign up" button. Default state only.</p>
+      </li>
+    </ul>
+
+    <h2>Choices made in this prototype</h2>
+    <ul class="notes">
+      <li>Headline copy: "Get product updates in your inbox" — the working choice from the approved structure; change it at review if you have other wording.</li>
+      <li>Look: colours, type and spacing copied from play1's approved sign-up design (story 215fd057). System fonts only, no third-party fonts, icons or images, so no license note is needed.</li>
+      <li>Placement: the banner stands alone, centred on a plain desktop page, with no site header or footer around it.</li>
+      <li>"Sign up" is a plain button outside any form: clicking it does nothing and stays on this screen. The email field shows only the sample placeholder <code>name@example.com</code>; anything typed is not stored.</li>
+      <li>The email field has no visible label, to keep exactly three elements; it carries an accessible name for screen readers instead.</li>
+      <li>The thin link bar above the banner is prototype navigation only, not part of the design.</li>
+    </ul>
+
+    <div class="start-box">
+      <p>Start the journey: open the banner.</p>
+      <a href="sign-up-banner.html" class="btn-primary">Open the sign-up banner</a>
+    </div>
+  </div>
+
+</body>
+</html>
