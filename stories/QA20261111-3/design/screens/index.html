@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen set — play1 greeting banner (QA20261111-3)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  main { padding: var(--space-6) 0; }
+  h1 { font-size: var(--font-size-xl); margin: 0 0 var(--space-2); }
+  h2 { font-size: var(--font-size-lg); margin: var(--space-4) 0 var(--space-1); }
+  h3 { font-size: var(--font-size-md); margin: var(--space-3) 0 var(--space-1); }
+  p, li { max-width: 44rem; }
+  .pair { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-3); align-items: start; }
+  .card { border: 1px solid var(--color-banner-border); border-radius: var(--radius); padding: var(--space-2); }
+  .card a { font-weight: var(--font-weight-medium); }
+  .thumb { margin-top: var(--space-1); border: 1px solid var(--color-banner-border); border-radius: var(--radius); overflow: hidden; background: var(--color-page-bg); }
+  .thumb .tb { background: var(--color-banner-bg); color: var(--color-banner-text); font-size: var(--font-size-sm); text-align: center; padding: 0.4rem; border-bottom: 1px solid var(--color-banner-border); }
+  .thumb .tt { font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); padding: 0.5rem 0.75rem 0.25rem; }
+  .thumb .tw { height: 3rem; margin: 0.25rem 0.75rem; background: var(--color-placeholder); border-radius: 4px; }
+  .thumb .tr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin: 0.4rem 0.75rem 0.75rem; }
+  .thumb .tr div, .thumb .ts div { height: 2rem; background: var(--color-placeholder); border-radius: 4px; }
+  .thumb .ts { display: grid; gap: 0.4rem; margin: 0.4rem 0.75rem 0.75rem; }
+  .muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+  .swatch { display: inline-block; width: 1em; height: 1em; border: 1px solid var(--color-banner-border); vertical-align: -0.15em; margin-right: 0.3em; }
+  table { border-collapse: collapse; width: 100%; font-size: var(--font-size-sm); }
+  th, td { text-align: left; padding: var(--space-1); border-bottom: 1px solid var(--color-banner-border); vertical-align: top; }
+</style>
+</head>
+<body>
+<main class="container">
+  <h1>play1 greeting banner — screen set</h1>
+  <p>The complete screen set for story QA20261111-3: one screen, the play1 home page with the greeting banner “Hello from play1” at the very top. The approved structure names a single state for it, <strong>default</strong>; the banner is static text with no input, no data loading and no list, so it has no loading, error or empty state, and none is drawn. Each state is shown as a desktop page and a phone-width (390&nbsp;px) page. The layout, colours and copy are those of the approved prototype.</p>
+
+  <h2>play1 home — greeting banner <span class="muted">(new — play1 has no UI home page today)</span></h2>
+
+  <h3>State: default</h3>
+  <div class="pair">
+    <div class="card">
+      <a href="play1-home-greeting-banner.default.html">Desktop — default</a>
+      <div class="thumb" aria-hidden="true">
+        <div class="tb">Hello from play1</div>
+        <div class="tt">play1</div>
+        <div class="tw"></div>
+        <div class="tr"><div></div><div></div><div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <a href="play1-home-greeting-banner.default.mobile.html">Mobile — default</a>
+      <div class="thumb" aria-hidden="true">
+        <div class="tb">Hello from play1</div>
+        <div class="tt">play1</div>
+        <div class="tw"></div>
+        <div class="ts"><div></div><div></div><div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Check against the story</h2>
+  <table>
+    <thead><tr><th>Requirement</th><th>How the screens meet it</th></tr></thead>
+    <tbody>
+      <tr><td>R1 — banner on top</td><td>The banner is the first element in the page on both layouts, full width, above the title and content.</td></tr>
+      <tr><td>R2 — exact text</td><td>“Hello from play1”, in English, and no other text in the banner.</td></tr>
+      <tr><td>R3 — one screen</td><td>One screen, one state; no settings, no dismiss button, no way to edit the text.</td></tr>
+      <tr><td>R4 — readable</td><td><span class="swatch" style="background:#1f2933"></span>#1f2933 on <span class="swatch" style="background:#eef1f4"></span>#eef1f4 = 13.0:1 (≥ 4.5:1). The banner is a <code>&lt;section aria-label="Greeting"&gt;</code> region landmark, the first one on the page.</td></tr>
+      <tr><td>R5 — neutral colours</td><td>Muted grey-blue background with a light divider; no alert or bright colours.</td></tr>
+      <tr><td>RK2 — basic page only</td><td>Below the banner: page title “play1” and neutral grey blocks, hidden from screen readers. Not a content design.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Choices made in this step</h2>
+  <ul>
+    <li><strong>Mobile layout:</strong> the same banner and page at 390&nbsp;px. The banner text drops from 18&nbsp;px to 16&nbsp;px, the title from 28&nbsp;px to 24&nbsp;px, the side padding from 24&nbsp;px to 16&nbsp;px, and the three blocks stack in one column.</li>
+    <li><strong>Review bar:</strong> the dashed bar at the bottom of each page links back to this gallery and to the other layout. It is review chrome only, not part of the design.</li>
+  </ul>
+  <p class="muted">Story QA20261111-3 · Epic QA20261111-2 · Design only — play1 itself is not changed.</p>
+</main>
+</body>
+</html>
