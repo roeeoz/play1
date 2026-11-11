@@ -1,0 +1,10 @@
+{
+  "storyId": "b7fba2bc-14a2-4bc6-8188-81a71c071dd9",
+  "storyKey": "PLAY-181",
+  "epicKey": "PLAY-180",
+  "title": "סקריפט שמדפיס \"hello s3\" עם בדיקה אוטומטית שמאשרת את הפלט",
+  "decisionId": "d0bb73d5-1a52-469f-be18-05e9b14c6e46",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-11T20:19:07Z",
+  "planHeadSha": "731b622eedd0accc95a0e36d8c95775aea2c0f8b"
+}
