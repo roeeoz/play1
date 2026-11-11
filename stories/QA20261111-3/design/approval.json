@@ -1,0 +1,15 @@
+{
+  "storyId": "cd377a50-35fe-4286-8327-92a5478d0202",
+  "storyKey": "QA20261111-3",
+  "epicKey": "QA20261111-2",
+  "title": "QA-20261111-S6 design a one-screen greeting banner",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "4aacfe7a-ace2-44bb-b46e-30d0ebc5747c",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-11T20:11:06.149813Z",
+      "headSha": "605f5fcfddf67be5e8e6634d1f8e23a84d52c436"
+    }
+  ]
+}
