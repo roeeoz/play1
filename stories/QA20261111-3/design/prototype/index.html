@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype — play1 greeting banner (QA20261111-3)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  main { padding: var(--space-6) 0; }
+  h1 { font-size: var(--font-size-xl); margin: 0 0 var(--space-2); }
+  h2 { font-size: var(--font-size-lg); margin: var(--space-4) 0 var(--space-1); }
+  p, li { max-width: 44rem; }
+  .start {
+    display: inline-block; margin-top: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: var(--color-link); color: #ffffff; text-decoration: none;
+    border-radius: var(--radius); font-weight: var(--font-weight-medium);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: var(--font-size-sm); }
+  th, td { text-align: left; padding: var(--space-1); border-bottom: 1px solid var(--color-banner-border); vertical-align: top; }
+  .muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+  .swatch { display: inline-block; width: 1em; height: 1em; border: 1px solid var(--color-banner-border); vertical-align: -0.15em; margin-right: 0.3em; }
+</style>
+</head>
+<body>
+<main class="container">
+  <h1>play1 greeting banner — clickable prototype</h1>
+  <p>This prototype shows the single screen of story QA20261111-3: the play1 home page with the greeting banner “Hello from play1” at the very top, above all other page content. play1 has no UI home page today, so the screen is new; the area under the banner is a basic home page only (page title and neutral content blocks), not a content design. The journey has one screen: open it, review it against R1–R5, then approve or return it to the designer in Halo.</p>
+  <a class="start" href="play1-home-greeting-banner.html">Start the journey →</a>
+
+  <h2>Screens</h2>
+  <table>
+    <thead><tr><th>Screen</th><th>Status</th><th>What to check</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="play1-home-greeting-banner.html">play1 home — greeting banner</a></td>
+        <td>new</td>
+        <td>Banner is the first element (R1); text is exactly “Hello from play1” and nothing else (R2); one screen, no settings or edit control (R3); contrast and landmark (R4); neutral colours (R5).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Design choices made by default</h2>
+  <ul>
+    <li><strong>Banner colours:</strong> <span class="swatch" style="background:#eef1f4"></span>background #eef1f4, <span class="swatch" style="background:#1f2933"></span>text #1f2933 — contrast 13.0:1 (R4 asks ≥ 4.5:1); neutral grey-blue, no alert colours (R5).</li>
+    <li><strong>Screen reader:</strong> the banner is a labelled region landmark (“Greeting”), the first landmark on the page.</li>
+    <li><strong>Banner behaviour:</strong> static — no close button, no link, no edit control (structure open branch 2, simplest option).</li>
+    <li><strong>Content below the banner:</strong> the page title “play1” and neutral grey blocks, with no navigation, header or footer (structure open branch 1, simplest option).</li>
+    <li><strong>Way back:</strong> the thin “Prototype” bar at the bottom of the screen is prototype chrome only; it is not part of the design.</li>
+  </ul>
+  <p class="muted">Story QA20261111-3 · Epic QA20261111-2 · Design only — play1 itself is not changed.</p>
+</main>
+</body>
+</html>

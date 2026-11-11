@@ -1,0 +1,29 @@
+{
+  "storyId": "cd377a50-35fe-4286-8327-92a5478d0202",
+  "storyKey": "QA20261111-3",
+  "epicKey": "QA20261111-2",
+  "title": "QA-20261111-S6 design a one-screen greeting banner",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "4aacfe7a-ace2-44bb-b46e-30d0ebc5747c",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-11T20:11:06.149813Z",
+      "headSha": "605f5fcfddf67be5e8e6634d1f8e23a84d52c436"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "7f318ead-64fe-4356-9638-b7cdbba3782c",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-11T20:16:13.412066Z",
+      "headSha": "4eedb61e8919689f76824305af0d706a8e1e3b25"
+    },
+    {
+      "step": "screens",
+      "decisionId": "6dd01814-3ba2-4072-8710-5d63a204e67b",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-11T20:18:22.550095Z",
+      "headSha": "8b5ad8474489c3b57a55f0cf285431948022b2be"
+    }
+  ]
+}

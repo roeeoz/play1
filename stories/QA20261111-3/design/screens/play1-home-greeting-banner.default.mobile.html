@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>play1</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { min-height: 100vh; padding-bottom: 5rem; max-width: 24.375rem; /* 390px phone width */ margin: 0 auto; }
+  .container { padding: 0 var(--space-2); }
+  .greeting-banner { padding: var(--space-2) var(--space-2); }
+  .greeting-banner p { font-size: var(--font-size-md); }
+  .home { padding: var(--space-3) 0; }
+  .home h1 { font-size: 1.5rem; margin-bottom: var(--space-2); }
+  .block-wide { height: 8rem; margin-bottom: var(--space-2); }
+  .stack { display: grid; grid-template-columns: 1fr; gap: var(--space-2); }
+  .stack .block { height: 5rem; }
+  .review-bar { padding: var(--space-1) var(--space-2); }
+</style>
+</head>
+<body>
+  <section class="greeting-banner" aria-label="Greeting">
+    <p>Hello from play1</p>
+  </section>
+
+  <main class="home container">
+    <h1>play1</h1>
+    <div class="block block-wide" aria-hidden="true"></div>
+    <div class="stack" aria-hidden="true">
+      <div class="block"></div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </main>
+
+  <div class="review-bar" role="note" aria-label="Review navigation">
+    <a href="index.html">← Back to gallery</a>
+    <span>default · mobile · <a href="play1-home-greeting-banner.default.html">View desktop</a></span>
+  </div>
+</body>
+</html>

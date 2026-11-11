@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>play1</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body { min-height: 100vh; padding-bottom: var(--space-6); }
+
+  /* Greeting banner — the subject of the story */
+  .greeting-banner {
+    width: 100%;
+    background: var(--color-banner-bg);
+    color: var(--color-banner-text);
+    border-bottom: 1px solid var(--color-banner-border);
+    padding: var(--space-2) 0;
+  }
+  .greeting-banner p {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+  }
+
+  /* Basic home page — neutral, not a content design (RK2) */
+  .home { padding: var(--space-4) 0; }
+  .home h1 { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); margin: 0 0 var(--space-3); }
+  .block { background: var(--color-placeholder); border-radius: var(--radius); }
+  .block-wide { height: 10rem; margin-bottom: var(--space-3); }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  .row .block { height: 7rem; }
+  @media (max-width: 40rem) { .row { grid-template-columns: 1fr; } }
+
+  /* Prototype chrome — not part of the design */
+  .proto-bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    background: var(--color-chrome-bg);
+    border-top: 1px dashed var(--color-banner-border);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    padding: var(--space-1) var(--space-3);
+    display: flex; gap: var(--space-2); justify-content: space-between; flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+  <section class="greeting-banner" aria-label="Greeting">
+    <p>Hello from play1</p>
+  </section>
+
+  <main class="home container">
+    <h1>play1</h1>
+    <div class="block block-wide" aria-hidden="true"></div>
+    <div class="row" aria-hidden="true">
+      <div class="block"></div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+  </main>
+
+  <div class="proto-bar" role="note" aria-label="Prototype navigation">
+    <a href="index.html">← Back to prototype index</a>
+    <span>Screen 1 of 1 · play1 home — greeting banner · Next: approve or return in Halo</span>
+  </div>
+</body>
+</html>
