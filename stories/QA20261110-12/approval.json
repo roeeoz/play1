@@ -1,0 +1,10 @@
+{
+  "storyId": "3ba7a04c-0b78-4730-8ef8-90848a3742f4",
+  "storyKey": "QA20261110-12",
+  "epicKey": "QA20261110-11",
+  "title": "סקריפט שמדפיס \"hello aw\" ובדיקה אוטומטית שמאשרת את הפלט בכל בקשת שינוי",
+  "decisionId": "4c0f0955-4872-45fd-b410-683b4f787fd6",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-11T09:09:16Z",
+  "planHeadSha": "52b031ca39bd9666558c9bdcdba20220b5fa2332"
+}
