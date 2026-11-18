@@ -97,3 +97,5 @@ Every work item has at least one step.
 ## Clarification outcomes
 
 None.
+
+Reviewer note (e2e-w21-x): checked at plan review.
