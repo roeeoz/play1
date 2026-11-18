@@ -1,6 +1,6 @@
 # Ticket draft: SCRUM-6, monthly expense report from a CSV ledger (intake, not ready)
 
-**Status:** one P0 question is still open: the CHANGELOG gate. The developer has said seven times to "take the simplest reading and proceed". That direction settles every point the story is silent on (A1–A5). It can't settle the gate conflict, because that conflict is between the story's explicit text and a repository rule that is checked mechanically. Harel's Definition of Ready (הגדרת מוכנות) also requires a working assumption for every blocker.
+**Status:** one P0 question is still open: the CHANGELOG gate. The developer has said eight times to "take the simplest reading and proceed". That direction settles every point the story is silent on (A1–A5). It can't settle the gate conflict, because that conflict is between the story's explicit text and a repository rule that is checked mechanically. Harel's Definition of Ready (הגדרת מוכנות) also requires a working assumption for every blocker.
 
 ## User story
 As a developer keeping a CSV ledger, I want `python -m ledger report` to total one month by category in a base currency, so that I can see a month's income, expenses and largest categories deterministically, and have a bad row pointed at by its line number instead of a wrong total.
