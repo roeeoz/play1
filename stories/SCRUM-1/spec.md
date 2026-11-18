@@ -19,6 +19,7 @@ Create `docs/e2e-w2/notes.md`. Line 1 is the heading `# e2e-w2 notes`. The body 
 - Changing any existing file, including `CHANGELOG.md`, `README` and `docs/` indexes.
 - Tests, code, configuration or CI changes.
 - Any content beyond the heading and the developer's one line.
+- Any content or commits from other branches, such as `e2e-other-branch`. The work is based on `main` only.
 
 ## Acceptance criteria (as stated in the story)
 1. The file exists at that path with the heading and the developer's line.
@@ -26,7 +27,7 @@ Create `docs/e2e-w2/notes.md`. Line 1 is the heading `# e2e-w2 notes`. The body 
 3. Documentation only: no tests, no runtime change.
 
 ## Open questions
-- **P0:** What exact text goes on the body line? It isn't given yet and must not be invented.
+- **P0:** What exact text goes on the body line? It isn't given yet and must not be invented, or copied from another branch's file.
 - **P1:** Is the file exactly two lines (no blank line in between) and does it end with a newline? Recommended: yes to both.
 
 ## Verification (planned)
