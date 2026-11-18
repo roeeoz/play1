@@ -1,6 +1,6 @@
 # Ticket draft: SCRUM-6, monthly expense report from a CSV ledger (intake, not ready)
 
-**Status:** one P0 question is open: the CHANGELOG gate. The developer has said five times to "take the simplest reading and proceed". That covers every gap the story is silent on (assumptions A1–A5). It can't settle the gate conflict, because that conflict is between the story's explicit text and a repository rule that is checked mechanically.
+**Status:** one P0 question is open, the CHANGELOG gate. The developer has said six times to "take the simplest reading and proceed". That direction covers every gap the story is silent on (A1–A5). It can't settle the gate conflict. That conflict is between the story's explicit text and a repository rule that is checked mechanically, and Harel's Definition of Ready requires a working assumption for every blocker.
 
 ## User story
 As a developer keeping a CSV ledger, I want `python -m ledger report` to total one month by category in a base currency, so that I can see a month's income, expenses and largest categories deterministically, and have a bad row pointed at by its line number instead of a wrong total.
@@ -51,4 +51,4 @@ Under option (a) only, one criterion is added: **26.** Each pull request of the 
 ## Notes
 - "Net" here means income + expense. That is not the glossary's "net amount" (before tax), which applies only to the claims and invoice code.
 - The repository's only check is `pytest` on Python 3.12, run after an editable install. The code must also run on Python 3.10 and later. Only the standard library may be used.
-- The Definition of Ready in the story template requires a working assumption for every blocker. The gate conflict can't be given a valid one, so it stays open as the P0 question.
+- The Definition of Ready in the story template (הגדרת מוכנות) requires a working assumption for every blocker. The gate conflict can't be given a valid one, so it stays open as the P0 question.
