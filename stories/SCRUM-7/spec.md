@@ -2,7 +2,7 @@
 
 **Status:** NOT_READY. One blocking question is open: Q1, the CHANGELOG gate against the out-of-scope clause.
 
-The developer has told me six times to take the simplest reading where the story is silent. That settled A1–A5. It cannot settle Q1, because there the story's text and the repository's gate require opposite things, so there is no gap to fill.
+The developer has told me seven times to take the simplest reading where the story is silent. That settled A1–A5. It cannot settle Q1, because there the story's text and the repository's gate require opposite things, so there is no gap to fill.
 
 ## User story (unchanged)
 As a developer keeping a CSV ledger, I want `python -m ledger report` to total one month by category in a base currency, so that I can see a month's income, expenses and largest categories deterministically, and have a bad row pointed at by its line number instead of a wrong total.
