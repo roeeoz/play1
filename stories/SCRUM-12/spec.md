@@ -1,6 +1,6 @@
 # Feature Specification Document — Monthly expense report from a CSV ledger (SCRUM-12)
 
-> Status: draft (intake NOT_READY — one blocking question open, see §8)
+> Status: specification (intake READY_FOR_SPEC). The developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading applies and is recorded as an assumption (§8).
 
 ## 1. Feature Overview
 
@@ -16,7 +16,7 @@
 
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository other than the one `CHANGELOG.md` line under `## Unreleased` that the repository's pull-request gate requires.
 
 ### Goals
 
@@ -32,7 +32,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Persistent configuration.
 - Charts or any graphical output.
 - Any third-party dependency (runtime or for the package itself).
-- Changes to any existing file of the repository — **pending Q1 (§8)**: the repository's pull-request gate requires a `CHANGELOG.md` line, which collides with this exclusion.
+- Changes to any existing file of the repository, with one exception: a single line describing the new `ledger` command added under `## Unreleased` in `CHANGELOG.md`, which the repository's pull-request gate requires (assumption A1, §8).
 
 ## 3. Functional Requirements
 
@@ -95,7 +95,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 ## 6. Dependencies & Constraints (product-level)
 
 - **Repository fit (verified).** `pyproject.toml` discovers packages with `[tool.setuptools.packages.find] where = ["src"]` and sets pytest `testpaths = ["tests"]`; CI (`.github/workflows/ci.yml`, job `test`) runs `pip install -e ".[test]"` then `pytest` on Python 3.12. A new `src/ledger/` is therefore found and installed without touching the manifest, and `python -m ledger` works from the installed package. No `src/ledger/` or `tests/test_ledger_*.py` exists yet; `tests/fixtures/` exists (other fixtures), `tests/fixtures/ledger/` does not.
-- **Repository gate (collision — Q1).** The play1 layout gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4, id `PLAY-G4`) blocks any pull request whose diff does not add a line under `## Unreleased` in `CHANGELOG.md`. The story's out-of-scope line forbids "changes to any existing file of the repository", and `CHANGELOG.md` exists. As written, the story cannot pass its own repository's gate; the gate cannot be waived per story.
+- **Repository gate — changelog line.** The play1 layout gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4, id `PLAY-G4`) blocks any pull request whose diff does not add a line under `## Unreleased` in `CHANGELOG.md`. The gate cannot be waived per story, so the scope admits exactly that one added line (assumption A1, §8); no other existing file changes.
 - **Gate rules met by design:** Python under `src/`, tests under `tests/` (rule 1); fixtures well under 200 KB (rule 3); no shell scripts (rule 2).
 - **Stdlib only:** no new runtime or test dependency (pytest is already the test extra).
 - **Fixed rates:** ILS 1, USD 3.70, EUR 4.00 — never fetched.
@@ -107,7 +107,9 @@ Module layout, how the CSV reader tracks physical line numbers through quoted fi
 
 ## 8. Open Questions (if any remain)
 
-- **Q1 (P0, blocking) — `CHANGELOG.md` vs. "no changes to any existing file".** The repository's gate (PLAY-G4) requires each pull request to add a line under `## Unreleased` in the existing `CHANGELOG.md`; the story rules out changing any existing file. Options: (a) narrow the exclusion to "changes to any existing file other than one `CHANGELOG.md` line under `## Unreleased`"; (b) change the gate rule in the repository first, in a separate change. Recommendation: (a) — it is the only option that lets this story's PR pass the gate as the repository stands, and a changelog line does not touch any existing behaviour. *Working assumption until answered:* (a).
-- **Q2 (P2, note for STRUCTURE) — field-count message with extra columns.** Criterion 5's example `expected 6 fields, got 5` assumes a six-column header; criterion 2 allows extra columns. Assumed: the expected count is the header's field count.
-- **Q3 (P2, note) — undecodable file on the CLI.** A FILE that opens but is not valid UTF-8 is not covered by criteria 22–23. Assumed: treated as a usage error (exit 2), like an unopenable file.
-- **Epic sources.** The epic's PRD, backlog and Confluence research were referenced but not supplied to this turn; this spec relies on the story text as published (R1–R5, RK1, RK2 are cited from it, not re-read).
+No blocking question remains. Per the developer's ruling, the points the story leaves silent are settled by the simplest reading and recorded here as assumptions, each with its risk:
+
+- **A1 — `CHANGELOG.md` line (scope).** The story rules out changing any existing file, but the repository's gate (PLAY-G4) requires each pull request to add a line under `## Unreleased` in `CHANGELOG.md`, and the gate cannot be waived. Assumed: the exclusion admits exactly that one added line and nothing else. *Risk:* if the "no existing file" rule must hold literally, the gate rule has to be changed in the repository first, in a separate change, before this story's PR can pass.
+- **A2 — field-count message with extra columns.** Criterion 5's example `expected 6 fields, got 5` reflects a six-column header; criterion 2 allows extra columns. Assumed: the expected count is the header's own field count (e.g. `expected 7 fields, got 6` for a seven-column header). *Risk:* low — the six-column example stays exact either way.
+- **A3 — undecodable file on the CLI.** A FILE that opens but is not valid UTF-8 is not covered by criteria 22–23. Assumed: treated like a file that cannot be opened — exit 2, nothing on stdout, a message on stderr. *Risk:* low — no criterion's output changes.
+- **Epic sources.** The epic's PRD, backlog and Confluence research were not supplied to this intake; per the developer, the story text and its criteria are the whole requirement (R1–R5, RK1, RK2 are cited from the story, not re-read).
