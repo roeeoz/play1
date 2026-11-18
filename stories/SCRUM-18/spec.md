@@ -1,6 +1,6 @@
 # Feature Specification Document — SCRUM-18: Monthly expense report from a CSV ledger
 
-> Status: in-progress intake draft (NOT_READY — one blocking question, see §8).
+> Status: READY_FOR_SPEC. The developer's instruction: the story text and its acceptance criteria are the whole requirement; where they are silent, the simplest reading is taken and recorded as an assumption (§8).
 
 ## 1. Feature Overview
 
@@ -13,9 +13,9 @@
 
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository, except the one line under `## Unreleased` in `CHANGELOG.md` that the repository's pull-request gate requires of every change.
 
-> Intake note: this row is copied word for word as the story states it. Its last clause collides with the repository's pull-request gate (see §6 and Q1 in §8); the row will be updated to whatever the developer decides.
+> Intake note: the row is the story's own text word for word, except for the final clause ("except the one line … every change"). It was added under assumption A1 (§8) so the row agrees with the repository's gate, which cannot be waived.
 
 ### Goals
 
@@ -29,7 +29,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Other file formats (anything but a UTF-8 CSV with the six named columns).
 - Live or fetched exchange rates; rates are the fixed constants (overridable only as a parameter of the Python API).
 - Persistent configuration, charts, any third-party dependency.
-- Changes to any existing file of the repository — subject to Q1 (the `CHANGELOG.md` entry the gate requires).
+- Changes to any existing file of the repository, other than the single `CHANGELOG.md` line under `## Unreleased` the repository's gate requires (assumption A1).
 - Reporting across several months, date ranges or filters other than one `YYYY-MM` month.
 
 ## 3. Functional Requirements
@@ -79,7 +79,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 
 ## 6. Dependencies & Constraints (product-level)
 
-- **Repository gate (play1 layout gate, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4):** every pull request must add a line under `## Unreleased` in `CHANGELOG.md`; a diff that does not touch it is a blocker (PLAY-G4). The gate reads neither this ticket nor its answers, so it cannot be exempted. This collides with the story's "changes to any existing file of the repository" being out of scope — see Q1.
+- **Repository gate (play1 layout gate, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4):** every pull request must add a line under `## Unreleased` in `CHANGELOG.md`; a diff that does not touch it is a blocker (PLAY-G4). The gate reads neither this ticket nor its answers, so it cannot be exempted. The story's exclusion of changes to existing files is therefore read as excluding everything except that one line (assumption A1).
 - **Same gate, rules 1–3:** Python source under `src/`, tests under `tests/` (the story already complies); no file over 200 KB.
 - **Test gate (`.factory/testing.md`, `.github/workflows/ci.yml`):** `pip install -e ".[test]"` then `pytest` on Python 3.12; no conftest and no `sys.path` manipulation, so tests import the installed package — consistent with criterion 25. `pyproject.toml` already discovers packages under `src/` (`[tool.setuptools.packages.find] where = ["src"]`) and `testpaths = ["tests"]`, so the pre-conditions hold and no manifest change is needed for `python -m ledger`.
 - **Pre-conditions verified:** no `src/ledger/` and no `tests/test_ledger_*.py` exist on the work branch (`b7b5d0a`); only `src/guestbook` and `src/testbed_utils` exist.
@@ -92,5 +92,9 @@ Module layout, the `Transaction`/`Report`/`CategoryTotal`/`LedgerError` shapes b
 
 ## 8. Open Questions
 
-- **Q1 (P0, blocking) — `CHANGELOG.md` vs. "no changes to any existing file".** The repository's gate fails every pull request that does not add a line under `## Unreleased` in `CHANGELOG.md`, while the story puts changes to any existing file out of scope. Options: (a) narrow the exclusion to "any existing file except one new line under `## Unreleased` in `CHANGELOG.md` naming SCRUM-18", and add a scope-boundary criterion — "Given the pull request, When its diff is reviewed, Then the only existing file it changes is `CHANGELOG.md` (one added line) and the existing test suite passes unchanged"; (b) keep the exclusion and first change the repository's gate rule in a separate change. *Recommendation:* (a) — it is the only option this story can deliver on its own, it matches how every earlier story in this repository was delivered (e.g. PLAY-175), and the extra criterion also gives the story the scope-boundary scenario the Definition of Ready requires.
-- **Working assumptions (not blocking, flagged for STRUCTURE):** in criterion 5 the field-count message uses the header's own column count (`expected 6 fields` for a six-column header); a quoted field spanning several physical lines is reported at the line where its row starts.
+No blocking question remains. At the developer's instruction (the story text and its criteria are the whole requirement; where they are silent, take the simplest reading and record it), these assumptions stand. No acceptance criterion was added, dropped or reworded.
+
+- **A1 — `CHANGELOG.md` line.** The repository's layout gate (rule PLAY-G4, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`) fails any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md`, and it cannot be exempted. The story's "no changes to any existing file" is read as "no existing file changes except that one added line naming SCRUM-18". Earlier stories in the repository (e.g. PLAY-175) were delivered the same way. *Risk:* if the developer meant the exclusion literally, the gate's rule has to be changed first, in a separate change, and this story waits for it.
+- **A2 — field-count message.** In criterion 5, `expected N fields` uses the header's own column count, so a six-column header gives `expected 6 fields, got 5`. *Risk:* low. Only headers with extra columns show a different N.
+- **A3 — multi-line quoted field.** A quoted field that spans several physical lines is reported at the line where its row starts. *Risk:* low. No criterion covers this case.
+- **A4 — scope check.** No criterion checks the diff's scope (only new files plus the A1 line, with the existing suite passing unchanged). Harel's Definition of Ready expects one, but the developer ruled out adding criteria. Review checks it against the Story context row instead.
