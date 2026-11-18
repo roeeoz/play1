@@ -1,6 +1,6 @@
 # Feature Specification Document — Monthly expense report from a CSV ledger
 
-> Status: in-progress intake draft (NOT_READY — one blocking question open, see §8).
+> Status: final specification (READY_FOR_SPEC). The developer ruled that the story text and its criteria are the whole requirement and that silences take the simplest reading, recorded as assumptions (§8).
 
 ## 1. Feature Overview
 
@@ -16,7 +16,7 @@
 
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository other than the one line per pull request under `## Unreleased` in `CHANGELOG.md` that the repository's gate requires.
 
 ### Goals
 
@@ -33,7 +33,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Persistent configuration (no config file, no environment settings).
 - Charts or any graphical output.
 - Any third-party dependency — the package uses the Python standard library only.
-- Changes to any existing file of the repository (see the open question in §8 about `CHANGELOG.md`, which the repository's gate requires every pull request to touch).
+- Changes to any existing file of the repository, except one added line per pull request under `## Unreleased` in `CHANGELOG.md`, which the repository's layout gate (rule PLAY-G4) requires and which cannot be waived (assumption A1, §8).
 - Currencies other than ILS, USD and EUR; multi-month or date-range reports.
 
 ## 3. Functional Requirements
@@ -103,12 +103,13 @@ No colours, interactivity, persistent state or network access.
 23. Scenario 23 — Error: data. When the FILE has a bad row (`tests/fixtures/ledger/bad_amount.csv`, whose third line carries the amount `-2.505`), Then the process exits 3, prints nothing on stdout and stderr is exactly `error: {FILE}:3: amount '-2.505' has more than 2 decimal places` followed by a newline, FILE being the path as given on the command line.
 24. Scenario 24 — Happy path: help. When `python -m ledger report --help` runs, Then it exits 0 and stdout documents `--month`.
 25. Scenario 25 — Edge: the tests run the real entry point. Given `tests/test_ledger_cli.py`, When it drives the command, Then it does so through `subprocess` with `[sys.executable, "-m", "ledger", ...]`, relying on the installed package and on no `sys.path` manipulation.
+26. Scenario 26 — Scope boundary: no existing file changes. Given each pull request of the story, When its diff is compared with `main`, Then it adds files only under `src/ledger/`, `tests/` and `tests/fixtures/ledger/`, changes no existing file except for lines added under `## Unreleased` in `CHANGELOG.md`, adds no third-party dependency, and the repository's existing test suite still passes.
 
 ## 6. Dependencies & Constraints (product-level)
 
 - **Repository (play1, target branch `main`).** Python src layout: `pyproject.toml` discovers packages under `src/` (`[tool.setuptools.packages.find] where = ["src"]`) and sets pytest `testpaths = ["tests"]`; no `src/ledger/` and no `tests/test_ledger_*.py` exist today (pre-condition verified).
 - **Test gate.** `.factory/testing.md` and `.github/workflows/ci.yml`: `pip install -e ".[test]"` then `pytest`, on Python 3.12; no linter or formatter is configured. The suite has no `conftest.py` and no `sys.path` manipulation, which is what criterion 25 relies on.
-- **Layout gate** (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`), run on every pull request: source under `src/`, tests under `tests/`, no file over 200 KB, and **every pull request must add a line under `## Unreleased` in `CHANGELOG.md`** (rule PLAY-G4, a blocker). `CHANGELOG.md` is an existing file, which collides with the story's "no changes to any existing file" — see Q1 in §8.
+- **Layout gate** (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`), run on every pull request: source under `src/`, tests under `tests/`, no file over 200 KB, and **every pull request must add a line under `## Unreleased` in `CHANGELOG.md`** (rule PLAY-G4, a blocker). The story's exclusion of changes to existing files is therefore read as allowing that one changelog line (assumption A1, criterion 26).
 - **No third-party dependency** for `ledger`; the repository's existing runtime dependencies (`pypdf`, `flask`) are untouched and not used.
 - **Fixed rates** ILS 1, USD 3.70, EUR 4.00 (ILS per unit); no network access.
 - Delivery is three dependent work items in order: t1 (model and parser) → t2 (report) → t3 (command line).
@@ -119,5 +120,15 @@ Module layout, class shapes beyond those named in the criteria, argument parsing
 
 ## 8. Open Questions (if any remain)
 
-- **Q1 (blocking) — `CHANGELOG.md` vs. "no changes to any existing file".** The repository's layout gate fails any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md` (rule PLAY-G4), and the gate cannot be waived. Options: (a) narrow the out-of-scope line to "changes to any existing file of the repository other than one line per pull request under `## Unreleased` in `CHANGELOG.md`"; (b) keep the exclusion as written, which means changing the gate rule in the repository first, in a separate change. **Recommendation: (a)** — it is the only option the current gate can pass, and a changelog line does not change any existing behaviour. If agreed, the story's context row is updated accordingly and a scope-boundary criterion is added: "the pull request changes no existing file except that `CHANGELOG.md` line, and the existing test suite still passes."
-- **Note (non-blocking).** The epic PRD, backlog and Confluence research referenced by the story were not available to this turn; the story's own acceptance criteria were used as the authority and are internally consistent (the March, USD and rounding figures were cross-checked arithmetically).
+No blocking questions remain. The developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading is taken and recorded here.
+
+**Assumptions (simplest reading of what the story leaves silent):**
+
+- **A1 — `CHANGELOG.md` line.** The layout gate (rule PLAY-G4) fails any pull request that adds no line under `## Unreleased` in `CHANGELOG.md` and cannot be waived, so "no changes to any existing file" is read as allowing that one line per pull request (recommended option (a) of the earlier question). Criterion 26 pins it. *Risk:* if the developer meant the exclusion literally, the gate rule must be changed in the repository first, in a separate change.
+- **A2 — Text output when `--top` cuts the list.** The text report lists only the categories the report keeps; nothing marks that some were left out. *Risk:* a reader may take a shortened list as complete.
+- **A3 — Usage-error messages.** For exit 2 the stderr wording is whatever the command's standard usage message says; only "nothing on stdout, a message on stderr, exit 2" is required.
+- **A4 — Expense of a month with no expenses.** `expense` is `0.00` (not `-0.00`), as criteria 15 and 21 show for the empty month.
+- **A5 — Category names.** Categories are matched exactly as written after trimming (case-sensitive, as currencies are); `Groceries` and `groceries` are two categories.
+- **A6 — JSON key order and layout.** Only the parsed JSON object is checked (criterion 20); indentation and key order are not product requirements.
+
+**Note.** The epic PRD, backlog and Confluence research the story refers to were not available; the story's own criteria are the authority and were checked to be consistent (the March, USD, JSON and rounding figures agree arithmetically).
