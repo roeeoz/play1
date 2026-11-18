@@ -1,6 +1,6 @@
 # Ticket draft: SCRUM-7, monthly expense report from a CSV ledger (intake in progress)
 
-**Status:** NOT_READY. One blocking question is open (Q1): the CHANGELOG gate against the out-of-scope clause. Everything else is settled by the story text or by the developer's instruction to take the simplest reading where the story is silent.
+**Status:** NOT_READY. One blocking question is open (Q1): the CHANGELOG gate against the out-of-scope clause. The developer has twice told me to take the simplest reading where the story is silent. That settled A1–A5, but it cannot settle Q1: the story's text and the repository's gate state opposite requirements, so there is no gap to fill.
 
 ## User story (unchanged)
 As a developer keeping a CSV ledger, I want `python -m ledger report` to total one month by category in a base currency, so that I can see a month's income, expenses and largest categories deterministically, and have a bad row pointed at by its line number instead of a wrong total.
@@ -11,7 +11,7 @@ The text below is the original Context. The bracketed part is option (a) and is 
 > The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository **[(a) only: except one line per pull request under `## Unreleased` in `CHANGELOG.md`, as the repository's gate requires]**.
 
 ## Open questions
-- **Q1 (P0):** Option (a), the CHANGELOG exception above, or option (b), keep the clause and change rule 4 in the repository first, with this story waiting for that change? I recommend (a): the story can ship now, and its only change to an existing file is the one line the gate requires anyway. Choose (b) only if leaving every existing file untouched is a goal in itself. The simplest-reading rule cannot settle this, because the story's text and the repository's gate state opposite requirements.
+- **Q1 (P0):** Option (a), the CHANGELOG exception above, or option (b), keep the clause and change rule 4 in the repository first, with this story waiting for that change? I recommend (a): the story can ship now, and its only change to an existing file is the one line the gate requires anyway. Choose (b) only if leaving every existing file untouched is a goal in itself.
 
 ## Assumptions (simplest reading, per the developer's instruction)
 - **A1, field-count reason:** `expected N fields, got M` uses the header's actual field count as N. With the six named columns this gives `expected 6 fields, got 5`, as scenario 5 states.
