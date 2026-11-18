@@ -1,10 +1,11 @@
-# Feature Specification Document — Hello world bash script in a dedicated folder (DRAFT, NOT READY)
+# Feature Specification Document — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
 
-> **Status: NOT READY.** The intake found that the deliverable this story describes
-> already exists on the target branch `main`, and that two of the story's rules
-> collide with what the repository and its gate require. See §8 before building.
+> **Status: READY.** The developer directed that the story text and its acceptance
+> criteria are the whole requirement, and that where they are silent the simplest
+> reading is taken and recorded as an assumption. Those assumptions are listed in
+> §8 (A1–A3), each with its risk.
 
 - **What is being built:** a minimal, runnable hello-world bash script `hello.sh`
   in its own top-level folder `hello-world/`, which prints exactly `hello world`.
@@ -34,8 +35,9 @@ This is the only story of the epic. The script lives in a new folder named `hell
 ### Non-Goals
 - Additional scripts.
 - CI/CD integration.
-- Documentation files (README or similar). Whether the `CHANGELOG.md` line the
-  repository gate requires counts as such is open (§8, Q3).
+- Documentation files (README or similar) — inside `hello-world/` or anywhere
+  else. The single `CHANGELOG.md` line the repository gate requires is a
+  repository change record, not documentation of the script (§8, A3).
 
 ## 3. Functional Requirements
 
@@ -45,8 +47,14 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **FR3 — Executable:** `hello.sh` has executable permissions, so it runs as
   `./hello-world/hello.sh` without `bash` in front of it.
 - **FR4 — Output:** running the script writes the lowercase string `hello world`
-  to standard output, nothing else, and exits with code 0. Whether a single
-  terminating newline is allowed is open (§8, Q2).
+  to standard output, nothing else, and exits with code 0. The single line is
+  terminated by one newline, as a normal terminal line is; no other character,
+  space or line is printed (§8, A2).
+- **FR5 — Existing script:** `hello-world/hello.sh` already on `main` satisfies
+  FR1–FR4; it is kept as the story's delivery and not rewritten (§8, A1).
+- **FR6 — Change record:** the pull request adds one line under `## Unreleased`
+  in `CHANGELOG.md` naming the hello-world script, as the repository gate
+  requires (§8, A3).
 - **Inputs:** none (no arguments, no environment required).
 - **Edge cases:** none beyond output exactness; argument handling is not specified
   and not requested.
@@ -56,7 +64,8 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **Flow:** the developer runs `./hello-world/hello.sh` from the repository root;
   the terminal shows `hello world`; the shell reports exit status 0.
 - **Output format:** exactly the lowercase string `hello world`, no leading or
-  trailing whitespace, no additional lines (newline handling: §8, Q2).
+  trailing whitespace, no additional lines; the line ends with one newline, so
+  the shell prompt returns on the next line (§8, A2).
 - No interactive behavior, no error messages, no visual styling requested.
 
 ## 5. Acceptance Criteria
@@ -69,7 +78,7 @@ This is the only story of the epic. The script lives in a new folder named `hell
 ## 6. Dependencies & Constraints (product-level)
 
 - **Existing artifact:** `hello-world/hello.sh` already exists on `main`
-  (commit `65938b5`, WI-220A63-1) and meets FR1–FR3 today (§8, Q1).
+  (commit `65938b5`, WI-220A63-1) and meets FR1–FR4 today (§8, A1).
 - **Repository gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`):**
   rule 2 (a new shell script is executable and starts with a shebang) matches
   the story; rule 4 blocks any pull request that does not add a line under
@@ -81,23 +90,28 @@ This is the only story of the epic. The script lives in a new folder named `hell
 
 ## 7. Technical Design (deferred to STRUCTURE)
 
-Nothing to design at product level. How the output's exactness is achieved and
-verified is for STRUCTURE once Q2 is settled.
+Nothing to design at product level. How the acceptance criteria are verified
+(e.g. capturing the output and comparing it to `hello world` plus one newline)
+is for STRUCTURE.
 
-## 8. Open Questions
+## 8. Assumptions & Open Questions
 
-- **Q1 (P0) — The deliverable already exists on `main`.** What should this story
-  change? (a) Nothing in the script: accept the existing `hello-world/hello.sh`
-  as the delivery, with the pull request adding only the `CHANGELOG.md` line;
-  (b) close the story as already done, with no pull request; (c) something
-  else — say what. Recommendation: (a), because it records the existing script
-  against this story and passes the gate; pick (b) if no PR is expected.
-- **Q2 (P0) — Trailing newline.** The existing script prints `hello world` plus
-  one newline. Scenario 4 says "no trailing whitespace and no additional lines".
-  (a) A single terminating newline is allowed; (b) no newline at all.
-  Recommendation: (a), because it is standard terminal output and the existing
-  script already does it; choose (b) if the output will be compared byte-for-byte.
-- **Q3 (P0) — `CHANGELOG.md` vs "documentation files out of scope".** The gate
-  blocks any PR without a `CHANGELOG.md` line. Accept that one line as in scope?
-  Recommendation: yes, because without it no PR can pass the gate; otherwise the
-  only path is (b) in Q1.
+No open product questions remain. Per the developer's direction ("take the
+simplest reading, record it as an assumption, and proceed"), these assumptions
+stand in for the points the story is silent on:
+
+- **A1 — The existing script is the delivery.** `hello-world/hello.sh` already on
+  `main` meets every acceptance criterion, so the story changes nothing in it;
+  the pull request records it against this story. *Risk:* if the story was meant
+  to produce a new or different script, the PR will look like it changes nothing
+  in `hello-world/`.
+- **A2 — One terminating newline is allowed.** "No trailing whitespace and no
+  additional lines" is read as: the output is the single line `hello world`,
+  ended by its one newline (what `echo` prints). *Risk:* a byte-for-byte check
+  expecting exactly 11 bytes with no newline would fail.
+- **A3 — The `CHANGELOG.md` line is in scope.** The repository gate (rule 4,
+  blocker `PLAY-G4`) blocks any pull request without a line under
+  `## Unreleased`, and allows no exemption. That line is read as a change record,
+  not one of the "documentation files" the story excludes. *Risk:* if the
+  developer counts it as documentation, the story cannot be delivered by pull
+  request at all, and the only alternative is closing it as already done.
