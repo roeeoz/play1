@@ -98,4 +98,4 @@ Every work item has at least one step.
 
 None.
 
-Reviewer note (e2e-w21-x): checked at plan review.
+Reviewer note (e2e-w21-x): checked twice at plan review.
