@@ -1,6 +1,6 @@
 # Feature Specification Document — SCRUM-19: Monthly expense report from a CSV ledger
 
-> Status: in-progress intake draft (NOT_READY — one blocking question open, see §8).
+> Status: full specification, PARTIALLY_READY — one blocking question (Q1, §8) is still unanswered; the document is written on the working assumption recorded there. Per the developer's instruction, points the story is silent on are settled by the simplest reading and recorded as assumptions (§8, A1–A2).
 
 ## 1. Feature Overview
 
@@ -20,7 +20,7 @@ Traces to: R1 (CSV parsing), R2 (row validation), R3 (monthly report), R4 (curre
 
 The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
 
-> ⚠️ Pending the answer to Q1 (§8): the last exclusion — "changes to any existing file of the repository" — collides with the repository's pull-request gate, which requires a `CHANGELOG.md` entry. Recommended resolution: amend it to "changes to any existing file of the repository other than one line under `## Unreleased` in `CHANGELOG.md`". The paragraph above is copied unchanged until the developer decides.
+> ⚠️ Q1 (§8) is unanswered: the last exclusion — "changes to any existing file of the repository" — collides with the repository's pull-request gate, which requires a `CHANGELOG.md` entry. This specification is written on the working assumption that the exclusion reads "changes to any existing file of the repository other than one line under `## Unreleased` in `CHANGELOG.md`". The paragraph above is copied unchanged because the developer has not decided; approving this stage as it stands accepts that assumption.
 
 ### Goals
 
@@ -36,7 +36,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Persistent configuration (config files, saved defaults).
 - Charts or any visual output.
 - Any third-party dependency (runtime or for the package itself).
-- Changes to existing files of the repository (scope of this exclusion pending Q1).
+- Changes to existing files of the repository, other than one line under `## Unreleased` in `CHANGELOG.md` (working assumption, Q1).
 - Multi-month ranges, budgets, editing or writing the ledger.
 
 ## 3. Functional Requirements
@@ -130,8 +130,10 @@ Module layout inside `src/ledger/`, the argument-parsing mechanism, how line num
 
 ## 8. Open Questions
 
-**Q1 (P0, blocking) — CHANGELOG entry vs. "no changes to any existing file".** The repository's layout gate requires every pull request to add a line under `## Unreleased` in `CHANGELOG.md` (a `PLAY-G4` blocker otherwise), but the story puts "changes to any existing file of the repository" out of scope, and `CHANGELOG.md` already exists. The gate cannot be waived. Options: (a) narrow the exclusion to "changes to any existing file of the repository other than one line under `## Unreleased` in `CHANGELOG.md`"; (b) keep the exclusion and change the gate rule in the repository first, in a separate change. *Recommendation:* (a) — it is a one-line addition every earlier story in this repository has made (PLAY-114/156/172/175), and (b) would block this story on a change outside it. *Working assumption until answered:* (a).
+**Q1 (P0, blocking — unanswered) — CHANGELOG entry vs. "no changes to any existing file".** The repository's layout gate (rule 4, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`) requires every pull request to add a line under `## Unreleased` in `CHANGELOG.md` (a `PLAY-G4` blocker otherwise), but the story puts "changes to any existing file of the repository" out of scope, and `CHANGELOG.md` already exists. This is not a point the story is silent on — it is an explicit exclusion that the gate contradicts, and the gate cannot be waived. Options: (a) narrow the exclusion to "changes to any existing file of the repository other than one line under `## Unreleased` in `CHANGELOG.md`"; (b) keep the exclusion and change the gate rule in the repository first, in a separate change. *Recommendation:* (a) — every earlier story in this repository added such a line (PLAY-114/156/172/175), and (b) would block this story on a change outside it; only a firm epic-level requirement that no existing file be touched would favour (b). *Working assumption:* (a). *Risk:* if the developer actually meant (b), the pull request will touch one existing file the story excluded.
 
-**Q2 (P1) — A FILE that is not valid UTF-8.** The story says what happens when FILE cannot be opened (exit 2) and when a row is bad (exit 3), but not when the bytes are not UTF-8. Options: (a) treat it like an unreadable file — exit 2, nothing on stdout, a message on stderr; (b) treat it as a data error — exit 3 with `error: {FILE}:{line}: ...`. *Recommendation:* (a): the file cannot be read as a ledger at all, and no line number would be reliable. *Working assumption:* (a).
+### Assumptions (story silent — simplest reading, per the developer's instruction)
 
-**Q3 (P2) — Field-count message with extra columns.** Criterion 5's example `expected 6 fields, got 5` assumes a six-column header; criterion 2 allows extra columns. *Working assumption:* the expected number is the header's column count (e.g. `expected 7 fields, got 6` for a seven-column header).
+**A1 — A FILE that is not valid UTF-8.** The story covers an unopenable FILE (exit 2) and a bad row (exit 3) but not undecodable bytes. *Assumption:* treated like a file that cannot be read — exit 2, nothing on stdout, a message on stderr. *Risk:* low; a user would see a usage-class error instead of a line-numbered data error.
+
+**A2 — Field-count message with extra columns.** Criterion 5's example `expected 6 fields, got 5` assumes a six-column header, while criterion 2 allows extra columns. *Assumption:* the expected number is the header's own column count (e.g. `expected 7 fields, got 6` for a seven-column header); for a six-column header the text is exactly criterion 5's. *Risk:* low; it affects only the message text for ledgers with extra columns.
