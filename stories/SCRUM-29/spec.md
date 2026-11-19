@@ -1,8 +1,8 @@
-# Feature Specification Document — Monthly expense report from a CSV ledger (DRAFT — not ready)
+# Feature Specification Document — Monthly expense report from a CSV ledger
 
 ## 1. Feature Overview
 
-> **Status: draft, NOT READY.** One blocking question is still open (§8, Q1): the story rules out changing any existing file, but the play1 layout gate fails any pull request that does not add a line to `CHANGELOG.md` (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4, `PLAY-G4`). Everything else below is taken from the story as published.
+> **Status: ready for STRUCTURE.** The developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading is taken and recorded as an assumption (§8). The one collision with the repository's rules — the CHANGELOG gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4, `PLAY-G4`) — is resolved by assumption A1.
 
 - **What is being built:** a new stdlib-only Python package `ledger` (under `src/`, tests under `tests/`) that reads a CSV ledger, validates every row, and prints a deterministic monthly report (income, expense, net, totals per category) in a chosen base currency, through `python -m ledger report`.
 - **Problem:** a developer who keeps a personal or small-team ledger as a CSV file has no way to get a monthly summary from the terminal without opening a spreadsheet. When a row is malformed, a tool must point at that row by line number instead of producing a silently wrong total.
@@ -12,7 +12,7 @@
 ## 2. Goals & Non-Goals
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository, except one added line under `## Unreleased` in `CHANGELOG.md` describing the new `ledger` package, which the repository's gate requires of every pull request.
 
 ### Goals
 
@@ -26,7 +26,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 
 - Any file format other than CSV; live or fetched exchange rates; persistent configuration; charts.
 - Any third-party dependency (the package is stdlib-only).
-- Changes to any existing file of the repository — **as published; collides with the repository's CHANGELOG gate, see §8 Q1**.
+- Changes to any existing file of the repository, except the single added `CHANGELOG.md` line under `## Unreleased` that the repository's gate requires (assumption A1, §8).
 - Reports spanning more than one month, date ranges, or currencies beyond ILS/USD/EUR.
 - Writing or editing the ledger file.
 
@@ -95,7 +95,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 ## 6. Dependencies & Constraints (product-level)
 
 - **Target repository rules (play1, base branch `main`):**
-  - Layout gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`): Python source under `src/`, tests under `tests/` (the story complies); no file over 200 KB (fixtures are tiny); **rule 4 / `PLAY-G4` — every pull request must add a line under `## Unreleased` in `CHANGELOG.md`, otherwise a blocker.** The story's "no changes to any existing file" collides with this rule — see §8 Q1.
+  - Layout gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`): Python source under `src/`, tests under `tests/` (the story complies); no file over 200 KB (fixtures are tiny); **rule 4 / `PLAY-G4` — every pull request must add a line under `## Unreleased` in `CHANGELOG.md`, otherwise a blocker.** The story therefore adds exactly one line there and changes no other existing file (assumption A1, §8).
   - Test gate (`.factory/testing.md`, `.github/workflows/ci.yml`): `pip install -e ".[test]"` then `pytest` on Python 3.12; no `conftest.py`, no `sys.path` manipulation. The story's AC 25 and its pre-conditions match this.
   - `pyproject.toml` already discovers packages under `src/` (`[tool.setuptools.packages.find] where = ["src"]`) and sets `testpaths = ["tests"]`, so `python -m ledger` needs no manifest change; `src/ledger/` and `tests/test_ledger_*.py` do not exist yet (verified on `main` at `b7b5d0a`).
 - **Product constraints:** stdlib only; fixed exchange rates, never fetched; `Decimal` money with one `ROUND_HALF_EVEN` rounding per figure.
@@ -105,8 +105,11 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 
 Module layout, the CLI parser, how usage errors map to exit 2, the fixture contents that reproduce the AC 9/10/16/20 figures (e.g. freelance as 250.00 USD, consistent with 925.00 ILS), and the PR breakdown into t1/t2/t3 belong to STRUCTURE. Constraints the product imposes: exact error texts and output lines as in §5; the CLI tested only through `[sys.executable, "-m", "ledger", ...]`.
 
-## 8. Open Questions
+## 8. Assumptions and Open Questions
 
-- **Q1 (P0, blocking) — CHANGELOG vs. "no changes to any existing file".** The play1 layout gate fails any PR that does not add a line under `## Unreleased` in `CHANGELOG.md` (rule 4, `PLAY-G4`); the story puts "changes to any existing file of the repository" out of scope. No exemption from the gate is possible. Options: (a) narrow the exclusion to "no changes to any existing file except one added line under `## Unreleased` in `CHANGELOG.md` describing the `ledger` package"; (b) keep the exclusion and change the gate rule in the repository first, in a separate change. *Recommendation: (a)* — it is the only option this story can deliver green on its own, and every earlier story in the repo (PLAY-156/172/175) did exactly this.
-- **Q2 (P1) — non-UTF-8 file.** A FILE that opens but is not valid UTF-8 is not covered by AC 22 or 23. *Recommendation:* treat it as a file that cannot be read — exit 2, nothing on stdout, a message on stderr — since no line-level reason can be given; answer "exit 3 with a line number" if you prefer it reported as a data error.
-- **Q3 (P2) — duplicate column names in the header** (e.g. two `amount` columns) are not specified; left to STRUCTURE unless you want a defined error.
+Per the developer's ruling, where the story is silent the simplest reading is taken and recorded here.
+
+- **A1 — CHANGELOG line (resolves the earlier blocking question).** The play1 layout gate fails any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md` (rule 4, `PLAY-G4`), and no gate can be exempted. The story's exclusion is read as "no changes to any existing file except that one added line", which is the only reading the story can deliver with a green gate and matches what earlier stories in the repository did. *Risk:* if the exclusion was meant absolutely, the gate rule would have to change in the repository first, in a separate change.
+- **A2 — a FILE that opens but is not valid UTF-8** is treated like a file that cannot be read: exit 2, nothing on stdout, a message on stderr. No line-level reason can be given, and the exit-3 message format requires a line number. *Risk:* low; it is outside every acceptance criterion, so it adds no criterion.
+- **A3 — duplicate column names in the header** (e.g. two `amount` columns) are not specified by the story; the behaviour is left to STRUCTURE and adds no criterion.
+- **Epic context:** the epic PRD, backlog and Confluence research were not supplied to the intake; R1–R5, steps 1–8 and RK1/RK2 are cited from the story without being restated.
