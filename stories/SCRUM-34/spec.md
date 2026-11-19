@@ -1,6 +1,6 @@
 # Feature Specification Document — Monthly expense report from a CSV ledger (SCRUM-34)
 
-> Status: in-progress draft (NOT READY). One blocking question remains open; see §8.
+> Status: READY_FOR_SPEC. The developer settled both intake questions on 2026-11-19 (see §8).
 
 ## 1. Feature Overview
 
@@ -16,7 +16,7 @@
 
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository, except one added line under `## Unreleased` in `CHANGELOG.md`.
 
 ### Goals
 - G1. Parse a CSV ledger into ordered, validated transactions (R1, R2). Columns are matched by header name, whatever their order.
@@ -31,7 +31,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Persistent configuration (no config files, no environment variables).
 - Charts or any graphical output.
 - Any third-party dependency. The package uses the standard library only.
-- Changes to any existing file of the repository. ⚠ This conflicts with the repository's PR gate; see §6 and Q1 in §8.
+- Changes to any existing file of the repository, except one added line under `## Unreleased` in `CHANGELOG.md`, which the repository's PR gate requires of every pull request (§6).
 - Reports over several months, date ranges, or currencies beyond ILS/USD/EUR.
 
 ## 3. Functional Requirements
@@ -41,6 +41,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - FR2. Every field is stripped of surrounding whitespace. Blank and whitespace-only lines are skipped but still count toward physical line numbers (the header is line 1). Quoted fields keep embedded commas.
 - FR3. Each valid row becomes an immutable `Transaction(id, date, amount, currency, category, memo)`, returned in file order. The amount keeps exactly the value written in the file, and the memo may be empty.
 - FR4. Validation stops at the first bad row with `LedgerError(line, reason)`, whose `str()` is `line {line}: {reason}`. The exact reasons are listed in AC 5–7 (bad date format, non-calendar date, non-number amount including NaN/Infinity, more than 2 decimal places, zero amount, unknown or wrongly cased currency, empty category, empty id, field-count mismatch, duplicate id, missing columns, missing header).
+- FR4a. An amount may carry an optional leading sign (`+5` and `-5` are numbers). Exponent notation (`1e2`) and thousands separators (`1,000`) are not decimal numbers and are rejected with `amount '{text}' is not a number`.
 - FR5. There are two entry points with identical behaviour: `parse_lines(iterable of lines)` and `parse_csv(path)`.
 
 **Report (t2 — R3, R4)**
@@ -56,6 +57,9 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - FR13. A usage error exits 2: no subcommand, missing or invalid `--month`, invalid `--top`/`--base`, or a FILE that cannot be opened. stdout is empty and a message goes to stderr.
 - FR14. A data error exits 3: stdout is empty and stderr is exactly `error: {FILE}:{line}: {reason}`, where FILE is the path as given.
 - FR15. `report --help` exits 0 and documents `--month`.
+
+**Repository**
+- FR16. The pull request adds exactly one line under `## Unreleased` in `CHANGELOG.md`. That is its only change to an existing file; everything else it adds is new files (`src/ledger/…`, `tests/test_ledger_*.py`, `tests/fixtures/ledger/…`).
 
 ## 4. User Experience & Behavior
 
@@ -101,13 +105,15 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 23. Scenario 23 — Error: data. When the FILE has a bad row (`tests/fixtures/ledger/bad_amount.csv`, whose third line carries the amount `-2.505`), Then the process exits 3, prints nothing on stdout and stderr is exactly `error: {FILE}:3: amount '-2.505' has more than 2 decimal places` followed by a newline, FILE being the path as given on the command line.
 24. Scenario 24 — Happy path: help. When `python -m ledger report --help` runs, Then it exits 0 and stdout documents `--month`.
 25. Scenario 25 — Edge: the tests run the real entry point. Given `tests/test_ledger_cli.py`, When it drives the command, Then it does so through `subprocess` with `[sys.executable, "-m", "ledger", ...]`, relying on the installed package and on no `sys.path` manipulation.
+26. Scenario 26 — Boundary: amount spellings. Given a row whose amount is `+5`, When parsed, Then its amount is `Decimal("5")`; Given a row whose amount is `1e2`, When parsed, Then `LedgerError` is raised with the reason `amount '1e2' is not a number`; Given a row whose amount is `"1,000"` (quoted), When parsed, Then `LedgerError` is raised with the reason `amount '1,000' is not a number`.
+27. Scenario 27 — Scope: existing files. Given the story's pull request, When its diff is inspected, Then the only change to an existing file of the repository is one added line under `## Unreleased` in `CHANGELOG.md`, and every other change is a new file under `src/ledger/`, `tests/` or `tests/fixtures/ledger/`.
 
 ## 6. Dependencies & Constraints (product-level)
 
 Verified against the checkout (`play1`, branch based on `main`):
 
 - **Pre-conditions hold.** `pyproject.toml` discovers packages under `src/` (`[tool.setuptools.packages.find] where = ["src"]`) and sets pytest `testpaths = ["tests"]`. `.github/workflows/ci.yml` runs `pip install -e ".[test]"` then `pytest` on Python 3.12. `.factory/testing.md` declares that as the only test gate. Neither `src/ledger/` nor `tests/test_ledger_*.py` exists yet, and nor does `tests/fixtures/ledger/`. A new package under `src/` is picked up without editing `pyproject.toml`, and `python -m ledger` needs no console-script entry.
-- **⚠ Collision with the repository's PR gate.** The `play1 layout gate` (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4) blocks every pull request that does not add a line under `## Unreleased` in `CHANGELOG.md` (blocker `PLAY-G4`). `CHANGELOG.md` already exists at the repository root, and its last entries are PLAY-114, 156, 172 and 175. The story rules out "changes to any existing file of the repository", so as written its PR cannot pass the gate. The gate cannot be waived for this ticket. Blocking question Q1 in §8.
+- **Repository PR gate.** The `play1 layout gate` (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`, rule 4) blocks every pull request that does not add a line under `## Unreleased` in `CHANGELOG.md` (blocker `PLAY-G4`). The developer chose to narrow the story's out-of-scope line accordingly: that one added line is the only change to an existing file this story allows (FR16, AC 27).
 - Other gate rules are met by the story as written: Python source goes under `src/` and tests under `tests/`, there are no shell scripts, and the fixture files are tiny.
 - The `Claims glossary` skill (`.factory/plugins/claims-dev/skills/glossary`) covers invoices and claims code. The ledger is not invoices code, so its terms do not apply. Its `YYYY-MM` month convention matches this story anyway.
 - Product constraints: standard library only, no network, fixed rates. Python ≥ 3.10 per `pyproject.toml`.
@@ -118,9 +124,7 @@ Module layout, the internal shape of `Report`, CSV-reading mechanics, how argpar
 
 ## 8. Open Questions
 
-- **Q1 (P0, blocking) — CHANGELOG entry versus "no changes to any existing file".** The repository gate requires every PR to add a line under `## Unreleased` in the existing `CHANGELOG.md`, and the story forbids changing any existing file. Options:
-  - (a) Narrow the out-of-scope line to "changes to any existing file of the repository, except one added line under `## Unreleased` in `CHANGELOG.md`".
-  - (b) Change the gate rule in the repository first, in a separate change.
+No product question remains open. Settled at intake (2026-11-19):
 
-  *Recommendation: (a).* It is a one-line, additive change that every earlier story (PLAY-114/156/172/175) has made, and (b) would block this story on an unrelated rule change. *Working assumption until answered:* none. The scope must be settled by the developer.
-- **Q2 (P1) — amount spellings at the edge of "decimal number".** The story does not say how the parser treats `+5`, `1e2` or `1,000`. *Recommendation:* accept an optional leading sign. Reject exponent notation and thousands separators as `amount '…' is not a number`, because a ledger written by hand should read as written and an exponent hides its decimal places.
+- **Q1 (was P0) — CHANGELOG entry versus "no changes to any existing file".** Decided (a): the out-of-scope line now reads "changes to any existing file of the repository, except one added line under `## Unreleased` in `CHANGELOG.md`". The repository's rule stands unchanged.
+- **Q2 (was P1) — amount spellings.** Decided: an optional leading sign is accepted; exponent notation and thousands separators are rejected as `amount '…' is not a number` (FR4a, AC 26). The developer's ledgers use neither form.
