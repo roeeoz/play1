@@ -1,6 +1,6 @@
 # מסמך מפרט — SCRUM-24: דוח הוצאות חודשי מתוך פנקס CSV
 
-> **סטטוס: טיוטה — לא מוכן.** שאלה חוסמת אחת פתוחה (Q1, יומן השינויים — ראו סעיף 8).
+> **סטטוס: טיוטה — לא מוכן.** שאלה חוסמת אחת פתוחה (Q1, יומן השינויים — ראו סעיף 8). מנהל המוצר הורה שהסיפור וקריטריוני הקבלה הם הדרישה כולה ושבמקום שבו הם שותקים תילקח הקריאה הפשוטה; אבל בנקודה הזו הסיפור אינו שותק — הוא אוסר במפורש שינוי בקובץ קיים — ולכן ההתנגשות עם השער לא הוכרעה ונרשמה כהנחה עם סיכון (סעיף 8). אישור השלב כפי שהוא הוא החלטה של מנהל המוצר.
 
 **מאגר:** play1, ענף בסיס `main` · **עוקב אחר:** R1 (פענוח CSV), R2 (אימות שורות), R3 (דוח חודשי), R4 (המרת מטבע ועיגול), R5 (שורת פקודה) · שלבים 1–8 · סיכונים RK1, RK2 · **עדיפות:** Must · **גודל:** M (כ-5 נקודות, כפי שנמסר) · **חוסמים:** אין (לפי הסיפור).
 
@@ -17,7 +17,7 @@
 
 The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
 
-> הערת קליטה: השורה הועתקה מילה במילה. הסיפא "changes to any existing file of the repository" מתנגשת בשער המאגר שמחייב שורה ב-`CHANGELOG.md` הקיים (Q1). אם מנהל המוצר יאשר את ההמלצה, השורה תתעדכן כך שתתיר שורה אחת תחת `## Unreleased` ב-`CHANGELOG.md`.
+> הערת קליטה: השורה הועתקה מילה במילה, לפי הוראת מנהל המוצר שהסיפור הוא הדרישה כולה. הסיפא "changes to any existing file of the repository" מתנגשת בשער המאגר שמחייב שורה ב-`CHANGELOG.md` הקיים (Q1, לא הוכרעה).
 
 ### מטרות
 
@@ -113,4 +113,5 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 ## 8. שאלות פתוחות
 
 - **Q1 (חוסם) — יומן השינויים מול "אין שינוי בקבצים קיימים".** שער play1 חוסם כל בקשת מיזוג שלא מוסיפה שורה תחת `## Unreleased` ב-`CHANGELOG.md` (PLAY-G4), אבל הקשר הסיפור מוציא מהתחום כל שינוי בקובץ קיים. האפשרויות: (א) להרחיב את התחום כך שיתיר שורה אחת (לכל בקשת מיזוג) תחת `## Unreleased` ב-`CHANGELOG.md` שמציינת את SCRUM-24, וכל קובץ קיים אחר נשאר מחוץ לתחום; (ב) לשנות קודם את כלל השער במאגר בשינוי נפרד. **המלצה: (א)** — זה הדפוס של כל סיפור קודם ב-play1 (PLAY-156, PLAY-172, PLAY-175 הוסיפו שורה כזו), והוא לא דורש שינוי ממשל. רק אם יש סיבה שהיומן לא ייגע — (ב).
+  - **הנחה שנרשמה (לא הוכרעה):** בתשובה לשאלה מנהל המוצר הורה שהסיפור וקריטריוניו הם הדרישה כולה. הסיפור אוסר במפורש שינוי בקובץ קיים, ולכן הקריאה הנאמנה לו היא: אין שינוי ב-`CHANGELOG.md`. **הסיכון:** בקשת המיזוג שתיבנה כך תיחסם בשער PLAY-G4 ולא תוכל להיות ירוקה, עד שהתחום יורחב לפי (א) או שהכלל ישונה לפי (ב). המפעל לא יבקש ולא ירשום פטור מהשער. המסמך נשאר "לא מוכן"; אישור השלב כפי שהוא, בידיעת הסיכון הזה, הוא החלטה של מנהל המוצר.
 - **הנחה גלויה (לא חוסמת):** תוכן הפיקסצ'רים מעבר לערכים שהתרחישים מקבעים (תיאורים, מטבע של כל שורה) נקבע ב-STRUCTURE, בתנאי שיפיק בדיוק את הסכומים שבתרחישים 9, 10, 16, 19, 20.
