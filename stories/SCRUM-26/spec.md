@@ -1,14 +1,14 @@
-# Feature Specification Document — Hello world bash script in a dedicated folder (DRAFT, NOT READY)
+# Feature Specification Document — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
 
-> **Status: in-progress intake draft.** Three blocking questions (section 8) must be answered before this becomes the specification.
+> **Status: specification.** The developer ruled that the story text and its acceptance criteria are the whole requirement and that, where they are silent, the simplest reading applies and is recorded as an assumption. Assumptions A1–A3 (section 8) settle the three earlier intake questions.
 
 - **What:** a bash script `hello.sh` in a new, dedicated top-level folder `hello-world/`. Run directly, it prints "hello world" and exits 0.
 - **Problem:** a developer in this repository wants a minimal, verified, runnable shell-script starting point that doesn't clutter existing folders (for example `qa/`, which already holds other QA scripts).
 - **Actor:** a developer working in this repository.
 
-**Finding from the repository:** the target branch `main` **already contains** `hello-world/hello.sh`. It was added by commit `65938b5` ("WI-220A63-1: Add hello-world bash script in dedicated folder"). It is mode `100755`, its content is `#!/bin/bash` + `echo "hello world"`, it is the only file in the folder, and it prints `hello world\n` with exit code 0. The story as written is therefore already delivered on `main`, so this story's own change is undefined (Q1).
+**Finding from the repository:** the target branch `main` **already contains** `hello-world/hello.sh`. It was added by commit `65938b5` ("WI-220A63-1: Add hello-world bash script in dedicated folder"). It is mode `100755`, its content is `#!/bin/bash` + `echo "hello world"`, it is the only file in the folder, and it prints `hello world\n` with exit code 0. The story as written is therefore already delivered on `main`. Per assumption A1, this story verifies the existing script against the four criteria and leaves `hello-world/` unchanged; it changes the script only if verification shows a criterion is not met.
 
 ## 2. Goals & Non-Goals
 ### Story context
@@ -22,14 +22,15 @@ This is the only story of the epic. The script lives in a new folder named `hell
 ### Non-Goals
 - Additional scripts.
 - CI/CD integration, such as a new workflow job or a test that runs the script in CI.
-- Documentation files, such as a README in the folder. Whether the repository's mandatory CHANGELOG line counts as one is open (Q3).
+- Documentation files, such as a README in the folder. The one line the repository gate requires in the root `CHANGELOG.md` is not a documentation file in this sense (assumption A3).
+- Rewriting, renaming or moving the existing `hello-world/hello.sh` when it already meets the criteria (assumption A1).
 
 ## 3. Functional Requirements
 
 - **FR1 — Location:** a folder `hello-world/` at the repository root contains a file `hello.sh`.
 - **FR2 — Isolation:** `hello.sh` is the only file in `hello-world/`.
 - **FR3 — Direct execution:** the first line of `hello.sh` is `#!/bin/bash` and the file is executable, so `./hello-world/hello.sh` runs without `bash` in front of it.
-- **FR4 — Output:** standard output is exactly the lowercase string `hello world`, with no leading or trailing whitespace and no additional lines. Whether one terminating newline is allowed is open (Q2).
+- **FR4 — Output:** standard output is exactly the lowercase string `hello world`, with no leading or trailing whitespace and no additional lines. One terminating newline (`hello world\n`, the normal output of `echo`) is a single line with no additional lines and satisfies this (assumption A2).
 - **FR5 — Exit status:** the script exits with code 0.
 - **Inputs:** none. The script takes no arguments and reads no input.
 - **Edge cases:** output exactness (FR4) is the only edge case the story names.
@@ -51,9 +52,9 @@ This is the only story of the epic. The script lives in a new folder named `hell
 
 - **The play1 layout gate**, which runs on every pull request (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`):
   - rule 2: a new shell script must be executable and start with a shebang. The story already requires this.
-  - rule 4: every pull request must add a line under `## Unreleased` in the root `CHANGELOG.md`. A pull request that doesn't do this is blocked (`PLAY-G4`). The story puts "documentation files" out of scope, so the two may conflict (Q3).
+  - rule 4: every pull request must add a line under `## Unreleased` in the root `CHANGELOG.md`. A pull request that doesn't do this is blocked (`PLAY-G4`). The pull request adds that one line (assumption A3); it sits outside `hello-world/`, so the folder still holds only `hello.sh`.
 - **Test gate:** `pytest`, via `.factory/testing.md` and the `test` job in `.github/workflows/ci.yml`. The story asks for no CI integration, so no test is added.
-- **Existing state:** `hello-world/hello.sh` already exists on `main` (see section 1 and Q1).
+- **Existing state:** `hello-world/hello.sh` already exists on `main` (see section 1 and assumption A1).
 
 ## 7. Technical Design (deferred to STRUCTURE)
 
@@ -61,6 +62,8 @@ Deferred to STRUCTURE. The product imposes no technical constraint beyond those 
 
 ## 8. Open Questions
 
-- **Q1 (P0):** the script already exists on `main` and appears to meet all four criteria. What should this story change? See the scorecard question.
-- **Q2 (P0):** does "no trailing whitespace and no additional lines" allow one terminating newline (`hello world\n`, the standard output of `echo`, and what the existing script prints), or must the output have no newline at all?
-- **Q3 (P0):** the repository gate requires a `CHANGELOG.md` line on every pull request. Does "documentation files out of scope" allow that one root-level CHANGELOG line?
+No blocking questions remain. The developer instructed that, where the story is silent, the simplest reading applies; these assumptions record those readings and their risk:
+
+- **A1 — Deliverable given the existing script.** The script already exists on `main` and meets all four criteria, so the story verifies it and leaves `hello-world/` unchanged; the pull request carries only the required CHANGELOG line. *Risk:* if the intent was a fresh or different script, the pull request will look empty of functional change.
+- **A2 — Trailing newline.** "Exactly `hello world` … no additional lines" is met by `hello world` followed by one newline, as `echo` prints. *Risk:* a byte-exact comparison expecting 11 bytes with no newline would fail; that would need the script changed to `printf 'hello world'`.
+- **A3 — CHANGELOG line.** "Documentation files out of scope" excludes new documentation files (such as a README in `hello-world/`), not the one `CHANGELOG.md` line the play1 layout gate (rule 4) requires on every pull request. *Risk:* none to the folder-isolation criterion, since the line is outside `hello-world/`.
