@@ -1,6 +1,7 @@
 # Testing
 
 test-gate: pytest
+local-test-gate: pip install -q -e ".[test]" && pytest
 
 The repository's canonical gate is the `test` job in `.github/workflows/ci.yml`:
 `pip install -e ".[test]"` (precondition) followed by `pytest` as its own step,
