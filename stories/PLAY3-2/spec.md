@@ -1,8 +1,8 @@
-# Feature Specification — PLAY3-2: Read and validate a CSV ledger (draft, not ready)
+# Feature Specification — PLAY3-2: Read and validate a CSV ledger
 
 **Epic:** Monthly ledger reports from the command line (PLAY3-1) · **Epic PRD:** https://roeeoz.atlassian.net/wiki/pages/viewpage.action?pageId=41385985 · **Repository:** roeeoz/play1, base branch `main`
 
-> **Status: draft.** The intake is not ready. The open points in section 8 decide what the parser accepts and the exact reason text the developer sees for each kind of bad row; the epic's requirement "one fixed reason text per kind of error" (Epic PRD, Functional requirements, R2) fixes only three of them today.
+> **Status: ready for STRUCTURE.** The developer accepted the proposed reason-text catalogue, value rules and header/edge-case rules as written (intake, 2026-11-19); they are requirements in section 3.
 
 ## 1. Feature Overview
 
@@ -32,33 +32,33 @@ In: `src/ledger/` parsing (`parse_csv`, `parse_lines`), the `Transaction` record
 
 ## 3. Functional Requirements
 
-Settled by the story and the epic:
+- **FR1 — Input.** A UTF-8 CSV ledger whose header names id, date, amount, currency, category and memo, in any order. A leading BOM, blank lines and quoted fields (commas, quotes or line breaks inside a value) are accepted (R1). Extra header columns are ignored.
+- **FR2 — Output.** One transaction per data row, in file order, with the six values; the amount is an exact decimal with at most two decimal places (R1, RK1). A header-only ledger is valid and yields no transactions.
+- **FR3 — Fail fast.** Parsing stops at the first row that cannot become a transaction and reports `{line}: {reason}`, where `line` is the row's physical line number in the file and `reason` is one fixed text per kind of error (R2). No partial list of transactions is returned alongside an error.
+- **FR4 — Valid values.**
+  - **date:** `YYYY-MM-DD` and a real calendar date (`2026-02-30` is invalid);
+  - **amount:** a plain decimal number with at most two decimal places; negative is an expense, positive is income, zero is accepted; no thousands separators or currency symbols;
+  - **currency:** exactly `ILS`, `USD` or `EUR` — case-sensitive (Epic PRD, R4);
+  - **empty values:** only memo may be empty; id, date, amount, currency and category must not be;
+  - **spaces:** a value is taken as written, never trimmed, so `" 12.00"` is an invalid amount;
+  - **id:** unique across the ledger.
+- **FR5 — The reason-text catalogue.** These are the only kinds of error and their exact texts; the quoted part is the offending value or name exactly as written in the file:
 
-- **FR1 — Input.** A UTF-8 CSV ledger whose header names id, date, amount, currency, category and memo, in any order. A leading BOM, blank lines and quoted fields (commas or quotes inside a value) are accepted (R1).
-- **FR2 — Output.** One transaction per data row, in file order, with the six values; the amount is an exact decimal with at most two decimal places (R1, RK1).
-- **FR3 — Fail fast.** Parsing stops at the first row that cannot become a transaction and reports `{line}: {reason}`, where `line` is the row's physical line number in the file and `reason` is one fixed text per kind of error (R2).
-- **FR4 — Known reason texts.**
-  - more than two decimals: `amount '12.345' has more than 2 decimal places` (story criterion 2);
-  - unknown currency: `unknown currency 'usd'` (story criterion 4) — so currency codes are case-sensitive, and the known set is ILS, USD, EUR (Epic PRD, R4);
-  - duplicate id: a reason that names the line of the first occurrence (story criterion 3) — exact wording **not yet fixed** (Q1).
-- **FR5 — Two entry points.** The same rules apply whether the ledger comes from a file (`parse_csv`) or from lines already in memory (`parse_lines`) (story context).
-
-Proposed, awaiting the developer's confirmation (Q1–Q3 in section 8) — not yet requirements:
-
-| Kind of error | Proposed reason text | Line reported |
+| Kind of error | Reason text | Line reported |
 | --- | --- | --- |
 | Empty file (no header) | `missing header` | 1 |
-| Header lacks a required column | `missing column 'date'` (first missing, in the order id, date, amount, currency, category, memo) | header line |
+| Header lacks a required column | `missing column 'date'` (the first missing, in the order id, date, amount, currency, category, memo) | header line |
 | Header names a column twice | `duplicate column 'amount'` | header line |
-| Row has a different number of fields than the header | `expected 6 fields, got 5` | the row |
-| Empty id, date, amount, currency or category | `missing id` (field name) | the row |
+| Row has a different number of fields than the header | `expected 6 fields, got 5` (the header's field count, then the row's) | the row |
+| Empty id, date, amount, currency or category | `missing id` (the field's name; the first empty one, in the order id, date, amount, currency, category) | the row |
 | Date not a real calendar date in `YYYY-MM-DD` | `invalid date '2026-02-30'` | the row |
 | Amount not a plain decimal number | `invalid amount '1,200.00'` | the row |
 | Amount with more than two decimals | `amount '12.345' has more than 2 decimal places` | the row |
 | Currency not exactly ILS, USD or EUR | `unknown currency 'usd'` | the row |
 | Id already used | `duplicate id 'T-7' (first seen on line 4)` | the row |
 
-Proposed value rules: a negative amount is an expense and a positive one income (needed by PLAY3-3's income/expense split); zero is accepted; no thousands separators or currency symbols; memo may be empty; extra header columns are ignored; surrounding spaces in a value are kept as-is (so `" 12.00"` is an invalid amount); a header-only ledger is valid and yields no transactions; for a quoted value spanning several lines, the reported line is the line where the row starts.
+- **FR6 — Line numbers.** The line is the physical line in the file, counting the header, blank lines and the BOM-carrying first line as an editor does; for a row whose quoted value spans several lines, it is the line where the row starts.
+- **FR7 — Two entry points.** The same rules and texts apply whether the ledger comes from a file (`parse_csv`) or from lines already in memory (`parse_lines`) (story context).
 
 ## 4. User Experience & Behavior
 
@@ -73,6 +73,13 @@ Proposed value rules: a negative amount is an expense and a positive one income 
 2. Scenario 2 — Error: too many decimals. Given row 17 holds the amount `12.345`, When the ledger is parsed, Then parsing stops with line 17 and the reason "amount '12.345' has more than 2 decimal places".
 3. Scenario 3 — Error: duplicate id. Given an id repeats on line 9 after line 4, When the ledger is parsed, Then parsing stops with line 9 and a reason naming line 4.
 4. Scenario 4 — Error: unknown currency. Given a row with the currency `usd`, When the ledger is parsed, Then parsing stops at that row with the reason "unknown currency 'usd'".
+5. Scenario 5 — Error: duplicate id text. Given the id `T-7` on line 4 and again on line 9, When the ledger is parsed, Then parsing stops with line 9 and the reason "duplicate id 'T-7' (first seen on line 4)".
+6. Scenario 6 — Error: header. Given an empty file, a header without `date`, or a header naming `amount` twice, When the ledger is parsed, Then parsing stops with, respectively, line 1 and "missing header", the header line and "missing column 'date'", or the header line and "duplicate column 'amount'".
+7. Scenario 7 — Error: row values. Given a row with 5 fields under a 6-column header, an empty id, the date `2026-02-30`, or the amount `1,200.00`, When the ledger is parsed, Then parsing stops at that row with, respectively, "expected 6 fields, got 5", "missing id", "invalid date '2026-02-30'" or "invalid amount '1,200.00'".
+8. Scenario 8 — Boundary: accepted values. Given a header with an extra column, rows with a negative, a positive and a zero amount, and a row with an empty memo, When the ledger is parsed, Then every row becomes a transaction with its amount's sign kept and the extra column ignored.
+9. Scenario 9 — Boundary: header only. Given a ledger holding only its header, When it is parsed, Then it yields no transactions and no error.
+10. Scenario 10 — Boundary: untrimmed value. Given a row whose amount is `" 12.00"`, When the ledger is parsed, Then parsing stops at that row with the reason "invalid amount ' 12.00'".
+11. Scenario 11 — Boundary: multi-line row. Given a row starting on line 5 whose quoted memo spans lines 5–6 and which holds an invalid amount, When the ledger is parsed, Then parsing stops with line 5.
 
 ## 6. Dependencies & Constraints (product-level)
 
@@ -87,6 +94,6 @@ The module layout, the exact signatures of `parse_csv` / `parse_lines`, the fiel
 
 ## 8. Open Questions
 
-- **Q1 (blocking) — the reason-text catalogue.** R2 requires one fixed reason per kind of error, and PLAY3-4 prints it verbatim, but the story fixes only two texts and leaves the duplicate-id text open. Are the kinds of error and texts in section 3's proposed table the full catalogue? *Recommendation:* adopt the table as written.
-- **Q2 (blocking) — what a valid value is.** Date format (`YYYY-MM-DD`, real calendar date), amount format (sign means income/expense, zero allowed, no thousands separators), and which fields may be empty (memo only). *Recommendation:* the proposed value rules in section 3.
-- **Q3 (blocking) — header and edge cases.** Extra header columns (ignored), a duplicated header column (error), an empty file (error `missing header`), a header-only file (valid, no transactions), spaces around values (kept, so they fail validation), and the line reported for a multi-line quoted row (where it starts). *Recommendation:* as proposed in section 3.
+No blocking question remains: the reason-text catalogue, the value rules and the header/edge-case rules were accepted by the developer as proposed.
+
+- **Assumption — which error a row with several faults reports.** When one row breaks more than one rule, the report names one of them. The spec fixes the order only for empty fields (id, date, amount, currency, category) and for missing header columns; the order among the other checks (field count, date, amount, decimals, currency, duplicate id) is left to STRUCTURE, provided it is fixed and documented. Risk: low — the developer still gets the right line, and fixing the row surfaces the next fault.
