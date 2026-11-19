@@ -1,6 +1,6 @@
 # Feature Specification Document — SCRUM-30: Monthly expense report from a CSV ledger
 
-> Status: **in-progress intake draft (NOT_READY)** — one blocking question is open (§8).
+> Status: **READY_FOR_SPEC** — the developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading is taken and recorded as an assumption (§8).
 
 ## 1. Feature Overview
 
@@ -17,9 +17,7 @@
 ## 2. Goals & Non-Goals
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
-
-> ⚠️ The last sentence collides with the repository's pull-request gate, which requires every PR to add a line to the existing `CHANGELOG.md` — see §6 and the blocking question in §8. The row is copied as published until that is settled.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository other than one new line under `## Unreleased` in `CHANGELOG.md`.
 
 ### Goals
 - G1 — Parse a UTF-8 CSV ledger (header-named columns in any order, BOM and blank lines tolerated) into typed, immutable transactions in file order (R1).
@@ -34,7 +32,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - Persistent configuration (config files, saved defaults).
 - Charts or any graphical output.
 - Any third-party dependency (stdlib only, no new entry in `pyproject.toml` dependencies).
-- Changes to any existing file of the repository (pending the `CHANGELOG.md` question in §8).
+- Changes to any existing file of the repository, other than one new line under `## Unreleased` in `CHANGELOG.md`, which the repository's PR gate requires (assumption A1, §8).
 - Reports over ranges other than one calendar month (multi-month, year, custom periods).
 - Editing or writing ledgers; the package only reads them.
 
@@ -119,6 +117,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 23. Scenario 23 — Error: data. When the FILE has a bad row (`tests/fixtures/ledger/bad_amount.csv`, whose third line carries the amount `-2.505`), Then the process exits 3, prints nothing on stdout and stderr is exactly `error: {FILE}:3: amount '-2.505' has more than 2 decimal places` followed by a newline, FILE being the path as given on the command line.
 24. Scenario 24 — Happy path: help. When `python -m ledger report --help` runs, Then it exits 0 and stdout documents `--month`.
 25. Scenario 25 — Edge: the tests run the real entry point. Given `tests/test_ledger_cli.py`, When it drives the command, Then it does so through `subprocess` with `[sys.executable, "-m", "ledger", ...]`, relying on the installed package and on no `sys.path` manipulation.
+26. Scenario 26 — Regression / scope boundary: existing behaviour is untouched. Given the pull request that delivers the story, When its diff and the test gate are inspected, Then the existing test suite passes unchanged, and no existing file of the repository is modified other than one new line added under `## Unreleased` in `CHANGELOG.md`.
 
 ## 6. Dependencies & Constraints (product-level)
 
@@ -126,9 +125,9 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 - **Repository PR gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`), applied mechanically to every PR:**
   - Rule 1 — Python source under `src/`, tests under `tests/`: the story complies.
   - Rule 3 — no file over 200 KB: fixtures are small; complies.
-  - **Rule 4 — the PR must add a line under `## Unreleased` in `CHANGELOG.md`, else a `PLAY-G4` blocker.** `CHANGELOG.md` already exists, so this **collides with the story's out-of-scope "changes to any existing file of the repository"**. No exemption from the gate can be granted; the story's scope or the gate rule must change (blocking question Q1).
+  - **Rule 4 — the PR must add a line under `## Unreleased` in `CHANGELOG.md`, else a `PLAY-G4` blocker.** `CHANGELOG.md` already exists, so this **collides with the story's out-of-scope "changes to any existing file of the repository"**. No exemption from the gate can be granted, so the story's exclusion is narrowed to allow exactly that one line (assumption A1, §8; Scenario 26).
 - **Glossary (`.factory/plugins/claims-dev/skills/glossary`)** applies to invoices/claims code; the ledger is not invoices, so its terms (`net`, `month`) stay as the story states. "Billing period … `YYYY-MM`" happens to match the month format.
-- **Story template conformance (Harel `stories-he`).** The story has happy paths, boundaries, edges and errors, but no *regression* or *scope-boundary* scenario that says what must not change (the existing suite, existing files). The Definition of Ready requires one; Q1's answer supplies it.
+- **Story template conformance (Harel `stories-he`).** The story has happy paths, boundaries, edges and errors, but no *regression* or *scope-boundary* scenario that says what must not change (the existing suite, existing files). The Definition of Ready requires one; Scenario 26, added with assumption A1, supplies it.
 - **Language.** The story was published in English; this spec keeps it in English so its acceptance criteria stay word for word.
 - Python ≥ 3.10 (`requires-python`), stdlib only.
 
@@ -138,15 +137,16 @@ Module layout inside `src/ledger/`, the CSV-reading approach, how line numbers a
 
 ## 8. Open Questions
 
-**Q1 (P0, blocking) — `CHANGELOG.md` vs "no changes to any existing file".** The repository gate requires every PR to add a line under `## Unreleased` in the existing `CHANGELOG.md` (rule PLAY-G4); the story forbids changing any existing file. Options: **(a)** narrow the exclusion to "changes to any existing file other than one new line under `## Unreleased` in `CHANGELOG.md`", and add a regression criterion: *the existing test suite passes unchanged, and the PR modifies no existing file other than that `CHANGELOG.md` line*; **(b)** keep the story as is and first change the gate rule in the repository (a separate change). *Recommendation: (a)* — it is the only option this story can deliver on its own, every recent PR (PLAY-156/172/175) follows it, and it also gives the story the regression scenario the Definition of Ready requires.
+No blocking question remains. The developer ruled that the story text and its acceptance criteria are the whole requirement and that, where they are silent, the simplest reading is taken and recorded here. Each assumption below is that reading; the risk it carries is noted.
 
-**Q2 (P1) — which reason when one row has several problems?** Proposed working assumption: field count is checked first, then fields in canonical order `id, date, amount, currency, category, memo`, then duplicate id; the first failure is reported. *Recommendation:* accept this order — it is deterministic and matches the canonical column order the story already uses for missing columns.
+**Assumptions adopted at intake**
+- **A1 — `CHANGELOG.md` line.** The repository's PR gate (rule PLAY-G4, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`) blocks any PR that does not add a line under `## Unreleased` in `CHANGELOG.md`, and no exemption can be granted. The simplest reading that lets the story ship is to narrow the out-of-scope exclusion to "any existing file other than that one `CHANGELOG.md` line" (Story context updated accordingly) and to add Scenario 26 as the regression / scope-boundary criterion the story template's Definition of Ready requires. *Risk:* if the product owner meant the exclusion literally, the gate rule must change in the repository first, as a separate change.
+- **A2 — one row with several problems.** The field count is checked first, then the fields in canonical order `id, date, amount, currency, category, memo`, then the duplicate id; the first failure is reported. *Risk:* low — only which reason is shown for a multiply-broken row.
+- **A3 — amount notation.** An amount in exponent form (`1e3`) is rejected as `amount '1e3' is not a number`; a leading `+` is accepted. *Risk:* low — such ledgers are unusual.
+- **A4 — a FILE that is not valid UTF-8** exits 2 (it cannot be read, like an unopenable file), with a message on stderr and nothing on stdout. *Risk:* a user might expect exit 3; no line number can be given for the exit-3 format.
+- **A5 — `expected N fields, got M`:** N is the header's field count (6 for the canonical header; more when extra columns are present).
+- **A6 —** header names are matched after trimming, case-sensitively; ids and category names are compared after trimming, case-sensitively.
+- **A7 —** a file holding only a BOM and/or blank lines is reported as `LedgerError(1, "missing header")`, like a zero-byte file.
+- **A8 —** the sample fixture's per-row content is STRUCTURE's to author, constrained by Scenarios 1, 9, 10, 16 and 20.
 
-**Q3 (P1) — non-decimal-notation amounts and a non-UTF-8 file.** (i) Is an amount in exponent form (`1e3`) or with a leading `+` accepted? *Recommendation:* reject exponent form as `amount '1e3' is not a number` (a ledger amount is plain decimal text) and accept a leading `+`. (ii) A FILE that is not valid UTF-8: exit 2 (cannot be read, like an unopenable file) or exit 3 (bad data)? *Recommendation:* exit 2, since no reliable line number can be given for `error: {FILE}:{line}: …` and it is the same "cannot be read" situation as an unopenable file.
-
-**Working assumptions (not blocking, recorded for STRUCTURE):**
-- `expected N fields, got M`: N is the header's field count (6 in the canonical file; more when extra columns are present).
-- Header names are matched after trimming, case-sensitively; ids are compared after trimming, case-sensitively.
-- A file holding only a BOM and/or blank lines is reported as `LedgerError(1, "missing header")`, like a zero-byte file.
-- Category names are grouped exactly as written after trimming (case-sensitive).
-- The sample fixture's per-row content is STRUCTURE's to author, constrained by Scenarios 1, 9, 10, 16 and 20.
+**Not verified.** The epic's PRD, User Story Backlog and Confluence research were not available to this intake; the story was read as published.
