@@ -1,4 +1,4 @@
-# Feature Specification — Hello world bash script in a dedicated folder (DRAFT, not ready)
+# Feature Specification — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
 
@@ -6,7 +6,7 @@
 - **Problem:** developers want a verified, runnable starting point for shell scripting that does not clutter existing directories.
 - **Actor:** a developer working in the play1 repository.
 
-> **Intake finding — the deliverable already exists on `main`.** `hello-world/hello.sh` is on `main` (commit `65938b5`, "WI-220A63-1: Add hello-world bash script in dedicated folder"), mode `100755`, content `#!/bin/bash` / `echo "hello world"`, and it is the only file in the folder. Running it prints `hello world` followed by one newline and exits 0. `tests/test_hello_sh.py` already checks the output, shebang, executable bit and folder contents. As written, every acceptance criterion below is already met (subject to Q2), so this story would produce no change. See §8, Q1.
+> **Existing state.** `hello-world/hello.sh` is already on `main` (commit `65938b5`): mode `100755`, content `#!/bin/bash` / `echo "hello world"`, the only file in the folder. Running it prints `hello world` plus one newline and exits 0, and `tests/test_hello_sh.py` already checks the output, shebang, executable bit and folder contents. Per the developer's instruction (the story text and its criteria are the whole requirement; where silent, take the simplest reading), this story is delivered as a verification of that state: the script and folder are kept as they are (changed only if a criterion is found unmet), and the pull request carries the `CHANGELOG.md` line the repository gate requires. See assumptions A1–A3 in §8.
 
 ## 2. Goals & Non-Goals
 
@@ -21,14 +21,15 @@ This is the only story of the epic. The script lives in a new folder named `hell
 ### Non-Goals
 - Additional scripts.
 - CI/CD integration.
-- Documentation files (README etc.). Whether the repository's mandatory `CHANGELOG.md` entry counts as one is open (Q3).
+- Documentation files (README etc.) inside `hello-world/` or added for this script. The repository-wide `CHANGELOG.md` line the gate requires is not counted as one (assumption A3).
+- A regression or scope-boundary acceptance criterion beyond the story's four (the story does not state one; A4).
 
 ## 3. Functional Requirements
 
 - **FR1** — Running `./hello-world/hello.sh` from the repository root prints "hello world" to standard output and exits with code 0. No input, no arguments.
 - **FR2** — The script runs directly (shebang `#!/bin/bash` plus executable permission) without being invoked as `bash hello.sh`.
 - **FR3** — The `hello-world` folder holds only `hello.sh`.
-- **FR4** — Output is the lowercase string "hello world", no leading or trailing whitespace, no extra lines. Whether the single line terminator after it is allowed is open (Q2).
+- **FR4** — Output is the lowercase string "hello world", no leading or trailing whitespace, no extra lines. The single newline that terminates the line is allowed and is the only character after the text (assumption A2).
 
 ## 4. User Experience & Behavior
 
@@ -47,7 +48,7 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **Existing state:** `hello-world/hello.sh` and `tests/test_hello_sh.py` are already on `main` (see §1). The tests assert stdout is exactly `"hello world\n"`.
 - **Repository gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`):** rule 2 requires a new shell script to be executable and start with a shebang, which the story already requires. Rule 4 (`PLAY-G4`) blocks any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md`. Every delivery must therefore touch `CHANGELOG.md`, and no exemption is possible.
 - **Test gate (`.factory/testing.md`, `.github/workflows/ci.yml`):** `pytest` must pass and no `CI_FAIL` file may exist at the root.
-- The story has no template-format story block (Harel story template); its criteria are Given/When/Then, cover the happy path, and include an edge case. The template also asks for a regression or scope-boundary scenario, which is missing (Q4).
+- The story has no template-format story block (Harel story template); its criteria are Given/When/Then, cover the happy path, and include an edge case. The template's regression/scope-boundary scenario is not added, because the story does not state one (A4).
 
 ## 7. Technical Design (deferred to STRUCTURE)
 
@@ -55,7 +56,9 @@ Not designed here. STRUCTURE decides how the script is written and tested, and w
 
 ## 8. Open Questions
 
-- **Q1 (P0)** — The script already exists on `main` and already meets the criteria. What should this story deliver? (a) Close it as already done, with no pull request. (b) Treat it as a verification story: the pull request only adds the `CHANGELOG.md` line the gate needs, and the existing tests are the evidence. (c) Something else is meant to change, which you need to name. Recommendation: (a), because the "new folder" the context describes already exists and a change-free story has no honest pull request. Pick (b) if the platform needs a merged pull request to close the story.
-- **Q2 (P0)** — Does "no trailing whitespace / no additional lines" allow the single newline that ends the line? Today the script outputs `hello world\n`, and the existing tests require exactly that. Recommendation: allow exactly one terminating newline, because that is standard for terminal output and is what `main` and its tests already do. Answer "no newline at all" only if a byte-exact consumer needs it, since that would change both the script and the tests.
-- **Q3 (P0)** — The repository gate requires a `CHANGELOG.md` line on every pull request, but the story puts documentation files out of scope. Does the out-of-scope rule mean only documentation inside `hello-world/` (so the CHANGELOG line is allowed)? Recommendation: yes. `CHANGELOG.md` is at the root, outside the folder, and the gate cannot be waived. The other option is to change the gate in the repository first.
-- **Q4 (P1)** — The Harel story template asks for at least one regression or scope-boundary scenario. Proposed addition: "Scenario 5 — Scope boundary: no other repository behaviour changes. Given the change is applied, When the existing test suite runs, Then all existing tests still pass, and no file outside `hello-world/` changes except the `CHANGELOG.md` entry." Do you accept it?
+No open product questions. The developer instructed that the story text and its acceptance criteria are the whole requirement and that silent points take the simplest reading, recorded here as assumptions:
+
+- **A1 — Deliverable.** The script already exists on `main` and meets the criteria. The story is delivered as a verification pull request: `hello-world/hello.sh` stays as it is unless a criterion is found unmet, and the pull request adds the `CHANGELOG.md` line the gate requires, with the existing tests as evidence. *Risk:* the pull request contains no functional change; if the story was meant to change something else, that is not captured.
+- **A2 — Trailing newline.** "No trailing whitespace and no additional lines" (Scenario 4) is read as allowing the one newline that terminates the single output line, so the output is exactly `hello world\n`. This matches the script and tests on `main`. *Risk:* a consumer that needs the output byte-exact with no newline would not be satisfied.
+- **A3 — CHANGELOG.** The story's "documentation files" exclusion is read as covering documentation for the script/folder, not the root `CHANGELOG.md` line that gate `PLAY-G4` requires on every pull request (the gate cannot be waived). *Risk:* none to the product; the pull request touches one file outside `hello-world/`.
+- **A4 — No extra criterion.** The Harel template's regression/scope-boundary scenario is not added; the four criteria are the story's, unchanged. *Risk:* scope creep outside `hello-world/` is guarded only by review and the existing test gate, not by a named criterion.
