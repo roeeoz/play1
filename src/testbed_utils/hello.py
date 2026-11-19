@@ -6,7 +6,7 @@ import argparse
 import sys
 
 # Keep at or under 76 characters so argparse prints it on one line at 80 columns.
-_DESCRIPTION = "Print a greeting for an optional name to standard output."
+_DESCRIPTION = "Print a greeting, by name or to the world, to standard output."
 
 
 def hello_world(name: str | None = None) -> str:
