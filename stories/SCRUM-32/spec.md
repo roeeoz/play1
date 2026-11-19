@@ -1,6 +1,6 @@
 # Feature Specification Document — Monthly expense report from a CSV ledger (SCRUM-32)
 
-> Status: draft — PARTIALLY_READY. One blocking question is open (§8, Q1).
+> Status: draft — PARTIALLY_READY. One blocking question is open (§8, Q1: the story's scope collides with the repository's changelog gate). Points where the story is silent are recorded as assumptions A1–A3 (§8).
 
 ## 1. Feature Overview
 
@@ -127,5 +127,10 @@ Module layout, the dataclass definitions, the CSV reader approach, argparse wiri
 ## 8. Open Questions (if any remain)
 
 - **Q1 (P0, blocking) — `CHANGELOG.md` vs. "no changes to existing files".** The play1 gate fails any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md` (rule `PLAY-G4`), but the story puts "changes to any existing file of the repository" out of scope. The gate cannot be waived. Options: (a) narrow the exclusion to "changes to any existing file except one added line under `## Unreleased` in `CHANGELOG.md`"; (b) keep the exclusion and change the gate rule in the repository first, in a separate change. **Recommendation: (a)** — it is the only option that lets this story's pull request pass the gate without prior repository work, and an appended changelog line does not alter any existing behaviour. An answer that the changelog must stay untouched would make (b) necessary.
-- **Q2 (P1) — a FILE that is not valid UTF-8.** The story names usage (exit 2) and data (exit 3) errors but not undecodable bytes. Recommendation: treat it like a file that cannot be opened — exit 2, nothing on stdout, a message on stderr — since a decode failure has no reliable line number to give.
-- **Q3 (P2, for STRUCTURE) — exponent amounts** such as `1E+2`: whether they count as "a decimal number". Assumed rejected as `amount '1E+2' is not a number` unless decided otherwise.
+  The developer's instruction (take the simplest reading where the story is silent) does not settle Q1: the story is not silent here, it explicitly excludes changes to existing files, and the gate explicitly requires one. No assumption can satisfy both, and a gate exemption cannot be recorded. Until it is answered, the risk is that the delivered pull request either breaks the story's stated scope (if it adds the changelog line) or fails the `PLAY-G4` blocker (if it does not). If the stage is approved as it stands, the working assumption is option (a).
+
+### Assumptions (simplest reading where the story is silent, per the developer's instruction)
+
+- **A1 — a FILE that is not valid UTF-8** (was Q2). Treated like a FILE that cannot be opened: exit 2, nothing on stdout, a message on stderr. The library raises no `LedgerError` for it (it has no reliable line number). Risk: low; not covered by any acceptance criterion.
+- **A2 — exponent amounts** such as `1E+2` (was Q3). "A decimal number" is read as plain decimal notation (optional sign, digits, optional point and digits); an exponent form is rejected as `amount '1E+2' is not a number`. Risk: low; a ledger using exponent notation would be rejected with a line-numbered error, never mis-totalled.
+- **A3 — `sample.csv` contents.** The story fixes only the totals; STRUCTURE authors rows that make Scenarios 1, 9, 10, 16, 19 and 20 hold together.
