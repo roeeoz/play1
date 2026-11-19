@@ -21,5 +21,6 @@ Write the verdict file named in your instructions as JSON:
 {"pass": true, "summary": "one line", "findings": []}
 ```
 
-Each broken rule is one finding: `{"id": "PLAY-G1", "severity": "blocker", "title": "...", "file": "path:line", "note": "..."}`.
+Each broken rule is one finding, its id `PLAY-G` plus the rule's number (rule 2 is
+`PLAY-G2`): `{"id": "PLAY-G2", "severity": "blocker", "title": "...", "file": "path:line", "note": "..."}`.
 `pass` is false when there is any blocker. Do not change any file.
