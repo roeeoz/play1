@@ -17,7 +17,20 @@ def hello_world() -> str:
     return "Hello, world!"
 
 
+# Greeting printed for each --lang choice; "en" is the default.
+_GREETINGS = {
+    "en": hello_world(),
+    "es": "Hola, world!",
+}
+
+
 def main():
     parser = argparse.ArgumentParser(prog="testbed-hello", description=_DESCRIPTION)
-    parser.parse_args()
-    print(hello_world())
+    parser.add_argument(
+        "--lang",
+        choices=list(_GREETINGS),
+        default="en",
+        help="greeting language (default: en)",
+    )
+    args = parser.parse_args()
+    print(_GREETINGS[args.lang])
