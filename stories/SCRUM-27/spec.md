@@ -1,8 +1,6 @@
-# Feature Specification Document — Hello world bash script in a dedicated folder (draft, NOT READY)
+# Feature Specification Document — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
-
-> **Status: in-progress intake draft — NOT READY.** See §8 for the blocking questions.
 
 - **What is being built:** a minimal hello-world bash script, `hello.sh`, in a dedicated `hello-world` folder of the play1 repository, which prints exactly "hello world" when run directly.
 - **Problem statement:** a developer wants a verified, runnable starting point for shell scripting that does not clutter existing directories.
@@ -14,7 +12,7 @@
 - `tests/test_hello_sh.py` already checks output, exit code, shebang, executable bit and folder isolation, and runs in the CI `pytest` gate.
 - It was delivered by an earlier story ("20261027-180550Z Hello world bash script in a dedicated folder", commits `65938b5`, `a2ec96d`, `9a5bd0b`).
 
-So what this story must change in the repository is not yet defined (see §8, Q1).
+**Assumption A1 (decided under the developer's instruction to take the simplest reading where the story is silent):** the story is treated as already met by what is on main. The delivery keeps `hello-world/hello.sh` as it is, confirms each acceptance criterion against it (the existing `tests/test_hello_sh.py` stays green), and adds the `CHANGELOG.md` line the repository gate requires for SCRUM-27. No second script or folder is created. *Risk:* if the story's author actually wanted a fresh or different artefact, this delivery adds no new code.
 
 ## 2. Goals & Non-Goals
 
@@ -37,7 +35,8 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **FR1 — Location:** a folder `hello-world` at the repository root holds a file `hello.sh`. (Already true on main.)
 - **FR2 — Isolation:** `hello.sh` is the only file in `hello-world`. (Already true on main.)
 - **FR3 — Direct execution:** the first line of `hello.sh` is `#!/bin/bash` and the file is executable, so `./hello-world/hello.sh` runs without invoking `bash`. (Already true on main.)
-- **FR4 — Output:** running the script writes exactly "hello world" (lowercase) to standard output, nothing to standard error, and exits 0. **Open:** whether the single trailing newline the script prints today counts as "no trailing whitespace" (Q2).
+- **FR4 — Output:** running the script writes exactly "hello world" (lowercase) to standard output, nothing to standard error, and exits 0. **Assumption A2:** "no trailing whitespace and no additional lines" (Scenario 4) means the output is the one line `hello world`; the single newline that terminates that line (as `echo` prints it today, and as `tests/test_hello_sh.py` asserts) is allowed. No extra blank line, spaces or second line. *Risk:* a consumer comparing raw bytes against the 11 characters `hello world` would see one extra newline.
+- **FR5 — Traceability:** the pull request records SCRUM-27 with one line under `## Unreleased` in `CHANGELOG.md`, as the repository gate requires of every pull request (Assumption A3).
 - **Inputs:** none (no arguments, no environment).
 - **Edge cases:** output exactness (Scenario 4); nothing else is in scope.
 
@@ -66,11 +65,8 @@ How the script and its checks are implemented is left to STRUCTURE. The only pro
 
 ## 8. Open Questions
 
-**Blocking (P0)**
+No blocking questions remain. The developer directed that where the story is silent the simplest reading be taken and recorded; these assumptions stand in for the earlier questions:
 
-- **Q1 — What should this story change, given the script already exists on main?** `hello-world/hello.sh` already meets Scenarios 1–3 and is covered by `tests/test_hello_sh.py`. Options: (a) treat the story as already delivered — the PR only verifies it and adds a `CHANGELOG.md` line recording SCRUM-27 (the gate requires one); (b) close the story without a PR; (c) re-create it somewhere new (a different folder name). Recommendation: (a) — it is the only option that still ends in a reviewable PR that passes the repo gate without duplicating code; pick (b) if no PR is wanted, or (c) only if a different folder name is actually intended.
-- **Q2 — Does "no trailing whitespace and no additional lines" (Scenario 4) allow the single newline that ends the line?** Today the script prints `hello world\n` and the existing test asserts exactly that. Options: (a) one terminating newline is allowed (the line is "hello world", nothing else); (b) no newline at all — the output is the 11 bytes `hello world`, which changes the script and the existing test. Recommendation: (a) — it is the standard shell behaviour, matches what is already shipped and tested, and keeps the terminal prompt on its own line; choose (b) only if a consumer compares raw bytes.
-
-**Important (P1)**
-
-- **Q3 — Is a `CHANGELOG.md` line acceptable despite "Out of scope: documentation files"?** The repository gate blocks any PR without one (PLAY-G4). Working assumption: yes — the exclusion covers new documentation files, not the mandatory changelog line.
+- **A1 — Story already delivered on main** (see §1): the delivery verifies the existing script and adds the SCRUM-27 changelog line; no new script or folder. Risk: no new code if a fresh artefact was intended.
+- **A2 — One terminating newline is allowed** in the output (see FR4). Risk: a byte-exact consumer would see `hello world\n`, not `hello world`.
+- **A3 — The `CHANGELOG.md` line is not a "documentation file"**: the story's exclusion covers new documentation files only; the line is mandatory under the repository gate (PLAY-G4) and is not an exemption the story can grant. Risk: none to the product behaviour.
