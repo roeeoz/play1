@@ -1,9 +1,8 @@
-# Feature Specification Document — Monthly expense report from a CSV ledger (DRAFT, not ready)
+# Feature Specification Document — Monthly expense report from a CSV ledger
 
-> Status: NOT_READY — one blocking question (Open Question Q1): the story's
-> "no changes to any existing file" boundary collides with the play1 pull-request
-> gate, which requires a `CHANGELOG.md` entry. Everything else below is taken from
-> the published story and is settled.
+> Status: READY_FOR_SPEC. The developer ruled that the story text and its
+> acceptance criteria are the whole requirement, and that where they are silent
+> the simplest reading is taken and recorded as an assumption (§8).
 
 ## 1. Feature Overview
 
@@ -19,7 +18,7 @@
 ## 2. Goals & Non-Goals
 ### Story context
 
-The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository.
+The story adds a new, stdlib-only Python package `ledger` under `src/` (src layout, discovered by the repository's manifest) with its tests under `tests/`, in three dependent work items: the model and CSV parser (t1), the monthly report (t2) and the command line (t3). A ledger is a UTF-8 CSV file with a header row naming the columns `id`, `date`, `amount`, `currency`, `category` and `memo`, in any order. Amounts are decimal numbers with at most two decimal places, positive for income and negative for expense. Currencies are ILS, USD or EUR, converted at fixed rates expressed in ILS per unit (ILS 1, USD 3.70, EUR 4.00), never fetched. Money is `decimal.Decimal` end to end; figures are rounded once, after summing, with `ROUND_HALF_EVEN`. Out of scope: other file formats, live exchange rates, persistent configuration, charts, any third-party dependency, changes to any existing file of the repository other than the one line under `## Unreleased` in `CHANGELOG.md` that the repository's pull-request gate requires.
 
 ### Goals
 - Parse a UTF-8 CSV ledger into ordered, validated transactions (R1, R2).
@@ -30,7 +29,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 ### Non-Goals
 - Other file formats; live or fetched exchange rates; persistent configuration; charts.
 - Any third-party dependency.
-- Changes to any existing file of the repository (see Q1 — collides with the PR gate).
+- Changes to any existing file of the repository, except the one line under `## Unreleased` in `CHANGELOG.md` that the PR gate requires (assumption A1).
 
 ## 3. Functional Requirements
 
@@ -81,7 +80,7 @@ The story adds a new, stdlib-only Python package `ledger` under `src/` (src layo
 ## 6. Dependencies & Constraints (product-level)
 
 - **Repository pre-conditions (verified):** `pyproject.toml` discovers packages under `src/` (`[tool.setuptools.packages.find] where = ["src"]`) and sets `testpaths = ["tests"]`; CI (`.github/workflows/ci.yml`, job `test`) runs `pip install -e ".[test]"` then `pytest` on Python 3.12; no `src/ledger/` and no `tests/test_ledger_*.py` exist. A new package under `src/` is picked up without editing `pyproject.toml`.
-- **PR gate (`.factory/plugins/claims-dev/skills/repo-gate`):** Python under `src/`, tests under `tests/`, no file > 200 KB, and **rule 4 / PLAY-G4: the PR must add a line under `## Unreleased` in `CHANGELOG.md`** — an existing file. This collides with the story's "no changes to any existing file" (Q1).
+- **PR gate (`.factory/plugins/claims-dev/skills/repo-gate`):** Python under `src/`, tests under `tests/`, no file > 200 KB, and **rule 4 / PLAY-G4: the PR must add a line under `## Unreleased` in `CHANGELOG.md`** — an existing file. Resolved by assumption A1: that one line is the only change to an existing file.
 - **Test gate (`.factory/testing.md`):** tests import only through the installed package — no `conftest.py`, no `sys.path` manipulation (matches criterion 25).
 - Stdlib only; no network; fixed rates.
 - The repository's claims glossary (invoice, credit note, billing period) applies to invoice/claims code and is not taken to rename this ledger's terms.
@@ -92,5 +91,8 @@ Module layout, class shapes beyond those the criteria name, how argparse maps er
 
 ## 8. Open Questions
 
-- **Q1 (P0, blocking) — CHANGELOG vs. "no changes to any existing file".** The play1 PR gate rule PLAY-G4 fails any pull request that does not add a line under `## Unreleased` in `CHANGELOG.md`, and that file already exists. Options: (a) narrow the story's boundary to "no changes to any existing file except one line under `## Unreleased` in `CHANGELOG.md`", and add a scope-boundary criterion: the PR touches no other existing file and the existing pytest suite still passes unchanged; (b) keep the boundary and change the gate rule in the repository first, in a separate change. Recommendation: (a) — it is the only option this story can deliver on its own, and the CHANGELOG line is documentation, not a behaviour change; the added criterion also gives the story the regression/scope-boundary scenario the Definition of Ready asks for.
-- **Q2 (P2) — Size label.** The story reads "M (≈5)"; on the story template's scale M is ≈3 points and L is ≈5. Working assumption: L (≈5 points); it does not change the scope.
+No open product question remains. Assumptions taken under the developer's ruling ("where the story is silent, take the simplest reading"):
+
+- **A1 — CHANGELOG line.** The play1 PR gate (rule PLAY-G4) fails any pull request that adds no line under `## Unreleased` in `CHANGELOG.md`, an existing file. The story's boundary is read as "no changes to any existing file except that one CHANGELOG line"; the story context above says so. No acceptance criterion is added for it, since the 25 criteria are the whole requirement; the gate itself checks the line. Risk: low — documentation only, no behaviour change.
+- **A2 — Size.** The story reads "M (≈5)"; on the story template's scale ≈5 points is L. Taken as L (≈5); scope is unchanged.
+- **A3 — Behaviour the criteria leave unstated** (e.g. the exact wording of usage messages on stderr, the text layout's trailing newline) is taken in its simplest form: argparse's own messages for usage errors, and each output line ending in a newline. Risk: low — no criterion depends on it.
