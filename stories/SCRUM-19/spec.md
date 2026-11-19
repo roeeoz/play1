@@ -1,6 +1,6 @@
 # Feature Specification Document — SCRUM-19: Monthly expense report from a CSV ledger
 
-> Status: full specification, PARTIALLY_READY — one blocking question (Q1, §8) is still unanswered; the document is written on the working assumption recorded there. Per the developer's instruction, points the story is silent on are settled by the simplest reading and recorded as assumptions (§8, A1–A2). The developer has twice repeated that instruction without choosing an option for Q1. Q1 is not a gap in the story: it is an explicit exclusion that a repository gate contradicts, so the "simplest reading" rule cannot settle it. It stays open, and approving this stage as it stands accepts working assumption (a).
+> Status: full specification, PARTIALLY_READY — one blocking question (Q1, §8) is still unanswered; the document is written on the working assumption recorded there. Per the developer's instruction, points the story is silent on are settled by the simplest reading and recorded as assumptions (§8, A1–A2). The developer has repeated that instruction three times without choosing an option for Q1. Q1 is not a gap in the story: it is an explicit exclusion that a repository gate contradicts, so the "simplest reading" rule cannot settle it. It stays open, and approving this stage as it stands accepts working assumption (a).
 
 ## 1. Feature Overview
 
