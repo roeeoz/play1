@@ -1,0 +1,10 @@
+{
+  "storyId": "579d50f0-6fef-468e-92c0-ac2c029412b8",
+  "storyKey": "PLAY-186",
+  "epicKey": "PLAY-185",
+  "title": "כלי הברכה פונה למשתמש בשמו, ובלי שם ממשיך לברך את העולם",
+  "decisionId": "bbe4574d-755e-4eb6-a417-aadd9d547b02",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-19T17:17:46Z",
+  "planHeadSha": "f13d559f3b5f7cc7a020b2cf43f36765fe6f47db"
+}
