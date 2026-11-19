@@ -1,0 +1,10 @@
+{
+  "storyId": "d2c61f19-cccd-46fa-bec4-05cee7013c2c",
+  "storyKey": "PLAY3-2",
+  "epicKey": "PLAY3-1",
+  "title": "Read and validate a CSV ledger",
+  "decisionId": "9a669f34-4cb8-48cc-a6c5-0f48719a5528",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-19T12:01:32Z",
+  "planHeadSha": "58d9cdc520ce73a24011ea478d63d2a38dd086aa"
+}
