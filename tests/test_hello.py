@@ -1,5 +1,7 @@
 import doctest
 
+import pytest
+
 import testbed_utils
 from testbed_utils import hello
 from testbed_utils.hello import hello_world
@@ -8,6 +10,20 @@ from testbed_utils.hello import hello_world
 class TestHelloWorld:
     def test_returns_greeting(self):
         assert hello_world() == "Hello, world!"
+
+    @pytest.mark.parametrize(
+        "name, expected",
+        [
+            ("Dana", "Hello, Dana!"),
+            (" dana ", "Hello, dana!"),
+            ("Dana Star", "Hello, Dana Star!"),
+            ("", "Hello, world!"),
+            ("   ", "Hello, world!"),
+            (None, "Hello, world!"),
+        ],
+    )
+    def test_greets_by_name(self, name, expected):
+        assert hello_world(name) == expected
 
     def test_exported_from_package_root(self):
         assert testbed_utils.hello_world is hello.hello_world

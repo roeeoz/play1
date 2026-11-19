@@ -30,22 +30,53 @@ class TestGreeting:
         assert stderr == ""
 
 
+class TestGreetingByName:
+    @pytest.mark.parametrize(
+        "args, expected",
+        [
+            (["Dana"], "Hello, Dana!\n"),
+            ([" dana "], "Hello, dana!\n"),
+            (["Dana Star"], "Hello, Dana Star!\n"),
+            ([""], GREETING),
+            ([" "], GREETING),
+            # RK2: a single bare word, rejected before, is now the name.
+            (["extra"], "Hello, extra!\n"),
+            (["--", "-x"], "Hello, -x!\n"),
+        ],
+    )
+    def test_prints_greeting_for_name(self, args, expected):
+        exit_code, stdout, stderr = run_main(args)
+        assert exit_code == 0
+        assert stdout == expected
+        assert stderr == ""
+
+
 class TestHelp:
-    def test_help(self):
-        exit_code, stdout, stderr = run_main(["--help"])
+    @pytest.mark.parametrize("arg", ["--help", "-h"])
+    def test_help(self, arg):
+        exit_code, stdout, stderr = run_main([arg])
         assert exit_code == 0
         assert stderr == ""
         assert "usage:" in stdout
         assert _DESCRIPTION in " ".join(stdout.split())
-        assert "Hello, world!" not in stdout
+        assert "name" in stdout
+        assert "Dana" in stdout
+        assert "Hello, " not in stdout
+
+    def test_summary_fits_one_line(self):
+        assert len(_DESCRIPTION) <= 76
+        assert "\n" not in _DESCRIPTION
 
 
 class TestBadOption:
-    @pytest.mark.parametrize("arg", ["--bogus", "-x", "extra"])
-    def test_unrecognized_option(self, arg):
-        exit_code, stdout, stderr = run_main([arg])
+    @pytest.mark.parametrize(
+        "args",
+        [["--bogus"], ["-x"], ["-1"], ["-"], ["Dana", "Star"]],
+    )
+    def test_unrecognized_option(self, args):
+        exit_code, stdout, stderr = run_main(args)
         assert exit_code == 2
         assert stdout == ""
         assert "usage:" in stderr
         assert "error" in stderr
-        assert "Hello, world!" not in stderr
+        assert "Hello, " not in stderr
