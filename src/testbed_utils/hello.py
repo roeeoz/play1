@@ -31,7 +31,11 @@ def hello_world(name: str | None = None) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="testbed-hello", description=_DESCRIPTION)
+    parser = argparse.ArgumentParser(
+        prog="testbed-hello",
+        description=_DESCRIPTION,
+        epilog="example: testbed-hello Dana",
+    )
     parser.add_argument(
         "name",
         nargs="?",
@@ -40,7 +44,13 @@ def main():
     argv = sys.argv[1:]
     args = parser.parse_args(argv)
     # argparse accepts "-1" or "-" as a positional; treat any dash-led name as an
-    # unknown option unless it follows the "--" separator.
-    if args.name is not None and args.name.startswith("-") and "--" not in argv:
+    # unknown option unless it follows the "--" separator. With one positional,
+    # the name came after "--" exactly when it is all that follows the separator.
+    after_separator = argv[argv.index("--") + 1 :] if "--" in argv else []
+    if (
+        args.name is not None
+        and args.name.startswith("-")
+        and after_separator != [args.name]
+    ):
         parser.error(f"unrecognized arguments: {args.name}")
     print(hello_world(args.name))

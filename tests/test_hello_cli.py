@@ -61,6 +61,7 @@ class TestHelp:
         assert _DESCRIPTION in " ".join(stdout.split())
         assert "name" in stdout
         assert "Dana" in stdout
+        assert "testbed-hello Dana" in stdout
         assert "Hello, " not in stdout
 
     def test_summary_fits_one_line(self):
@@ -71,7 +72,7 @@ class TestHelp:
 class TestBadOption:
     @pytest.mark.parametrize(
         "args",
-        [["--bogus"], ["-x"], ["-1"], ["-"], ["Dana", "Star"]],
+        [["--bogus"], ["-x"], ["-1"], ["-"], ["-1", "--"], ["Dana", "Star"]],
     )
     def test_unrecognized_option(self, args):
         exit_code, stdout, stderr = run_main(args)
