@@ -1,0 +1,10 @@
+{
+  "storyId": "bc6207cd-f3d3-48bd-9bcd-502e2c68f4a2",
+  "storyKey": "FIPSPROBE-2",
+  "epicKey": "FIPSPROBE-1",
+  "title": "Read and validate a CSV ledger",
+  "decisionId": "4fd913d2-426b-4d6c-bf37-69dbb435d064",
+  "actor": "Service",
+  "approvedAt": "2026-11-18T10:24:35Z",
+  "planHeadSha": "91474eb3a5a2735f36813dbd6c038ac666354f6e"
+}
