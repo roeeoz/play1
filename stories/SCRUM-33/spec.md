@@ -1,8 +1,8 @@
-# Feature Specification Document — Hello world bash script in a dedicated folder (DRAFT, not ready)
+# Feature Specification Document — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
 
-**Status: in-progress intake draft (NOT_READY).** Two blocking questions in §8 must be answered before this becomes the final specification.
+**Status: final specification (READY_FOR_SPEC).** The developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading applies and is recorded as an assumption. The two earlier open questions are settled that way in §8 (assumptions A1 and A2).
 
 - **What is being built:** a hello-world bash script, `hello.sh`, in its own folder `hello-world/` at the repository root. Running it prints exactly "hello world".
 - **Problem statement:** a developer in this repository wants a verified, runnable starting point for shell scripting that does not clutter existing directories.
@@ -14,7 +14,7 @@
 - `hello-world/` contains only `hello.sh`.
 - `tests/test_hello_sh.py` (commits a2ec96d and 9a5bd0b, from an earlier run of a story with the same title) already checks each scenario in §5. It covers the output and exit code, the absence of stderr output, the shebang line, the executable bit, and that the folder holds only this one file. CI's `test` job runs it on every pull request.
 
-So the story's outcome is already met on `main`. The open question is what this story should still change (§8, Q1).
+So the story's outcome is already met on `main`. Under assumption A1 (§8), this story keeps the existing script and test as they are and changes nothing in `hello-world/`. Its only change is the `CHANGELOG.md` line the repository gate requires on every pull request.
 
 ## 2. Goals & Non-Goals
 ### Story context
@@ -36,7 +36,8 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **FR2:** `hello.sh` starts with the shebang line `#!/bin/bash` and has executable permissions.
 - **FR3:** Running `./hello-world/hello.sh` writes exactly `hello world` (lowercase) to standard output and exits with code 0. It needs no input or arguments.
 - **FR4:** `hello-world/` contains no file other than `hello.sh`.
-- **Edge case, output exactness:** no leading or trailing whitespace and no additional lines. Whether the single terminating newline counts as allowed is open (§8, Q2).
+- **FR5 (delivery, per A1):** these requirements are already met on `main` and stay met. The story does not rewrite, rename or move `hello-world/hello.sh` or `tests/test_hello_sh.py`. Its pull request adds one line under `## Unreleased` in `CHANGELOG.md` that records SCRUM-33 as delivered by the existing `hello-world/hello.sh`.
+- **Edge case, output exactness:** no leading or trailing whitespace and no additional lines. Per A2, the output is the single line `hello world` ended by one newline (`hello world\n`). The terminating newline is not trailing whitespace or an additional line.
 
 ## 4. User Experience & Behavior
 
@@ -56,7 +57,7 @@ This is the only story of the epic. The script lives in a new folder named `hell
 - **Repository gate:** the play1 layout gate (`.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`) runs on every pull request.
   - Rule 2 requires a new shell script to be executable and to start with a shebang. The story already requires both.
   - Rule 4 requires every pull request to add a line under `## Unreleased` in `CHANGELOG.md`. Otherwise the gate raises blocker `PLAY-G4`.
-  - The story lists "documentation files" as out of scope. I read that as files inside `hello-world/`, not the repository-wide changelog. If that reading holds, any pull request from this story must still add a changelog line. This rule cannot be waived per story.
+  - The story lists "documentation files" as out of scope. Per assumption A3, that means files inside `hello-world/`, not the repository-wide changelog. The pull request from this story therefore adds a changelog line. This rule cannot be waived per story.
 - **Test gate:** `pytest` (`.factory/testing.md`, CI `test` job). `tests/test_hello_sh.py` already covers this behaviour, so any change to the script's output must keep that test passing, or update it.
 - **Depends on:** nothing. Pre-conditions: none. Blockers: none.
 
@@ -66,13 +67,12 @@ Deferred to STRUCTURE. The product imposes no technical constraint beyond §3 an
 
 ## 8. Open Questions (if any remain)
 
-- **Q1 (P0, blocking):** what should this story deliver, given that its whole outcome is already on `main`?
-  - Already present: `hello-world/hello.sh`, executable with the `#!/bin/bash` shebang, printing "hello world" and exiting with 0, alone in its folder, and covered by `tests/test_hello_sh.py`.
-  - Option (a): close the story as already delivered, with no pull request.
-  - Option (b): open a verification-only pull request. Its only change would be the required `CHANGELOG.md` line, recording that SCRUM-33 is satisfied by the existing script.
-  - Option (c): rewrite the script anyway. This gives the same observable result.
-  - **Recommendation: (a).** Every acceptance criterion already holds and is enforced in CI, so a pull request would add no product change. I would pick (b) if you need a merged pull request for SCRUM-33's traceability.
-- **Q2 (P0, blocking):** Scenario 4 says "no trailing whitespace and no additional lines". Does the single newline that ends the output line count as allowed?
-  - The existing script prints `hello world\n`, and `tests/test_hello_sh.py` asserts exactly that.
-  - **Recommendation: yes, allow it.** It terminates the one line rather than adding a line. It is how shell output is normally captured, and it keeps the existing script and test valid.
-  - If you answer no, the script and its test must change to print `hello world` with no newline.
+The developer ruled that the story text and its acceptance criteria are the whole requirement, and that where they are silent the simplest reading applies. The points the story leaves open are settled as these assumptions:
+
+- **A1 — What the story delivers.** The outcome is already on `main`, so the simplest reading is to keep it: no rewrite of `hello-world/hello.sh` or `tests/test_hello_sh.py`. The pull request adds only the `CHANGELOG.md` line the repository gate requires (§6), recording SCRUM-33 as delivered by the existing script.
+  - *Risk:* the pull request carries no product change. If SCRUM-33 was meant to produce new code, or to be closed with no pull request, this is the wrong delivery. A human reviews the pull request before merge and can close it instead.
+- **A2 — Terminating newline.** "Exactly 'hello world' … no trailing whitespace and no additional lines" allows the single newline that ends the line. The output is `hello world\n`, as the existing script prints and `tests/test_hello_sh.py` asserts.
+  - *Risk:* if a consumer compares the raw bytes to `hello world` with no newline, it fails. Command substitution (`$(./hello-world/hello.sh)`) strips the newline and gives exactly `hello world`.
+- **A3 — "Documentation files" out of scope.** This means no documentation files in `hello-world/` (Scenario 2 keeps `hello.sh` the folder's only file). It does not exempt the pull request from the repository's changelog rule, which cannot be waived per story.
+
+No product question remains open.
