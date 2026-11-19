@@ -1,0 +1,9 @@
+{
+  "storyId": "a3b58d74-74f7-4f98-993a-0faac72f2c8b",
+  "storyKey": "EG1-1",
+  "title": "e2e-gate-1 hello greets by name",
+  "decisionId": "fa0f0b61-a33b-448b-ac6a-d9db08322e60",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-19T14:02:14Z",
+  "planHeadSha": "c8dda7568a9ff19292c12fd4cc35bbbaceb7b89e"
+}
