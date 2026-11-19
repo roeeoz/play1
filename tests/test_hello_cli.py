@@ -49,3 +49,41 @@ class TestBadOption:
         assert "usage:" in stderr
         assert "error" in stderr
         assert "Hello, world!" not in stderr
+
+
+class TestName:
+    @pytest.mark.parametrize(
+        "args, expected",
+        [
+            (["--name", "Alice"], "Hello, Alice!\n"),
+            (["--name=Alice"], "Hello, Alice!\n"),
+            (["--name", "Ada Lovelace"], "Hello, Ada Lovelace!\n"),
+            (["--name", ""], "Hello, !\n"),
+            (["--name", "A", "--name", "B"], "Hello, B!\n"),
+        ],
+    )
+    def test_greets_by_name(self, args, expected):
+        exit_code, stdout, stderr = run_main(args)
+        assert exit_code == 0
+        assert stdout == expected
+        assert stderr == ""
+
+    def test_without_name_greets_world(self):
+        exit_code, stdout, stderr = run_main([])
+        assert exit_code == 0
+        assert stdout == GREETING
+        assert stderr == ""
+
+    def test_name_without_value_is_usage_error(self):
+        exit_code, stdout, stderr = run_main(["--name"])
+        assert exit_code == 2
+        assert stdout == ""
+        assert "usage:" in stderr
+        assert "error" in stderr
+
+    def test_help_lists_name_option(self):
+        exit_code, stdout, stderr = run_main(["--help"])
+        assert exit_code == 0
+        assert stderr == ""
+        assert "--name NAME" in stdout
+        assert "Hello, world!" not in stdout
