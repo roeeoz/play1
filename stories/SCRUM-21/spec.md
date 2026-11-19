@@ -1,10 +1,11 @@
-# Feature Specification Document — Hello world bash script in a dedicated folder (draft, NOT READY)
+# Feature Specification Document — Hello world bash script in a dedicated folder
 
 ## 1. Feature Overview
 
-> **Intake status: NOT READY.** The repository already contains what this story
-> asks for (see §6 and §8). What this story should change has to be settled
-> before the specification can be final.
+> **Intake status: READY.** The repository already contains what this story asks
+> for (see §6). Per the developer's instruction to take the simplest reading where
+> the story is silent, this story's delivery keeps that script as it is and
+> verifies it against the four criteria (assumptions A1–A2 in §8).
 
 - **What is being built:** a minimal bash script, `hello-world/hello.sh`, in its
   own folder, that prints exactly `hello world` to standard output when run directly.
@@ -15,7 +16,7 @@
   dedicated folder in the repository, so that I have a verified, runnable starting
   point for shell scripting without cluttering existing directories.
 - **Traceability:** R1, R2, R3, R4 · steps 1–4 · RK1. Priority: Must. Size: XS (≈1).
-  Pre-conditions: none. Blockers: none listed in the story (one found at intake, see §8).
+  Pre-conditions: none. Blockers: none.
 
 ## 2. Goals & Non-Goals
 
@@ -46,9 +47,13 @@ This is the only story of the epic. The script lives in a new folder named `hell
   (no arguments or environment are read).
 - **FR5 — Output exactness (edge case).** The output has no leading
   whitespace, no extra lines, and nothing else on standard output.
-  *Undecided:* whether the standard terminating newline that ends the one
-  line (`hello world\n`) is allowed, or the output must be the 11 bytes
-  `hello world` with no newline at all (see §8, Q2).
+  The single newline that terminates that one line (`hello world\n`) is
+  allowed: it is not "trailing whitespace" or an "additional line"
+  (assumption A2, §8).
+- **FR6 — Delivery against the existing state.** `hello-world/hello.sh` already
+  exists on `main` and meets FR1–FR5. The script, its folder and its content are
+  kept unchanged; the story is delivered as a verification of that state
+  (assumption A1, §8).
 
 ## 4. User Experience & Behavior
 
@@ -91,28 +96,31 @@ This is the only story of the epic. The script lives in a new folder named `hell
 
 ## 7. Technical Design (deferred to STRUCTURE)
 
-How to deliver this is left to the STRUCTURE stage. The product adds one
-constraint: the delivered state must keep the existing `pytest` suite green,
-including `tests/test_hello_sh.py`, or change that test in step with any
-output change agreed under Q2.
+How to deliver this is left to the STRUCTURE stage. The product adds two
+constraints: the script must stay as it is on `main` (A1), and the delivered
+state must keep the existing `pytest` suite green, including
+`tests/test_hello_sh.py`, which already expects `hello world\n` (A2). Any pull
+request also has to meet the layout gate's `CHANGELOG.md` rule (§6).
 
 ## 8. Open Questions (if any remain)
 
-- **Q1 (P0, blocking) — What should this story change, given that the deliverable
-  already exists on `main`?** Options:
-  (a) Close the story as already delivered by commit `65938b5`, with no pull request.
-  (b) Deliver a verification-only pull request that keeps the script as it is and
-  adds the required `CHANGELOG.md` line tracing to SCRUM-21.
-  (c) Something the current story doesn't say, such as a different folder or
-  script name, or different content.
-  *Recommendation: (a).* All four criteria are already met and tested, and an
-  empty change has no product value. (b) only makes sense if you need a
-  SCRUM-21 pull request for traceability.
-- **Q2 (P0, blocking) — Does "no trailing whitespace" in Scenario 4 allow the
-  newline that ends the line?** Options:
-  (a) `hello world` followed by one newline, which is what the script prints
-  today and what `tests/test_hello_sh.py` asserts.
-  (b) Exactly the 11 bytes `hello world` with no newline.
-  *Recommendation: (a).* It is standard terminal output, it matches the existing
-  script and test, and (b) leaves the shell prompt on the same line as the output.
-  I'd only switch to (b) if a consumer compares raw bytes.
+No open product questions. The developer instructed: "The story text and its
+acceptance criteria are the whole requirement. Where they are silent, take the
+simplest reading, record it as an assumption in the spec, and proceed." The two
+points the story is silent on are recorded as assumptions:
+
+- **A1 — The deliverable already exists; nothing in it changes.** The story asks
+  for a script that `main` already has (commit `65938b5`), and it asks for no
+  change to it. Simplest reading: the script, its folder and its content stay
+  exactly as they are, and the story is delivered by verifying the four criteria
+  against them. If a pull request is opened, its only change is the line under
+  `## Unreleased` in `CHANGELOG.md` tracing SCRUM-21 that the layout gate
+  requires (`PLAY-G4`); that is an entry in an existing file, not a new
+  documentation file. *Risk:* the change has no user-visible effect; if the
+  intent was a different folder, name or content, this story does not deliver it.
+  Closing the story with no pull request remains the human's option.
+- **A2 — The terminating newline is allowed.** In Scenario 4, "no leading or
+  trailing whitespace and no additional lines" is read as: the one output line is
+  `hello world`, ended by the standard single newline (`hello world\n`), which is
+  what the script prints and the existing test asserts. *Risk:* a consumer that
+  compares raw bytes against the 11 bytes `hello world` would see a mismatch.
