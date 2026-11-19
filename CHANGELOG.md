@@ -6,4 +6,4 @@
 - PLAY-156: add `qa/s3-a.sh`, a helper script that prints `A`.
 - PLAY-172: add `qa/20261109-s1/a.sh`, a QA script that prints `A`.
 - PLAY-175: add `qa/20261110-s3/hello.sh`, a QA script that prints `hello s3`, and its test `qa/20261110-s3/test_hello.sh`.
-- SCRUM-34: add the `ledger` package with a validated CSV ledger parser and a monthly report by category in a base currency.
+- SCRUM-34: add the `ledger` package (validated CSV ledger parser, monthly report by category in a base currency) and its `python -m ledger report` command.
