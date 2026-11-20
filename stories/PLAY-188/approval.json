@@ -1,0 +1,10 @@
+{
+  "storyId": "a88fa3ce-c9cd-4e33-8323-b949df6f098d",
+  "storyKey": "PLAY-188",
+  "epicKey": "PLAY-187",
+  "title": "מפתח רואה את גרסת החבילה מתוך testbed-hello",
+  "decisionId": "166cc195-8256-4582-9f17-16c152b4dc79",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-20T16:08:59Z",
+  "planHeadSha": "455db19b5f9f7649443927266b92a197bd7b9f50"
+}
