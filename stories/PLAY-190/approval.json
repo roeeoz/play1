@@ -1,0 +1,9 @@
+{
+  "storyId": "5528a784-cd85-49e8-b830-18dec23694dd",
+  "storyKey": "PLAY-190",
+  "title": "QA-20261122-S2 Add a hello helper in qa/s2_hello.py",
+  "decisionId": "9562044c-4433-4cab-9d9a-abfd9ad85686",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-22T21:04:24Z",
+  "planHeadSha": "ada894e624fe77f06c1bca0cedf81ecd678113e8"
+}
