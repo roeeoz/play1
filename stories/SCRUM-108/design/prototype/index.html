@@ -95,7 +95,7 @@
       </div>
 
       <div class="arrow" aria-hidden="true">
-        <span class="label">Clicks “Sign up” with a valid name and email</span>
+        <span class="label">Ticks “Also send me the monthly digest” and clicks “Join the newsletter”</span>
         <svg>
           <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a3b26"/></marker></defs>
           <line x1="0" y1="6" x2="100%" y2="6" stroke="#9a3b26" stroke-width="2" marker-end="url(#ah)"/>
@@ -124,7 +124,9 @@
         <li><strong>Sizes:</strong> desktop browser at 1280×800 — the story names no device. The pages are responsive.</li>
         <li><strong>Main path only:</strong> Sign-up form → Confirmation. The inline name/email errors, the “Signing up…” state and the submit-error message from the structure are drawn in the next step.</li>
         <li><strong>Sample state:</strong> the form is shown filled in (Dana Levi, dana.levi@example.com) so the confirmation repeats exactly what was entered.</li>
-        <li><strong>Sign up</strong> is a link to the confirmation: the prototype has no script and sends no request (open branch 1 — where the sign-up goes — is still open).</li>
+        <li><strong>Join the newsletter</strong> (the button renamed from “Sign up”) is a link to the confirmation: the prototype has no script and sends no request (open branch 1 — where the sign-up goes — is still open).</li>
+        <li><strong>Monthly digest:</strong> the checkbox under Email starts unchecked and can be ticked on the form. The confirmation shows the ticked variant with the line “You'll also get the monthly digest.”; when unticked that line is left out and nothing else changes.</li>
+        <li><strong>Newsletter intro</strong> on the form no longer calls the newsletter a “monthly round-up”, so it isn't confused with the separate monthly digest.</li>
         <li><strong>Back to the guestbook</strong> (on both screens) opens this journey page: there is no guestbook page yet (open branch 2); the real target is a placeholder <code>/</code>.</li>
         <li><strong>Confirmation copy:</strong> “Thanks, {name}!” and “We'll send the newsletter to {email}.” from the structure, plus a check icon. The full name is shown as entered.</li>
         <li><strong>Look:</strong> no guestbook UI exists, so one simple warm palette, a system font and a single centred card are used on both screens (<code>tokens.css</code>).</li>

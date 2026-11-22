@@ -16,7 +16,7 @@
   <main class="page">
     <section class="card" aria-labelledby="title">
       <h1 id="title">Get the guestbook newsletter</h1>
-      <p class="lead">A short monthly round-up of the newest notes visitors have left. Just your name and email.</p>
+      <p class="lead">Occasional news from the guestbook, straight to your inbox. Just your name and email.</p>
       <div class="field">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" autocomplete="name" value="Dana Levi">
@@ -25,7 +25,11 @@
         <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="email" value="dana.levi@example.com">
       </div>
-      <a class="button" href="confirmation.html">Sign up</a>
+      <div class="check-field">
+        <input id="digest" name="digest" type="checkbox">
+        <label for="digest">Also send me the monthly digest</label>
+      </div>
+      <a class="button" href="confirmation.html">Join the newsletter</a>
       <a class="back" href="index.html">← Back to the guestbook</a>
     </section>
   </main>

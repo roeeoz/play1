@@ -86,3 +86,7 @@ a:hover { color: var(--primary-hover); }
   background: var(--primary); color: var(--primary-ink);
 }
 .button:hover { background: var(--primary-hover); color: var(--primary-ink); }
+
+.check-field { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); }
+.check-field input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
+.check-field label { font-size: var(--text-sm); }
