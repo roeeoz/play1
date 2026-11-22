@@ -1,0 +1,10 @@
+{
+  "storyId": "47f7767c-cdab-4b4a-92b4-bd02dbf93f25",
+  "storyKey": "FIPSPROBE-6",
+  "epicKey": "FIPSPROBE-5",
+  "title": "Hello-world bash script in a dedicated folder",
+  "decisionId": "7c34ad96-a6ae-4250-93e7-5af627673693",
+  "actor": "Service",
+  "approvedAt": "2026-11-18T13:30:14Z",
+  "planHeadSha": "cc398618c99b24eb9443d260b4cd6941c5ca802b"
+}
