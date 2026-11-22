@@ -1,6 +1,6 @@
 # Feature Specification Document — QA-20261122-S4: a script that prints the project's QA_S4_MARKER value
 
-> Status: NOT_READY — in-progress ticket draft. See §8 for the blocking question.
+> Status: READY_FOR_SPEC — the developer settled the scope question and both edge cases in the intake chat on 2026-11-22.
 
 ## 1. Feature Overview
 
@@ -13,6 +13,7 @@
 ### Goals
 - Running `qa/s4_marker.sh` shows the developer the exact value of `QA_S4_MARKER`.
 - When the variable is unset, the developer gets a clear message on stderr and a non-zero exit (1).
+- A caller can tell success (exit 0) from the unset case (exit 1).
 
 ### Non-Goals
 - Any change to a file outside `qa/s4_*` (story scope: "add one file, qa/s4_marker.sh … and only files under qa/s4_*. Do not change anything else.").
@@ -22,14 +23,14 @@
 ## 3. Functional Requirements
 
 - **FR1 — Location and runnability.** The script is `qa/s4_marker.sh`, is executable, and runs directly (`./qa/s4_marker.sh`).
-- **FR2 — Variable set.** Input: `QA_S4_MARKER` set in the environment. Output on stdout: exactly the variable's value followed by one newline; nothing else on stdout.
+- **FR2 — Variable set.** Input: `QA_S4_MARKER` set in the environment. Output on stdout: exactly the variable's value followed by one newline; nothing else on stdout. Exit status 0.
 - **FR3 — Variable unset.** Input: `QA_S4_MARKER` not set. Output on stderr: `QA_S4_MARKER is not set`; exit status 1.
 - **FR4 — Scope boundary.** The change adds/edits only files matching `qa/s4_*`.
-- **Edge cases not yet settled (see §8):** exit status when the variable is set (assumed 0); behaviour when the variable is set to an empty string (assumed: treated as set — prints an empty line, exits 0).
+- **FR5 — Variable set to an empty string.** Treated as set (developer's decision): stdout is an empty line (a single newline), nothing on stderr, exit status 0.
 
 ## 4. User Experience & Behavior
 
-- **Flow:** the developer runs `qa/s4_marker.sh` in a shell → sees the marker value on its own line, or sees `QA_S4_MARKER is not set` and a failing exit status.
+- **Flow:** the developer runs `qa/s4_marker.sh` in a shell → sees the marker value on its own line (exit 0; an empty line when the value is empty), or sees `QA_S4_MARKER is not set` on stderr and exit status 1.
 - **Output format:** the raw value only — no label, prefix, quoting or trailing text beyond one newline — so it can be piped or captured by other commands.
 - No visual, interactive or other sensory requirements were named.
 
@@ -38,12 +39,13 @@
 1. qa/s4_marker.sh exists, is executable, and prints exactly the value of QA_S4_MARKER followed by a newline.
 2. When QA_S4_MARKER is unset, the script prints 'QA_S4_MARKER is not set' to stderr and exits 1.
 3. No file outside qa/s4_* is changed.
+4. When QA_S4_MARKER is set, the script exits 0.
+5. When QA_S4_MARKER is set to an empty string, the script prints an empty line (a single newline) to stdout and exits 0.
 
 ## 6. Dependencies & Constraints (product-level)
 
-- **Target branch `qa-20261122-s4-base` carries a deliberately failing test.** Its head commit `ea6f718` ("QA-20261122-S4: a deliberately failing test on the QA base") adds `tests/test_qa_20261122_s4_base.py`, whose only test asserts `1 == 2`.
-- **The repository's required test gate is `pytest` over the whole suite** (`.factory/testing.md`; the `test` job in `.github/workflows/ci.yml` runs on every pull request). With that test on the base, this story's pull request cannot show a green `test` check.
-- **Acceptance criterion 3 forbids touching that test** (it is outside `qa/s4_*`). The story and the gate therefore collide; see the blocking question in §8. No exemption from the gate can be offered or recorded.
+- **Pre-existing failing test on the target branch.** `qa-20261122-s4-base` head commit `ea6f718` adds `tests/test_qa_20261122_s4_base.py`, whose only test asserts `1 == 2`. The repository's required test gate is `pytest` over the whole suite (`.factory/testing.md`; the `test` job in `.github/workflows/ci.yml`), so this story's pull request is expected to show a red `test` check caused by the base, not by this change.
+- **Decision (developer, 2026-11-22): option (b).** The scope stays as written: this story changes only `qa/s4_*` files and does not touch that test. The failure is a known pre-existing one on the base, not this story's to fix; delivery goes ahead, and the developer decides at merge time what to do about the red base test. No exemption from the gate is recorded here; the merge is a person's decision.
 - **Repository layout gate** (`.factory/plugins/claims-dev/skills/repo-gate`, rule PLAY-G2): a new shell script must be executable and start with a shebang. This is consistent with acceptance criterion 1.
 - A person reviews and merges the pull request; the factory never merges.
 
@@ -53,11 +55,8 @@ Shell dialect, how the script is tested, and how the evidence is produced are le
 
 ## 8. Open Questions (if any remain)
 
-**P0 — blocking**
+None blocking. Settled in the intake chat (2026-11-22):
 
-- **Q1 — Failing base test vs. the scope boundary.** The required `pytest` gate is red on `qa-20261122-s4-base` because of `tests/test_qa_20261122_s4_base.py`, and criterion 3 forbids changing it. Which way: (a) widen the scope so this story also fixes or removes that test (criterion 3 becomes "No file outside qa/s4_* and tests/test_qa_20261122_s4_base.py is changed"), or (b) keep the scope as written, and the failing test is fixed on `qa-20261122-s4-base` in the repository first, before this story is delivered? Recommendation: (b) — the story states its boundary explicitly ("Do not change anything else") and the test is marked deliberate on the base, so the fix belongs to whoever owns the base. If you need this story unblocked now, (a) is the alternative.
-
-**P1 — important**
-
-- **Q2 — Exit status on success.** When `QA_S4_MARKER` is set, should the script exit 0? Recommendation: yes — standard for a successful command, and it lets scripts tell success from the unset case (exit 1).
-- **Q3 — Set but empty.** When `QA_S4_MARKER` is set to an empty string, should the script print an empty line and exit 0 (treat as set), or print `QA_S4_MARKER is not set` and exit 1 (treat as unset)? Recommendation: treat as set — criterion 2 speaks only of "unset", and an empty value is still what the pod runs with. Answer "treat as unset" if an empty marker means a misconfigured pod.
+- **Q1 — Failing base test vs. scope:** (b) — scope stays `qa/s4_*` only; the red base test is the developer's call at merge.
+- **Q2 — Exit status on success:** 0.
+- **Q3 — Set but empty:** treated as set — prints an empty line, exits 0.
