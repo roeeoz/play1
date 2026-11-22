@@ -1,0 +1,9 @@
+{
+  "storyId": "3287089c-715f-45e2-9a4f-84b0d06a15b2",
+  "storyKey": "SCRUM-109",
+  "title": "QA-20261122-S4: a script that prints the project's QA_S4_MARKER value",
+  "decisionId": "b3bec4e5-60b4-466c-a967-9429372d606f",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-22T21:08:03Z",
+  "planHeadSha": "7d570da60954c639582957fe49708100f319a403"
+}
