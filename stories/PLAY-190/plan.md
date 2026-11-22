@@ -62,6 +62,7 @@ There are no dependencies to acquire beyond bash. There are no generated deliver
 - **Canonical gate:** `.github/workflows/ci.yml` job `test` runs `pip install -e ".[test]"` and then `pytest` (layer `package-api`, required, `runBy: canonical-gate`). Job `gate` passes when no `CI_FAIL` file exists. Provider CI at the exact head of the work branch is authoritative.
 - **Local run:** the implement turn runs the gate once, through `run-tests-gate.sh --run` on the committed SHA, which executes `local-test-gate: pip install -q -e ".[test]" && pytest`. Do not also run `pytest` by hand.
 - **Gate result required:** `pytest` passes unchanged, because the change adds no Python and nothing under `tests/`, and `gate` is green. `git diff --name-status main...HEAD` shows exactly `A qa/s2-hello.sh` and `A qa/s2-hello-test.sh`, both at mode `100755`.
+- **Syntax check (before the test script):** `bash -n qa/s2-hello.sh qa/s2-hello-test.sh` exits 0 with no output. Run it before `qa/s2-hello-test.sh`; a non-zero exit stops verification and is fixed first.
 - **Outside the gate:** `qa/s2-hello-test.sh` exits 0 with two `PASS:` lines. That output, plus the AC commands' output and exit codes, is the PR evidence that proves AC1 and AC2, because CI does not run the bash test (`spec.md` §6). The script can run in a pod, since it needs only bash.
 - **Not needed:** no provider CI configuration change, no `.factory/testing.md` change and no `.factory/delivery-assets` entry (no binary).
 
