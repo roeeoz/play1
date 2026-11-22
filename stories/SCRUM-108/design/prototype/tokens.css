@@ -8,6 +8,10 @@
   --primary: #9a3b26;
   --primary-ink: #ffffff;
   --primary-hover: #7f2f1e;
+  /* Brand rule: every primary action is teal #0F766E with white text. */
+  --action: #0f766e;
+  --action-ink: #ffffff;
+  --action-hover: #115e59;
   --error: #b42318;
   --success: #2f7d4f;
   --success-bg: #e8f3ec;
@@ -83,9 +87,16 @@ a:hover { color: var(--primary-hover); }
   font: inherit; font-weight: 600;
   padding: var(--space-3) var(--space-4); margin-top: var(--space-5);
   border-radius: var(--radius); border: 0;
-  background: var(--primary); color: var(--primary-ink);
+  background: var(--action); color: var(--action-ink);
 }
-.button:hover { background: var(--primary-hover); color: var(--primary-ink); }
+.button:hover { background: var(--action-hover); color: var(--action-ink); }
+.button:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+/* Brand rule: a form's primary button is full-width on mobile. */
+@media (max-width: 599px) {
+  .button { width: 100%; }
+  .page { padding: var(--space-5) var(--space-4); }
+  .card { padding: var(--space-5); }
+}
 
 .check-field { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); }
 .check-field input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
