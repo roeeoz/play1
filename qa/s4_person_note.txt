@@ -1,0 +1,2 @@
+QA-20261122-S4: a note a person pushed to the PR in the watch.
+qa/s4_marker.sh prints QA_S4_MARKER; run qa/s4_marker_test.sh to check it.
