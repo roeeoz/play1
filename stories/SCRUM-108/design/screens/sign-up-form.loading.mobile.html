@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign-up form · loading</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="mobile">
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z" fill="none" stroke="#9a3b26" stroke-width="2"/><path d="M8 9h8M8 13h6" stroke="#9a3b26" stroke-width="2" stroke-linecap="round"/></svg>
+      The Guestbook
+    </a>
+  </header>
+  <main class="page">
+    <form class="card" aria-labelledby="title" novalidate aria-busy="true">
+      <h1 id="title">Get the guestbook newsletter</h1>
+      <p class="lead">Occasional news from the guestbook, straight to your inbox. Just your name and email.</p>
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" value="Dana Levi" readonly>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" value="dana.levi@example.com" readonly>
+      </div>
+      <div class="check-field">
+        <input id="digest" name="digest" type="checkbox" checked disabled>
+        <label for="digest">Also send me the monthly digest</label>
+      </div>
+      <button class="button" type="button" disabled aria-disabled="true"><svg class="spinner" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="3"/><path d="M12 3a9 9 0 0 1 9 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>Signing up…</button>
+      <p class="sr-only" role="status">Signing you up for the newsletter.</p>
+      <a class="back" href="index.html">← Back to the guestbook</a>
+    </form>
+  </main>
+  <footer class="footer">You can unsubscribe from any newsletter email.</footer>
+</body>
+</html>

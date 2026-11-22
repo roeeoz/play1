@@ -1,0 +1,124 @@
+/* Shared tokens for the guestbook newsletter sign-up screens (SCRUM-108), carried over from the approved prototype. */
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --ink: #2b2622;
+  --muted: #6b625a;
+  --border: #e4ddd3;
+  --primary: #9a3b26;
+  --primary-ink: #ffffff;
+  --primary-hover: #7f2f1e;
+  /* Brand rule: every primary action is teal #0F766E with white text. */
+  --action: #0f766e;
+  --action-ink: #ffffff;
+  --action-hover: #115e59;
+  --error: #b42318;
+  --success: #2f7d4f;
+  --success-bg: #e8f3ec;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius: 8px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 2px rgba(43, 38, 34, .06), 0 8px 24px rgba(43, 38, 34, .08);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font);
+  font-size: var(--text-md);
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+}
+a { color: var(--primary); }
+a:hover { color: var(--primary-hover); }
+
+/* Screen page shell: top bar, centred card, centred footer. */
+.topbar {
+  display: flex; justify-content: center;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.brand { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--ink); text-decoration: none; }
+.page {
+  min-height: calc(100vh - 120px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-7) var(--space-5);
+}
+.card {
+  width: 100%; max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-6);
+}
+.card h1 { font-size: var(--text-xl); line-height: 1.2; margin: 0 0 var(--space-2); text-align: center; }
+.lead { color: var(--muted); margin: 0 0 var(--space-5); text-align: center; }
+.back { display: block; text-align: center; margin-top: var(--space-5); font-size: var(--text-sm); }
+.footer { text-align: center; color: var(--muted); font-size: var(--text-sm); padding: var(--space-4); }
+
+.field { margin-bottom: var(--space-4); }
+.field label { display: block; font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-1); }
+.field input {
+  width: 100%; font: inherit; color: var(--ink);
+  padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface);
+}
+.field input:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+
+.button {
+  display: block; width: 100%; text-align: center; text-decoration: none;
+  font: inherit; font-weight: 600;
+  padding: var(--space-3) var(--space-4); margin-top: var(--space-5);
+  border-radius: var(--radius); border: 0;
+  background: var(--action); color: var(--action-ink);
+}
+.button:hover { background: var(--action-hover); color: var(--action-ink); }
+.button:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+
+.check-field { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); }
+.check-field input { width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
+.check-field label { font-size: var(--text-sm); }
+
+/* ---- States (new in the screen set) ---- */
+.field input[aria-invalid="true"] { border-color: var(--error); background: #fef3f2; }
+.field input.is-focused { outline: 2px solid var(--error); outline-offset: 1px; }
+.field-error { display: flex; align-items: flex-start; gap: var(--space-1); margin: var(--space-1) 0 0; color: var(--error); font-size: var(--text-sm); }
+.field-error svg { flex: none; margin-top: 2px; }
+.field input[readonly] { background: #f4f1ec; color: var(--muted); }
+.check-field input:disabled + label { color: var(--muted); }
+
+.button[aria-disabled="true"], .button:disabled { background: #6b9f9a; cursor: progress; display: flex; align-items: center; justify-content: center; gap: var(--space-2); }
+.spinner { width: 18px; height: 18px; animation: spin .9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.alert { display: flex; gap: var(--space-3); align-items: flex-start; margin-top: var(--space-5);
+  padding: var(--space-3) var(--space-4); border: 1px solid #f3c6c1; border-left: 4px solid var(--error);
+  border-radius: var(--radius); background: #fef3f2; color: var(--ink); font-size: var(--text-sm); }
+.alert svg { flex: none; margin-top: 2px; }
+.alert strong { display: block; color: var(--error); font-size: var(--text-md); }
+.alert + .button { margin-top: var(--space-4); }
+
+/* ---- Phone layout (the *.mobile.html pages) ---- */
+body.mobile .topbar { padding: var(--space-3) var(--space-4); }
+body.mobile .page { min-height: 0; justify-content: flex-start; padding: var(--space-5) var(--space-4); }
+body.mobile .card { padding: var(--space-5); }
+body.mobile .card h1 { font-size: 24px; }
+body.mobile .button { width: 100%; padding: 14px var(--space-4); }

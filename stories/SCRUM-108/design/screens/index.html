@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screens</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .gallery { max-width: 1040px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-7); }
+  .gallery > h1 { font-size: var(--text-xl); margin: 0 0 var(--space-2); }
+  .intro { color: var(--muted); margin: 0 0 var(--space-6); max-width: 70ch; }
+  .group { margin-bottom: var(--space-7); }
+  .group h2 { display: flex; align-items: baseline; gap: var(--space-3); font-size: var(--text-lg); margin: 0 0 var(--space-1); }
+  .num { color: var(--primary); font-weight: 700; font-size: var(--text-md); letter-spacing: .04em; }
+  .what { margin: 0 0 var(--space-4); color: var(--muted); font-size: var(--text-sm); }
+  .state { display: grid; grid-template-columns: 1fr auto; gap: var(--space-4); align-items: center;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5); margin-bottom: var(--space-3); box-shadow: var(--shadow); }
+  .state h3 { margin: 0; font-size: var(--text-md); }
+  .state p { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--muted); }
+  .pair { display: flex; gap: var(--space-2); }
+  .pair a { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; font-size: var(--text-sm); font-weight: 600;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-2) var(--space-3); color: var(--ink); background: var(--bg); }
+  .pair a:hover { border-color: var(--primary); color: var(--primary); }
+  .notes { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5); }
+  .notes summary { cursor: pointer; font-weight: 600; color: var(--primary); }
+  .notes ul { padding-left: 18px; margin: var(--space-4) 0 0; font-size: var(--text-sm); }
+  .notes li { margin-bottom: var(--space-3); }
+  @media (max-width: 640px) { .state { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <main class="gallery">
+    <h1>Guestbook newsletter sign-up: all screens</h1>
+    <p class="intro">Both screens in every state the structure names, each as a desktop page and a phone page. The look is the approved prototype's: a warm palette, a centred card and the teal primary button.</p>
+
+    <section class="group" aria-labelledby="g1">
+      <h2 id="g1"><span class="num">01</span> Sign-up form</h2>
+      <p class="what">New screen. The visitor enters a name and an email and clicks “Join the newsletter”.</p>
+
+      <div class="state">
+        <div><h3>default</h3><p>Empty Name and Email, digest unticked, button enabled. Clicking “Join the newsletter” with nothing filled in leads to <em>error</em>.</p></div>
+        <div class="pair"><a href="sign-up-form.default.html">Desktop</a><a href="sign-up-form.default.mobile.html">Mobile</a></div>
+      </div>
+      <div class="state">
+        <div><h3>error</h3><p>Inline validation after “Join the newsletter”: “Please enter your name” under the empty Name, “Please enter a valid email” under “dana.levi@example”. Focus is on Name, the first invalid field. The entered values are kept. Fixing both and clicking again leads to <em>loading</em>.</p></div>
+        <div class="pair"><a href="sign-up-form.error.html">Desktop</a><a href="sign-up-form.error.mobile.html">Mobile</a></div>
+      </div>
+      <div class="state">
+        <div><h3>loading</h3><p>The sign-up is being sent: the fields and checkbox are read-only, and the button is disabled with a spinner and “Signing up…”. Next is either <a href="confirmation.default.html">Confirmation</a> or <a href="sign-up-form.submit-error.html">submit error</a>.</p></div>
+        <div class="pair"><a href="sign-up-form.loading.html">Desktop</a><a href="sign-up-form.loading.mobile.html">Mobile</a></div>
+      </div>
+      <div class="state">
+        <div><h3>submit error</h3><p>The request failed: above the button, “Sign-up didn't go through. Please try again.” with its cause (the newsletter service couldn't be reached). The values are kept, so the way out is to click “Join the newsletter” again.</p></div>
+        <div class="pair"><a href="sign-up-form.submit-error.html">Desktop</a><a href="sign-up-form.submit-error.mobile.html">Mobile</a></div>
+      </div>
+    </section>
+
+    <section class="group" aria-labelledby="g2">
+      <h2 id="g2"><span class="num">02</span> Confirmation</h2>
+      <p class="what">New screen. Thanks the visitor by name, repeats the email and leads back to the guestbook.</p>
+      <div class="state">
+        <div><h3>default</h3><p>“Thanks, Dana Levi!” with “dana.levi@example.com” and the digest line (shown only when the digest was ticked). Its only state: the structure gives the screen no loading, error or empty state.</p></div>
+        <div class="pair"><a href="confirmation.default.html">Desktop</a><a href="confirmation.default.mobile.html">Mobile</a></div>
+      </div>
+    </section>
+
+    <details class="notes" open>
+      <summary>Choices made in this screen set</summary>
+      <ul>
+        <li><strong>States:</strong> the inventory's form <em>error</em> is drawn once, with both inline errors showing (the case that shows the most). A name-only or email-only error is the same page with just that field's message. The structure's form-level failure is its own state, <em>submit error</em>. No <em>empty</em> states: the inventory marks them n/a.</li>
+        <li><strong>Carried over from the approved prototype:</strong> the “Join the newsletter” label, the monthly-digest checkbox, the newsletter intro line, the confirmation copy and check icon, and the palette, type and spacing in <code>tokens.css</code>.</li>
+        <li><strong>Brand rule:</strong> every primary button is teal <code>#0F766E</code> with white text (hover <code>#115E59</code>). While disabled for loading it is a lighter teal <code>#6B9F9A</code>, so it still reads as the same button. The button fills the card's width on every page.</li>
+        <li><strong>Errors</strong> use the error red <code>#B42318</code>: a red border and pale red fill on the field, and the message with an icon under it, tied to the field with <code>aria-describedby</code>. The submit error is a <code>role="alert"</code> banner above the button.</li>
+        <li><strong>Phone pages</strong> are laid out for a 390 px wide screen: the card sits at the top rather than centred vertically, padding is tighter (16 px page, 24 px card), the heading is 24 px and the button is a taller 48 px touch target.</li>
+        <li><strong>Links:</strong> “Back to the guestbook” and the logo open this gallery, because there is no guestbook page yet (open branch 2; the real target is <code>/</code>). The buttons step through the states in flow order: default → error → loading. From loading, the two possible outcomes are linked in its row above.</li>
+        <li><strong>Direct visit to Confirmation</strong> should send the visitor to the form (structure). That is a redirect, not a page, so it isn't drawn.</li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>
