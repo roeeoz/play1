@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # PLAY-190: prints "Hello, NAME!" for a non-empty NAME; rejects the empty string (or no argument) on stderr with exit 1.
 name="${1-}"
 if [[ -z $name ]]; then
