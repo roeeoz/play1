@@ -1,0 +1,88 @@
+/* Shared tokens for the guestbook newsletter sign-up prototype (SCRUM-108). */
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --ink: #2b2622;
+  --muted: #6b625a;
+  --border: #e4ddd3;
+  --primary: #9a3b26;
+  --primary-ink: #ffffff;
+  --primary-hover: #7f2f1e;
+  --error: #b42318;
+  --success: #2f7d4f;
+  --success-bg: #e8f3ec;
+
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 28px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius: 8px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 2px rgba(43, 38, 34, .06), 0 8px 24px rgba(43, 38, 34, .08);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font);
+  font-size: var(--text-md);
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+}
+a { color: var(--primary); }
+a:hover { color: var(--primary-hover); }
+
+/* Screen page shell: top bar, centred card, centred footer. */
+.topbar {
+  display: flex; justify-content: center;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.brand { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--ink); text-decoration: none; }
+.page {
+  min-height: calc(100vh - 120px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: var(--space-7) var(--space-5);
+}
+.card {
+  width: 100%; max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: var(--space-6);
+}
+.card h1 { font-size: var(--text-xl); line-height: 1.2; margin: 0 0 var(--space-2); text-align: center; }
+.lead { color: var(--muted); margin: 0 0 var(--space-5); text-align: center; }
+.back { display: block; text-align: center; margin-top: var(--space-5); font-size: var(--text-sm); }
+.footer { text-align: center; color: var(--muted); font-size: var(--text-sm); padding: var(--space-4); }
+
+.field { margin-bottom: var(--space-4); }
+.field label { display: block; font-weight: 600; font-size: var(--text-sm); margin-bottom: var(--space-1); }
+.field input {
+  width: 100%; font: inherit; color: var(--ink);
+  padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface);
+}
+.field input:focus { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+
+.button {
+  display: block; width: 100%; text-align: center; text-decoration: none;
+  font: inherit; font-weight: 600;
+  padding: var(--space-3) var(--space-4); margin-top: var(--space-5);
+  border-radius: var(--radius); border: 0;
+  background: var(--primary); color: var(--primary-ink);
+}
+.button:hover { background: var(--primary-hover); color: var(--primary-ink); }

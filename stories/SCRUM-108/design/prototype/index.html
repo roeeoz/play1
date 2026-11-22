@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Journey</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  :root { --s: 0.1; --tw: calc(1280px * var(--s)); --th: calc(800px * var(--s)); --gap: 160px; }
+  @media (min-width: 700px)  { :root { --s: 0.06; } }
+  @media (min-width: 900px)  { :root { --s: 0.12; } }
+  @media (min-width: 1200px) { :root { --s: 0.23; } }
+  @media (min-width: 1600px) { :root { --s: 0.38; } }
+  @media (min-width: 2000px) { :root { --s: 0.53; } }
+  @media (min-width: 2400px) { :root { --s: 0.68; } }
+
+  body { min-height: 100vh; display: flex; align-items: stretch; }
+  .flow { flex: 1; min-width: 0; padding: var(--space-6); }
+  .flow h1 { font-size: var(--text-xl); margin: 0 0 var(--space-2); }
+  .intro { color: var(--muted); margin: 0 0 var(--space-6); max-width: 70ch; }
+
+  .row {
+    display: grid;
+    grid-template-columns: var(--tw) var(--gap) var(--tw);
+    justify-content: center;
+    align-items: start;
+  }
+  .screen { width: var(--tw); }
+  .step { height: 24px; font-size: var(--text-sm); font-weight: 700; color: var(--primary); letter-spacing: .04em; }
+  .thumb {
+    display: block; width: var(--tw); height: var(--th); overflow: hidden;
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  .thumb:hover { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .thumb iframe {
+    width: 1280px; height: 800px; border: 0;
+    transform: scale(var(--s)); transform-origin: 0 0;
+    pointer-events: none;
+  }
+  .name { display: block; margin-top: var(--space-2); font-weight: 600; text-align: center; }
+  .note { margin: var(--space-1) 0 0; font-size: var(--text-sm); color: var(--muted); text-align: center; }
+
+  .arrow {
+    margin-top: 24px; height: var(--th);
+    display: flex; flex-direction: column; justify-content: center; align-items: stretch;
+    padding: 0 var(--space-2);
+  }
+  .arrow .label { font-size: var(--text-sm); text-align: center; color: var(--ink); margin-bottom: var(--space-1); }
+  .arrow svg { display: block; width: 100%; height: 12px; overflow: visible; }
+
+  .return {
+    grid-column: 1 / -1;
+    margin: var(--space-2) calc(var(--tw) / 2) 0;
+    height: 64px; position: relative;
+  }
+  .return .u { display: block; width: 100%; height: 64px; overflow: visible; clip-path: inset(0 -8px -8px -8px); }
+  .return .head { position: absolute; left: 0; top: -2px; transform: translateX(-50%); }
+  .return .label {
+    position: absolute; left: 0; right: 0; bottom: 10px;
+    text-align: center; font-size: var(--text-sm); color: var(--muted);
+  }
+
+  aside { flex: none; align-self: stretch; border-left: 1px solid var(--border); background: var(--surface); }
+  aside details { height: 100%; }
+  aside details[open] { width: 340px; padding: var(--space-5); }
+  aside details:not([open]) { width: 44px; }
+  aside summary { cursor: pointer; font-weight: 600; color: var(--primary); }
+  aside details:not([open]) summary { writing-mode: vertical-rl; padding: var(--space-4) var(--space-3); list-style: none; }
+  aside details:not([open]) summary::-webkit-details-marker { display: none; }
+  aside ul { padding-left: 18px; margin: var(--space-4) 0 0; font-size: var(--text-sm); }
+  aside li { margin-bottom: var(--space-3); }
+
+  @media (max-width: 699px) {
+    body { flex-direction: column; }
+    aside { border-left: 0; border-top: 1px solid var(--border); }
+    aside details[open], aside details:not([open]) { width: auto; }
+    aside details:not([open]) summary { writing-mode: horizontal-tb; }
+    .flow { padding: var(--space-5); }
+    :root { --gap: 120px; }
+  }
+</style>
+</head>
+<body>
+  <main class="flow">
+    <h1>Guestbook newsletter sign-up</h1>
+    <p class="intro">A visitor leaves the guestbook to sign up for its newsletter with a name and an email, then sees a confirmation and goes back to the guestbook.</p>
+
+    <div class="row">
+      <div class="screen">
+        <div class="step">01</div>
+        <a class="thumb" href="sign-up-form.html"><iframe src="sign-up-form.html" title="Sign-up form" tabindex="-1"></iframe></a>
+        <a class="name" href="sign-up-form.html">Sign-up form</a>
+        <p class="note">New screen</p>
+      </div>
+
+      <div class="arrow" aria-hidden="true">
+        <span class="label">Clicks “Sign up” with a valid name and email</span>
+        <svg>
+          <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a3b26"/></marker></defs>
+          <line x1="0" y1="6" x2="100%" y2="6" stroke="#9a3b26" stroke-width="2" marker-end="url(#ah)"/>
+        </svg>
+      </div>
+
+      <div class="screen">
+        <div class="step">02</div>
+        <a class="thumb" href="confirmation.html"><iframe src="confirmation.html" title="Confirmation" tabindex="-1"></iframe></a>
+        <a class="name" href="confirmation.html">Confirmation</a>
+        <p class="note">New screen</p>
+      </div>
+
+      <div class="return" aria-hidden="true">
+        <svg class="u"><rect x="0" y="-40" width="100%" height="102" rx="14" fill="none" stroke="#9a3b26" stroke-width="2" stroke-dasharray="6 5"/></svg>
+        <svg class="head" width="14" height="10" viewBox="0 0 14 10"><path d="M7 0L14 10H0z" fill="#9a3b26"/></svg>
+        <span class="label">Clicks “Back to the guestbook” — journey ends; the next sign-up starts at 01</span>
+      </div>
+    </div>
+  </main>
+
+  <aside>
+    <details open>
+      <summary>Choices made in this prototype</summary>
+      <ul>
+        <li><strong>Sizes:</strong> desktop browser at 1280×800 — the story names no device. The pages are responsive.</li>
+        <li><strong>Main path only:</strong> Sign-up form → Confirmation. The inline name/email errors, the “Signing up…” state and the submit-error message from the structure are drawn in the next step.</li>
+        <li><strong>Sample state:</strong> the form is shown filled in (Dana Levi, dana.levi@example.com) so the confirmation repeats exactly what was entered.</li>
+        <li><strong>Sign up</strong> is a link to the confirmation: the prototype has no script and sends no request (open branch 1 — where the sign-up goes — is still open).</li>
+        <li><strong>Back to the guestbook</strong> (on both screens) opens this journey page: there is no guestbook page yet (open branch 2); the real target is a placeholder <code>/</code>.</li>
+        <li><strong>Confirmation copy:</strong> “Thanks, {name}!” and “We'll send the newsletter to {email}.” from the structure, plus a check icon. The full name is shown as entered.</li>
+        <li><strong>Look:</strong> no guestbook UI exists, so one simple warm palette, a system font and a single centred card are used on both screens (<code>tokens.css</code>).</li>
+      </ul>
+    </details>
+  </aside>
+</body>
+</html>
