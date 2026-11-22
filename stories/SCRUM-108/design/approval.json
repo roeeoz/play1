@@ -1,0 +1,14 @@
+{
+  "storyId": "7471ad7d-5238-4780-9637-423fe326a65a",
+  "storyKey": "SCRUM-108",
+  "title": "QA-20261122-S5 a two-screen sign-up confirmation flow for the guestbook",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "de1bd942-faa1-49b5-b5e8-8db9688683db",
+      "actor": "Ally PO \u0026 DEV",
+      "approvedAt": "2026-11-22T20:59:51.344721Z",
+      "headSha": "e1889d9479ceaf6a42186728b876fb777c570144"
+    }
+  ]
+}
