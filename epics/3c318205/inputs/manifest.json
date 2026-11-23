@@ -17,6 +17,15 @@
       "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "attachedBy": "Ally PO & DEV",
       "attachedAt": "2026-11-23T12:30:38Z"
+    },
+    {
+      "name": "70f0b33e-e2e-inputs2-ops-note.txt",
+      "title": "e2e-inputs2-ops-note.txt",
+      "sha256": "70f0b33ea785c9375470b2edcf94b43f79f1f878faccfddc3ee988b78d88761c",
+      "size": 119,
+      "mediaType": "text/plain",
+      "attachedBy": "Ally PO & DEV",
+      "attachedAt": "2026-11-23T12:36:33Z"
     }
   ]
 }
