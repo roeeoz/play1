@@ -1,0 +1,9 @@
+{
+  "storyId": "7dba0a4d-9055-49dc-8dd7-044f91cde0bf",
+  "storyKey": "SCRUM-112",
+  "title": "QA-20261122-GAP Start with a target-branch override (add qa/gap-hello.txt)",
+  "decisionId": "3c473145-2a17-46a3-b053-f951623e3a44",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-23T11:14:19Z",
+  "planHeadSha": "b7018b91ab0073c59418103b9550a1b8f8d6c269"
+}
