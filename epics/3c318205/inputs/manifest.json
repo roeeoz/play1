@@ -1,0 +1,22 @@
+{
+  "files": [
+    {
+      "name": "247a800d-attachment.xlsx",
+      "title": "קובץ עבודה - פרט - כולל חישובים.xlsx",
+      "sha256": "247a800dee50af0afa6377329bfffc29f64b4eab62595c130fc06c942a9e4e2c",
+      "size": 182697,
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "attachedBy": "Ally PO & DEV",
+      "attachedAt": "2026-11-23T12:30:38Z"
+    },
+    {
+      "name": "2d998d65-attachment.xlsx",
+      "title": "קובץ עבודה - קבוצתי.xlsx",
+      "sha256": "2d998d65eb162313f355737109783959daf5fe83cc9e8b1afab2522cf3f3ba93",
+      "size": 203029,
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "attachedBy": "Ally PO & DEV",
+      "attachedAt": "2026-11-23T12:30:38Z"
+    }
+  ]
+}
