@@ -1,0 +1,4 @@
+e2e-inputs2 operations note
+
+Escalation contact code: HERON-5512
+Monthly run window: the 3rd working day, 06:00-07:30.
