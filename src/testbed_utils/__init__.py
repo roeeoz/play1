@@ -6,6 +6,7 @@ target this code.
 """
 
 from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
+from testbed_utils.doubler import double
 from testbed_utils.hello import hello_world
 from testbed_utils.numutils import mean, median, percentile
 from testbed_utils.pdfutils import extract_fields
@@ -13,6 +14,7 @@ from testbed_utils.textutils import slugify, truncate, word_count
 
 __all__ = [
     "days_between",
+    "double",
     "extract_fields",
     "hello_world",
     "humanize_delta",
