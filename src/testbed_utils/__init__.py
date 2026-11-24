@@ -9,6 +9,7 @@ from testbed_utils.dateutils import days_between, humanize_delta, is_weekend
 from testbed_utils.hello import hello_world
 from testbed_utils.numutils import mean, median, percentile
 from testbed_utils.pdfutils import extract_fields
+from testbed_utils.s4_marker import marker
 from testbed_utils.textutils import slugify, truncate, word_count
 
 __all__ = [
@@ -17,6 +18,7 @@ __all__ = [
     "hello_world",
     "humanize_delta",
     "is_weekend",
+    "marker",
     "mean",
     "median",
     "percentile",
