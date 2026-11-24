@@ -1,0 +1,9 @@
+{
+  "storyId": "75c5eb93-b0b3-4388-8505-39fe3c47d4d6",
+  "storyKey": "SCRUM-121",
+  "title": "QA-20261124-AW a helper that reads the project's QA_S4_MARKER value",
+  "decisionId": "45e0f187-028e-42fe-bdb7-0d5883e35003",
+  "actor": "Ally PO \u0026 DEV",
+  "approvedAt": "2026-11-24T05:53:08Z",
+  "planHeadSha": "0c8f3f3dd2295dd9423d374c719e5d74451c0ed4"
+}
