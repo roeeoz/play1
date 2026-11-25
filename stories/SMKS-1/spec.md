@@ -1,12 +1,12 @@
 # Feature Specification Document — Hello world bash script in a dedicated folder (SMKS-1)
 
-> Status: in-progress ticket draft (NOT_READY) — open blocking questions in §8.
+> Status: READY_FOR_SPEC — the developer's answers of 2026-11-25 settle the intake's open questions (§6, §8).
 
 ## 1. Feature Overview
 
-- **What is being built:** a minimal hello-world bash script, `hello.sh`, in its own dedicated folder `hello-world`, that prints "hello world" when run.
-- **Problem:** developers in this repository have no verified, runnable starting point for shell scripting; today the repository holds only Python code (`src/`, `tests/`) and no shell scripts or `hello-world`/`qa` folder.
-- **Target users:** internal developers working in this repository, who run the project's scripts inside shell substitutions such as `$(qa/script.sh)` (product memory "users-internal-devs-shell-substitution"), so any extra output breaks their commands.
+- **What is being built:** a minimal hello-world bash script, `hello.sh`, in its own dedicated folder `hello-world` at the repository root, that prints "hello world" when run.
+- **Problem:** developers in this repository have no verified, runnable starting point for shell scripting; today the repository holds only Python code (`src/`, `tests/`) and no shell scripts and no `hello-world` folder.
+- **Target users:** internal developers working in this repository, who run the project's scripts inside shell substitutions such as `$(...)` (product memory "users-internal-devs-shell-substitution"), so any extra output breaks their commands.
 - This is the only story of its epic (Priority: Must, Size: XS ≈1, traces to R1, R2, R3, R4 · steps 1–4 · RK1).
 
 ## 2. Goals & Non-Goals
@@ -17,27 +17,32 @@ This is the only story of the epic. The script lives in a new folder named `hell
 
 ### Goals
 
-- A developer can run `hello.sh` directly (no explicit `bash`) and get exactly "hello world" on standard output with exit code 0.
+- A developer can run `./hello-world/hello.sh` directly (no explicit `bash`) and get exactly "hello world" on standard output with exit code 0.
 - The script sits alone in its own dedicated `hello-world` folder, without cluttering existing directories.
+- The behavior is verified by automated tests in the repository's existing test location (`tests/`, run by `pytest`).
 
 ### Non-Goals
 
 - Additional scripts.
-- CI/CD integration.
-- Documentation files (subject to the open question on the repository's changelog rule, §8 Q2).
+- CI/CD integration (no change to `.github/workflows/ci.yml`).
+- Documentation files (README, docs pages, a README inside `hello-world`). The single line the repository gate requires in `CHANGELOG.md` is not treated as a documentation file of this feature (§6).
+- Argument handling: no `--help`, no flags and no refusal of unknown arguments — the developer chose to keep exactly to the story, as an exception to the standing `qa/` script rule (§6).
+- Placing the script under `qa/`.
 
 ## 3. Functional Requirements
 
-- **FR1 — Location:** a new folder named `hello-world` holds one file, `hello.sh`, and nothing else. Where the folder sits (repository root, as the story implies with `./hello-world/hello.sh`, or under `qa/` as the standing rule requires) is open — §8 Q1.
-- **FR2 — Direct execution:** `hello.sh` starts with the shebang line `#!/bin/bash` and is executable, so it runs without `bash hello.sh`.
-- **FR3 — Output:** run with no arguments, the script prints exactly the lowercase string "hello world" to standard output, nothing to standard error, and exits with code 0. Whether a single terminating newline counts as allowed is open — §8 Q3.
-- **FR4 — Arguments (pending §8 Q1):** the product's standing rule says every script answers `--help` with exactly one summary line on stdout and exit code 0, and refuses any other unknown argument with a short one-line error on stderr, nothing on stdout, and exit code 2. The story says nothing about arguments; whether this rule applies here is open.
-- **Inputs:** none required. **Outputs:** the "hello world" line on stdout.
+- **FR1 — Location:** a new folder `hello-world` at the repository root holds exactly one file, `hello.sh`, and nothing else (no README, no tests, no other files).
+- **FR2 — Direct execution:** `hello.sh`'s first line is the shebang `#!/bin/bash` and the file is executable, so `./hello-world/hello.sh` runs without `bash hello.sh`.
+- **FR3 — Output:** run with no arguments, the script prints the lowercase line "hello world" to standard output, prints nothing to standard error, and exits with code 0. The line is ended by a single newline, which shell substitution `$(...)` removes, so captured output is exactly `hello world`; there is no leading or trailing whitespace, no other character and no second line.
+- **FR4 — Arguments:** the script defines no flags or argument behavior beyond what the story names. Behavior when arguments are passed is unspecified by the product.
+- **FR5 — Tests:** automated tests covering the acceptance criteria live in `tests/` alongside the repository's existing tests and run under `pytest`.
+- **FR6 — Changelog line:** the change adds one line describing it under `## Unreleased` in `CHANGELOG.md` at the repository root, creating the file with that heading (it does not exist today), as the repository gate requires.
+- **Inputs:** none. **Outputs:** the "hello world" line on stdout.
 
 ## 4. User Experience & Behavior
 
-- **Main flow:** the developer runs `./hello-world/hello.sh` (path pending §8 Q1) from the repository root and sees `hello world`; `$(./hello-world/hello.sh)` yields exactly `hello world`.
-- **Output format:** lowercase, no leading or trailing whitespace, no additional lines, no banner or extra text — any extra text breaks the users' shell substitutions.
+- **Main flow:** from the repository root the developer runs `./hello-world/hello.sh` and sees `hello world`; `$(./hello-world/hello.sh)` yields exactly `hello world`.
+- **Output format:** lowercase, no leading or trailing whitespace, no additional lines, no banner or extra text — extra text would break the users' shell substitutions.
 - **Listing the folder:** shows only `hello.sh`.
 - No visual or interactive look-and-feel applies: this is a command-line script.
 
@@ -50,17 +55,16 @@ This is the only story of the epic. The script lives in a new folder named `hell
 
 ## 6. Dependencies & Constraints (product-level)
 
-- **Standing product rule "qa-script-standing-rule":** every script the project ships lives under `qa/`, prints only to stdout on success, answers `--help` with one summary line (exit 0) and refuses unknown arguments (one-line stderr error, exit 2). The story's `hello-world` folder at the root and its silence on arguments collide with it — §8 Q1.
-- **Repository gate (play1 layout gate, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`):** rule 2 (a new shell script is executable and starts with a shebang) matches the story. Rule 4 requires every pull request to add a line under `## Unreleased` in `CHANGELOG.md` (creating the file if absent — it does not exist today); a pull request that does not touch it gets blocker `PLAY-G4`. The story puts documentation files out of scope — §8 Q2.
-- **Test gate (`.factory/testing.md`):** `pytest` runs on every pull request; adding the script must keep it green.
+- **Exception to the standing product rule "qa-script-standing-rule":** that rule puts every shipped script under `qa/` with `--help` and unknown-argument handling. For this story the developer chose (2026-11-25) to keep exactly to the story: `hello-world/hello.sh` at the root, no flags. The rule stays in force for other work; this story is a recorded exception.
+- **Criterion 4 and the line ending:** read as allowing the single newline that ends the output line (the developer delegated this to the simplest reading); the captured output via `$(...)` is exactly `hello world`.
+- **Repository gate (play1 layout gate, `.factory/plugins/claims-dev/skills/repo-gate/SKILL.md`):** rule 1 (tests under `tests/`) matches FR5; rule 2 (a new shell script is executable and starts with a shebang) matches FR2; rule 4 requires a line under `## Unreleased` in `CHANGELOG.md` — met by FR6, which sits outside `hello-world`, so FR1 still holds.
+- **Test gate (`.factory/testing.md`):** `pytest` runs on every pull request; it must stay green with the new tests.
 - No other product depends on this story.
 
 ## 7. Technical Design (deferred to STRUCTURE)
 
-How the script is written, how its behavior is tested within the repository's `pytest` gate, and how argument handling is implemented (if Q1 keeps it) are left to STRUCTURE.
+How the script is written and how its behavior is tested under `pytest` (for example, running the script as a subprocess from a test in `tests/`) are left to STRUCTURE.
 
 ## 8. Open Questions
 
-- **Q1 (P0) — Location and arguments vs. the standing qa/ rule.** See the scorecard question; working assumption until answered: none — blocking.
-- **Q2 (P0) — CHANGELOG.md line vs. "no documentation files".** The repository gate blocks any pull request that does not add a line to `CHANGELOG.md`.
-- **Q3 (P0) — Terminating newline.** Does "no trailing whitespace and no additional lines" allow the single newline that ends the line?
+- None blocking. Settled on 2026-11-25: location `hello-world/hello.sh` at the root with no argument handling (exception to the `qa/` rule); tests in `tests/`; a terminating newline is allowed; the gate's `CHANGELOG.md` line is added.
