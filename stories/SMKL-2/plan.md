@@ -85,6 +85,42 @@ nothing to another repository and needs nothing from one.
 - Rule 2 of the repo gate (a new shell script must be executable and have a shebang) is met by
   change 1. Rules 1 and 3 are met trivially. Rule 4 is not met, by decision (see answer 1).
 
+## Why the tests sit where they do, and what breaks them
+
+**Place.** The tests go in `tests/`, as the developer asked. That is also the only path the
+repo's gate runs: `pyproject.toml` sets `testpaths = ["tests"]`, and the `test` job in
+`.github/workflows/ci.yml` runs `pytest` on every pull request (see `.factory/testing.md`). Any
+other location would either not run or would need a CI change, and the story rules CI changes
+out.
+
+**Layer.** These are black-box process tests. They run the real file the way a developer runs it
+(`./hello-world/hello.sh` with no `bash` prefix) and look at stdout, stderr and the exit code. The
+script is not part of the installed `testbed_utils` package, so the tests read it from the
+checkout through `__file__`. That checkout file is the thing the story ships. Reading the file's
+text or mocking the shell would not test AC1/AC3: only a real exec proves that the shebang and the
+executable bit work.
+
+**What would break them**, beyond a real regression in the script:
+- **Executable bit lost.** If the file is committed as `100644`, or checked out with
+  `core.fileMode=false`, or extracted from an archive that drops modes, the `os.access` check
+  fails and `subprocess.run` raises `PermissionError`. This is the main reason the build checks
+  `git ls-files -s` for `100755`.
+- **CRLF line endings.** A Windows checkout with `core.autocrlf=true` turns the shebang into
+  `#!/bin/bash\r`, and exec fails with "bad interpreter". The repo has no `.gitattributes`, and
+  the build adds none (out of scope).
+- **No `/bin/bash`.** Windows without WSL, or a minimal container such as Alpine without bash,
+  cannot run the script. CI's `ubuntu-latest` and macOS both have `/bin/bash`; the macOS one
+  (3.2) was checked.
+- **Stray files in `hello-world/`.** The folder-isolation test is strict on purpose (AC2), so a
+  Finder `.DS_Store`, an editor swap file or any other file in that folder fails it locally. CI
+  gets a clean checkout and is not affected. Nothing writes there at test time: Python is never
+  imported from it, so no `__pycache__` appears.
+- **Moving or renaming the folder or script.** The tests use a fixed path relative to `tests/`.
+- **A `noexec` mount** of the checkout also blocks direct execution.
+
+Changing the working directory does not break them, because the path is resolved from `__file__`.
+Neither does whether the package is installed, because the tests import nothing from `src/`.
+
 ## Verification (the build runs these before finishing)
 
 ```sh
