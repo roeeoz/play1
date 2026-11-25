@@ -19,12 +19,33 @@ repository's existing tests live. Anything else: your call, simplest reading." A
 2. **Tests go in `tests/`**, where the existing pytest suite lives: one file,
    `tests/test_hello_world_script.py`. No change to `.github/workflows/ci.yml`. The existing
    `pytest` job picks the file up.
-3. **One trailing newline (simplest reading).** The script is `echo "hello world"`, so stdout is
-   exactly the 12 bytes `hello world\n`: one line, terminated as every line is, with no spaces
-   before or after the text. This was checked on this machine: `od -c` shows
-   `h e l l o   w o r l d \n` and the exit code is 0.
+3. **One trailing newline (simplest reading).** The script uses `echo`, so stdout is the greeting
+   followed by one `\n`: one line, terminated as every line is, with no spaces before or after
+   the text. The greeting itself was changed later. See "Requirement change" below for the exact
+   text and bytes.
 4. **No flags or arguments.** The script ignores arguments. No option parsing, no `set -euo`
    boilerplate.
+
+## Requirement change from the developer (overrides AC1 and AC4 text)
+
+After the plan was approved, the developer changed one requirement: "the default greeting must end
+with two exclamation marks, exactly `Hello, World!!`. Everything else stays as approved."
+
+- The script's output is now exactly `Hello, World!!`, not the story's lowercase `hello world`.
+  Wherever AC1 and AC4 say "hello world", read `Hello, World!!`: capital H, comma, one space,
+  capital W, two `!`. Everything else in those criteria still holds: exit code 0, exactly one line,
+  no spaces before or after the text, and one trailing `\n` as in answer 3. stdout is exactly the
+  15 bytes `Hello, World!!\n`.
+- **Which greeting.** This story ships only `hello-world/hello.sh`, so the change applies to that
+  script. The repo also has a Python console script, `testbed-hello` (`src/testbed_utils/hello.py`),
+  which returns `"Hello, world!"`. It is outside this story and the build does **not** change it,
+  or `tests/test_hello.py` / `tests/test_hello_cli.py`.
+- **Quoting.** Use single quotes: `echo 'Hello, World!!'`. `!!` is bash history expansion.
+  History expansion is off in non-interactive scripts, so double quotes would work too, but single
+  quotes make the literal safe if someone pastes the line into an interactive shell. This was
+  checked on this machine: `od -c` shows `H e l l o ,   W o r l d ! ! \n` and the exit code is 0.
+- The published story in Jira (SMKL-2) still says `hello world`. This plan does not change the
+  ticket. Updating its acceptance criteria is up to the developer or PO.
 
 ## Done when (observable checks)
 
@@ -34,10 +55,10 @@ Run these from the repo root of the work branch:
 - `head -1 hello-world/hello.sh` is exactly `#!/bin/bash` (AC3).
 - `git ls-files -s hello-world/hello.sh` shows mode `100755`, so the executable bit is recorded
   in git and not only on disk (AC3).
-- `./hello-world/hello.sh` prints `hello world`, and `echo $?` gives `0`. The script runs
+- `./hello-world/hello.sh` prints `Hello, World!!`, and `echo $?` gives `0`. The script runs
   directly, without `bash hello.sh` (AC1, AC3).
-- `./hello-world/hello.sh | od -c` shows exactly `h e l l o   w o r l d \n`, and stderr is empty
-  (AC4).
+- `./hello-world/hello.sh | od -c` shows exactly `H e l l o ,   W o r l d ! ! \n`, and stderr is
+  empty (AC4, as changed).
 - `pytest` passes, including the new `tests/test_hello_world_script.py`.
 - The diff against `bench/two-lines/smoke` contains exactly two files:
   `hello-world/hello.sh` and `tests/test_hello_world_script.py`.
@@ -48,7 +69,7 @@ Run these from the repo root of the work branch:
 
    ```bash
    #!/bin/bash
-   echo "hello world"
+   echo 'Hello, World!!'
    ```
 
    Nothing else goes in the folder: no README, no `.gitkeep`.
@@ -58,7 +79,7 @@ Run these from the repo root of the work branch:
 
 2. **`tests/test_hello_world_script.py`** (new). Plain pytest that matches the style of
    `tests/test_hello_cli.py`: a module-level constant for the expected output
-   (`EXPECTED = "hello world\n"`) and small test functions. Find the script relative to the test
+   (`EXPECTED = "Hello, World!!\n"`) and small test functions. Find the script relative to the test
    file with `Path(__file__).resolve().parent.parent / "hello-world" / "hello.sh"`, so the tests
    don't depend on the cwd. Use only the stdlib (`os`, `subprocess`, `pathlib`) and add no
    dependencies. Tests:
@@ -80,8 +101,8 @@ nothing to another repository and needs nothing from one.
 
 - The folder sits at the repo root (`hello-world/`), because AC1 runs `./hello-world/hello.sh`
   from the root.
-- The script uses `echo` rather than `printf`. It is the simplest form, and with a fixed literal
-  it is unambiguous.
+- The script uses `echo` rather than `printf`. It is the simplest form, and with a fixed
+  single-quoted literal it is unambiguous.
 - Rule 2 of the repo gate (a new shell script must be executable and have a shebang) is met by
   change 1. Rules 1 and 3 are met trivially. Rule 4 is not met, by decision (see answer 1).
 
@@ -127,8 +148,8 @@ Neither does whether the package is installed, because the tests import nothing 
 ls -A hello-world                       # -> hello.sh
 head -1 hello-world/hello.sh            # -> #!/bin/bash
 git ls-files -s hello-world/hello.sh    # -> 100755 ...
-./hello-world/hello.sh; echo "exit=$?"  # -> hello world / exit=0
-./hello-world/hello.sh | od -c          # -> h e l l o   w o r l d \n
+./hello-world/hello.sh; echo "exit=$?"  # -> Hello, World!! / exit=0
+./hello-world/hello.sh | od -c          # -> H e l l o ,   W o r l d ! ! \n
 pip install -e ".[test]" && pytest      # all green, new tests included
 git diff --stat bench/two-lines/smoke...HEAD -- . ':!stories'   # -> only the two files above
 ```
