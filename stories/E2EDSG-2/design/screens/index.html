@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsletter sign-up · Screens</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body.gallery { display: block; padding: 32px 24px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  .gallery h1 { font-size: 28px; margin-bottom: 6px; }
+  .gallery > .wrap > p { color: var(--muted); margin-bottom: 24px; }
+  section { background: #fff; border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(15,23,42,.06); }
+  h2 { font-size: 20px; margin: 0 0 4px; }
+  h2 span { color: var(--teal); font-variant-numeric: tabular-nums; }
+  .new { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); border-top: 0; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  .notes ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+  .notes h2 { margin-bottom: 10px; }
+</style>
+</head>
+<body class="gallery">
+<div class="wrap">
+  <h1>Newsletter sign-up · Screens</h1>
+  <p>Every screen of the approved structure in every state it names, drawn from prototype concept B · Focused, for desktop (1280×800, landscape) and phone (390×844, portrait). Each state has its desktop and phone page side by side.</p>
+<section><h2><span>01</span> Welcome</h2><p class="new">New screen.</p><table><thead><tr><th>State</th><th>Desktop 1280×800</th><th>Phone 390×844</th><th>What it shows</th></tr></thead><tbody>
+<tr><td>default</td><td><a href="welcome.default.html">welcome.default.html</a></td><td><a href="welcome.default.mobile.html">welcome.default.mobile.html</a></td><td>Explains the newsletter; “Continue” opens the form.</td></tr>
+</tbody></table></section>
+<section><h2><span>02</span> Sign-up form</h2><p class="new">New screen.</p><table><thead><tr><th>State</th><th>Desktop 1280×800</th><th>Phone 390×844</th><th>What it shows</th></tr></thead><tbody>
+<tr><td>default</td><td><a href="sign-up-form.default.html">sign-up-form.default.html</a></td><td><a href="sign-up-form.default.mobile.html">sign-up-form.default.mobile.html</a></td><td>Empty-of-errors form: sample email, consent unticked.</td></tr>
+<tr><td>invalid email</td><td><a href="sign-up-form.invalid-email.html">sign-up-form.invalid-email.html</a></td><td><a href="sign-up-form.invalid-email.mobile.html">sign-up-form.invalid-email.mobile.html</a></td><td>Email without a domain ending; red field border and message under the field (Scenario 2).</td></tr>
+<tr><td>consent missing</td><td><a href="sign-up-form.consent-missing.html">sign-up-form.consent-missing.html</a></td><td><a href="sign-up-form.consent-missing.mobile.html">sign-up-form.consent-missing.mobile.html</a></td><td>Valid email, box unticked; the consent row turns red and asks for consent (Scenario 3).</td></tr>
+<tr><td>loading</td><td><a href="sign-up-form.loading.html">sign-up-form.loading.html</a></td><td><a href="sign-up-form.loading.mobile.html">sign-up-form.loading.mobile.html</a></td><td>Inputs locked, button disabled with a spinner and “Subscribing…”; Back is disabled too (Scenario 4).</td></tr>
+<tr><td>submission failed</td><td><a href="sign-up-form.submission-failed.html">sign-up-form.submission-failed.html</a></td><td><a href="sign-up-form.submission-failed.mobile.html">sign-up-form.submission-failed.mobile.html</a></td><td>Banner above the button; email and consent kept; button reads “Try again” (Scenario 5).</td></tr>
+</tbody></table></section>
+<section><h2><span>03</span> Confirmation</h2><p class="new">New screen.</p><table><thead><tr><th>State</th><th>Desktop 1280×800</th><th>Phone 390×844</th><th>What it shows</th></tr></thead><tbody>
+<tr><td>default</td><td><a href="confirmation.default.html">confirmation.default.html</a></td><td><a href="confirmation.default.mobile.html">confirmation.default.mobile.html</a></td><td>Tells the visitor to check their inbox, naming the address.</td></tr>
+</tbody></table></section>
+  <section class="notes"><h2>Choices and assumptions</h2><ul>
+    <li>Look and layout come from concept B: one centred card, progress dots, teal #0F766E primary buttons, full-width (standing brand rule). No product screen exists to copy; the font is the system stack, as no checkout ships a product font.</li>
+    <li>Desktop and phone are separate pages; the phone layout uses a body class, not media queries.</li>
+    <li>Invalid email shows the consent box ticked, so the email error is the only one on screen; consent missing shows a valid email, as Scenario 3 describes.</li>
+    <li>Field errors sit directly under their control, in red with an icon, and the control gets a red border; the submission failure is a banner above the button (structure's assumption).</li>
+    <li>Loading locks the inputs and Back as well as the button, so nothing changes while the submission is in flight; the button is not a link.</li>
+    <li>On submission failed the button reads “Try again” and leads, like “Subscribe”, to Confirmation; the cause is given as a problem on our side, since the visitor's input passed validation.</li>
+    <li>Error wording, the consent text and “We sent a welcome email” are proposals; the consent text needs legal confirmation before release.</li>
+    <li>The sample visitor is maya.cohen@example.com; the product is Halo and the newsletter “Halo Release Notes”.</li>
+  </ul></section>
+</div>
+</body>
+</html>

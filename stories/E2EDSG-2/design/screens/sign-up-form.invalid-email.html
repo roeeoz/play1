@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="design-viewport" content="1280x800">
+<title>Sign-up form (invalid email)</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="desktop">
+<header class="site-header"><a class="logo" href="welcome.default.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="10" fill="none" stroke="#0F766E" stroke-width="3"/><circle cx="14" cy="14" r="4" fill="#0F766E"/></svg> Halo</a></header>
+<main>
+  <div class="card">
+    <div class="progress" aria-label="Step 2 of 3">
+      <div class="dots"><span class="on"></span><span class="on"></span><span></span></div>
+      <small>Step 2 of 3 · Your email</small>
+    </div>
+    <h1>Where should we send it?</h1>
+    <p class="lead">Just your email address. No name, no password.</p>
+    <div class="stack">
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" type="email" inputmode="email" autocomplete="email" value="maya.cohen@example" aria-invalid="true" aria-describedby="email-error">
+        <p class="err" id="email-error"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#B91C1C"/><path d="M8 4.2v4.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="11.3" r="1" fill="#fff"/></svg> This email address is missing its ending, like .com. Check it and try again.</p>
+      </div>
+      <label class="consent" for="consent">
+        <input id="consent" type="checkbox" checked>
+        <span>Send me the Halo newsletter. I can unsubscribe at any time.</span>
+      </label>
+      <a class="btn" href="confirmation.default.html">Subscribe</a>
+    </div>
+    <a class="back" href="welcome.default.html">← Back</a>
+  </div>
+</main>
+<footer class="site-footer">Halo · You can unsubscribe from any newsletter email.</footer>
+</body>
+</html>
