@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept A · Split</title>
+<meta name="description" content="split layout: newsletter context beside each step">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  body.wf { display: flex; flex-direction: row; align-items: stretch; background: #F8FAFC; min-height: 100vh; text-align: left; }
+  .wf-main { flex: 1; min-width: 0; padding: 24px; overflow-x: auto; }
+  .wf-main h1 { font-size: 24px; margin: 0 0 6px; text-align: left; }
+  .wf-main > p { color: var(--muted); margin: 0 0 24px; max-width: 760px; }
+  .wf { --s: 0.04; --aw: 110px; }
+  @media (min-width: 900px)  { .wf { --s: 0.068; } }
+  @media (min-width: 1100px) { .wf { --s: 0.115; } }
+  @media (min-width: 1300px) { .wf { --s: 0.16; } }
+  @media (min-width: 1500px) { .wf { --s: 0.21; } }
+  @media (min-width: 1800px) { .wf { --s: 0.28; } }
+  @media (min-width: 2100px) { .wf { --s: 0.35; } }
+  @media (min-width: 2400px) { .wf { --s: 0.42; } }
+  .flow { display: grid; grid-template-columns: calc(1410px * var(--s)) var(--aw) calc(1410px * var(--s)) var(--aw) calc(1410px * var(--s)); grid-template-rows: auto auto auto 56px 56px; column-gap: 0; }
+  .step { font-size: 12px; font-weight: 700; color: var(--teal); letter-spacing: .05em; padding-bottom: 6px; }
+  .thumb { position: relative; display: block; width: calc(1410px * var(--s)); height: calc(1044px * var(--s)); }
+  .thumb .frame { position: absolute; overflow: hidden; background: #fff; border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 2px 8px rgba(15,23,42,.08); }
+  .thumb .wide { left: 0; top: 0; width: calc(1280px * var(--s)); height: calc(800px * var(--s)); }
+  .thumb .phone { left: calc(1020px * var(--s)); top: calc(200px * var(--s)); width: calc(390px * var(--s)); height: calc(844px * var(--s)); border-radius: 8px; border-color: #94A3B8; }
+  .thumb iframe { border: 0; transform: scale(var(--s)); transform-origin: 0 0; pointer-events: none; display: block; }
+  .thumb .wide iframe { width: 1280px; height: 800px; }
+  .thumb .phone iframe { width: 390px; height: 844px; }
+  .thumb:hover .frame { border-color: var(--teal); }
+  .name { padding-top: 8px; font-size: 14px; }
+  .name a { font-weight: 600; }
+  .name small { display: block; color: var(--muted); font-size: 12px; }
+  .arrow { position: relative; }
+  .arrow .grp { position: absolute; left: 6px; right: 6px; top: calc(400px * var(--s)); transform: translateY(-100%); text-align: center; }
+  .lbl { font-size: 12px; line-height: 1.3; color: var(--teal-dark); background: #F8FAFC; display: block; padding-bottom: 2px; }
+  .arrow svg { display: block; width: 100%; height: 14px; overflow: visible; }
+  .lane { position: relative; }
+  .lane svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .lane .lbl { position: absolute; left: 4px; right: 4px; bottom: 10px; text-align: center; color: var(--muted); }
+  .sizes { margin-top: 20px; font-size: 13px; color: var(--muted); }
+  aside { width: 340px; flex: none; border-left: 1px solid var(--line); background: #fff; }
+  aside details { height: 100%; }
+  aside summary { cursor: pointer; padding: 16px 20px; font-weight: 700; font-size: 15px; color: var(--teal-dark); border-bottom: 1px solid var(--line); }
+  aside .body { padding: 16px 20px; font-size: 14px; line-height: 1.5; }
+  aside .body h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 16px 0 6px; }
+  aside .body h3:first-child { margin-top: 0; }
+  aside .body ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+  aside:has(details:not([open])) { width: 44px; }
+  aside details:not([open]) summary { writing-mode: vertical-rl; border-bottom: 0; padding: 16px 12px; height: 100%; }
+  @media (max-width: 700px) {
+    body.wf { flex-direction: column; }
+    aside, aside:has(details:not([open])) { width: auto; border-left: 0; border-top: 1px solid var(--line); }
+    aside details:not([open]) summary { writing-mode: horizontal-tb; height: auto; }
+  }
+</style>
+</head>
+<body class="wf">
+<div class="wf-main">
+  <h1>Concept A · Split</h1>
+  <p>The newsletter sign-up journey in three screens, each split into a context panel (what you get, what happens next) beside the task.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0F766E"/></marker>
+      <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+    </defs>
+  </svg>
+  <div class="flow">
+    <!-- row 1: step numbers -->
+    <div class="step" style="grid-column:1;grid-row:1">01</div>
+    <div class="step" style="grid-column:3;grid-row:1">02</div>
+    <div class="step" style="grid-column:5;grid-row:1">03</div>
+    <!-- row 2: thumbnails and forward arrows -->
+    <a class="thumb" style="grid-column:1;grid-row:2" href="welcome.html"><span class="frame wide"><iframe src="welcome.html" title="Welcome" tabindex="-1"></iframe></span><span class="frame phone"><iframe src="welcome.html" title="Welcome" tabindex="-1"></iframe></span></a>
+    <div class="arrow" style="grid-column:2;grid-row:2"><div class="grp"><span class="lbl">Clicks “Continue”</span><svg><line x1="2" y1="7" x2="96%" y2="7" stroke="#0F766E" stroke-width="2" marker-end="url(#ah)"/></svg></div></div>
+    <a class="thumb" style="grid-column:3;grid-row:2" href="sign-up-form.html"><span class="frame wide"><iframe src="sign-up-form.html" title="Sign-up form" tabindex="-1"></iframe></span><span class="frame phone"><iframe src="sign-up-form.html" title="Sign-up form" tabindex="-1"></iframe></span></a>
+    <div class="arrow" style="grid-column:4;grid-row:2"><div class="grp"><span class="lbl">Enters email, ticks consent, clicks “Subscribe”</span><svg><line x1="2" y1="7" x2="96%" y2="7" stroke="#0F766E" stroke-width="2" marker-end="url(#ah)"/></svg></div></div>
+    <a class="thumb" style="grid-column:5;grid-row:2" href="confirmation.html"><span class="frame wide"><iframe src="confirmation.html" title="Confirmation" tabindex="-1"></iframe></span><span class="frame phone"><iframe src="confirmation.html" title="Confirmation" tabindex="-1"></iframe></span></a>
+    <!-- row 3: names -->
+    <div class="name" style="grid-column:1;grid-row:3"><a href="welcome.html">Welcome</a><small>New screen</small></div>
+    <div class="name" style="grid-column:3;grid-row:3"><a href="sign-up-form.html">Sign-up form</a><small>New screen</small></div>
+    <div class="name" style="grid-column:5;grid-row:3"><a href="confirmation.html">Confirmation</a><small>New screen</small></div>
+    <!-- rows 4–5: dashed return arrows -->
+    <div class="lane" style="grid-column:1;grid-row:4 / span 2"><svg>
+      <line x1="62%" y1="48" x2="100%" y2="48" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <line x1="62%" y1="48" x2="62%" y2="4" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#ahm)"/>
+      <line x1="38%" y1="104" x2="100%" y2="104" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <line x1="38%" y1="104" x2="38%" y2="4" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#ahm)"/>
+    </svg></div>
+    <div class="lane" style="grid-column:2;grid-row:4"><span class="lbl">Clicks “Back”</span><svg><line x1="0" y1="48" x2="100%" y2="48" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/></svg></div>
+    <div class="lane" style="grid-column:3;grid-row:4"><svg>
+      <line x1="0" y1="48" x2="50%" y2="48" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <line x1="50%" y1="48" x2="50%" y2="0" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+    </svg></div>
+    <div class="lane" style="grid-column:2 / span 3;grid-row:5"><span class="lbl">Clicks “Back to the start”</span><svg><line x1="0" y1="48" x2="100%" y2="48" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/></svg></div>
+    <div class="lane" style="grid-column:5;grid-row:4 / span 2"><svg>
+      <line x1="0" y1="104" x2="50%" y2="104" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <line x1="50%" y1="104" x2="50%" y2="0" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 5"/>
+    </svg></div>
+  </div>
+  <p class="sizes">Each screen shows its desktop frame (1280×800, landscape) with its phone frame (390×844, portrait) over the lower-right corner, both at one scale: the two devices the approved structure's Devices line names.</p>
+</div>
+<aside><details open><summary>Choices made in this prototype</summary><div class="body">
+  <h3>Direction</h3>
+  <p>Split layout: every screen pairs a teal context panel (a sample issue, what you are signing up for, what happens next) with the task beside it, and a numbered step bar in the header. On phone the panel stacks above the task.</p>
+  <h3>Interactions chosen</h3>
+  <ul>
+    <li>“Subscribe” goes straight to Confirmation: the prototype has no script, so it shows the path where the email is valid, consent is ticked and the submission succeeds.</li>
+    <li>The form opens with a sample address filled in and the consent box unticked; tick it to walk the path as a visitor would.</li>
+    <li>“Back” on the form returns to Welcome; “Back to the start” on Confirmation is the way back.</li>
+    <li>Primary buttons are teal #0F766E with white text, full-width on phone (standing brand rule).</li>
+  </ul>
+  <h3>What the next step draws</h3>
+  <ul>
+    <li>Sign-up form in every state: invalid email (error beside the field), consent missing, loading (button disabled, spinner), submission failed (input kept, banner with “Try again”).</li>
+    <li>Every screen at desktop 1280×800 and phone 390×844.</li>
+  </ul>
+  <h3>Assumptions</h3>
+  <ul>
+    <li>No product screen exists to copy, so the look is new: system font stack (no product font in any checkout), one palette and type scale.</li>
+    <li>Sample content names the product Halo and the newsletter “Halo Release Notes”.</li>
+    <li>Consent text is a placeholder to be confirmed before release.</li>
+    <li>Confirmation says a welcome email was sent; it does not promise a confirm-your-address step, which the story does not ask for.</li>
+  </ul>
+
+</div></details></aside>
+</body>
+</html>
