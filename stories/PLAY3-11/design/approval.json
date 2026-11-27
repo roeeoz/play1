@@ -10,6 +10,14 @@
       "note": "e2e-design-marks: structure approved for the verification run",
       "approvedAt": "2026-11-27T12:59:32.833073Z",
       "headSha": "7c81edf1ff747e62560451d1a1a76b348ef0370e"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "13e50699-aa36-47b2-8bee-fc054088d3fd",
+      "actor": "Ally PO \u0026 DEV",
+      "note": "e2e-design-marks: concept A, as the agent recommends",
+      "approvedAt": "2026-11-27T13:04:02.520971Z",
+      "headSha": "9e71dcba63f4cd798434d930faf49677429edb8f"
     }
   ]
 }
