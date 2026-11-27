@@ -1,0 +1,14 @@
+{
+  "storyId": "0c3fc0e9-c1c4-457e-82fa-33db7f5c727a",
+  "storyKey": "E2EDSG-1",
+  "title": "e2e-design-devices: New Epic page offers a starting outline",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "d7d01a4d-c087-4a40-836b-67ecfd36629f",
+      "actor": "auto-mode",
+      "approvedAt": "2026-11-27T14:30:03.418003Z",
+      "headSha": "6642730363a7fa0ec09cab630e19dc133d14f4c1"
+    }
+  ]
+}
