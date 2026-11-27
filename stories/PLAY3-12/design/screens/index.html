@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLAY3-12 · Screens</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+body { overflow: auto; }
+.g { max-width: 960px; margin: 0 auto; padding: 40px 24px 56px; }
+.g h1 { margin: 0 0 6px; font-size: 26px; font-weight: 600; }
+.g-lead { margin: 0 0 32px; color: var(--on-surface-variant); }
+.g-screen { border: 1px solid var(--outline); border-radius: var(--radius-lg); padding: 20px 24px 24px; background: var(--surface-container); }
+.g-screen h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+.g-screen h2 span { margin-right: 8px; color: var(--primary-text); }
+.g-change { margin: 0 0 20px; color: var(--on-surface-variant); }
+.g-state { border-top: 1px solid var(--outline-variant); padding: 16px 0 4px; }
+.g-state-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-bottom: 10px; }
+.g-state-head span { color: var(--on-surface-variant); font-size: var(--halo-text-small); }
+.g-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.g-card { display: flex; align-items: center; gap: 12px; border: 1px solid var(--outline); border-radius: var(--radius-md); padding: 14px 16px; background: var(--surface); color: var(--on-surface); text-decoration: none; transition: border-color var(--fast) var(--ease); }
+.g-card:hover { border-color: var(--primary-solid); }
+.g-card svg { width: 28px; height: 28px; flex: none; color: var(--primary-text); }
+.g-card span { display: flex; flex-direction: column; }
+.g-card small { color: var(--on-surface-variant); font-size: var(--halo-text-label); }
+.g-notes { margin-top: 32px; }
+.g-notes h2 { margin: 0 0 8px; font-size: var(--halo-text-small); text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-surface-variant); }
+.g-notes ul { margin: 0; padding-left: 18px; font-size: var(--halo-text-small); line-height: 20px; }
+.g-notes li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main class="g">
+  <h1>PLAY3-12 · New Epic with “Create drafts for”</h1>
+  <p class="g-lead">Every screen and state of the approved structure, drawn from prototype concept A (Compact). Open a page to see it full size; the outlined element is the change.</p>
+  <section class="g-screen">
+    <h2><span>01</span>New Epic</h2>
+    <p class="g-change">Adds a “Create drafts for: PRD | PRD and stories” switch under the epic box, with a line saying what the agent drafts. Everything else is as it is today.</p>
+      <div class="g-state">
+        <div class="g-state-head"><strong>default</strong><span>“PRD” selected · “The agent drafts the PRD.”</span></div>
+        <div class="g-pair">
+          <a class="g-card" href="new-epic.default.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span><strong>Desktop</strong><small>1280 × 800 · full sidebar</small></span></a>
+          <a class="g-card" href="new-epic.default.mobile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg><span><strong>Mobile</strong><small>390 × 844 · sidebar as icon rail</small></span></a>
+        </div>
+      </div>
+      <div class="g-state">
+        <div class="g-state-head"><strong>PRD and stories</strong><span>“PRD and stories” selected · “The agent drafts the PRD and the stories.”</span></div>
+        <div class="g-pair">
+          <a class="g-card" href="new-epic.prd-and-stories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span><strong>Desktop</strong><small>1280 × 800 · full sidebar</small></span></a>
+          <a class="g-card" href="new-epic.prd-and-stories.mobile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg><span><strong>Mobile</strong><small>390 × 844 · sidebar as icon rail</small></span></a>
+        </div>
+      </div>
+  </section>
+  <section class="g-notes">
+    <h2>Choices and assumptions</h2>
+    <ul>
+      <li>Drawn from concept A: one compact row under the box and above the Jira and Confluence pills, with the label, a pill-shaped two-way switch and the line in small grey text.</li>
+      <li>The switch is one radio group, and both options are live on every page. The two states differ only in which option is selected when the page opens.</li>
+      <li>Halo has no phone layout today. The mobile pages show the sidebar as Halo’s own collapsed icon rail and the same page column at 390 px, with tighter outer padding, a 28 px title and the pills wrapping.</li>
+      <li>“Create epic” keeps today’s blue (#0073AA) and its place in the box’s action row on mobile too. The product memory’s teal, full-width primary button rule is not applied, because the story says everything else on the page stays as it is today. This was already approved in the prototype.</li>
+      <li>The states the page already has (Creating…, the creation error, the empty-name error) are not drawn because the inventory doesn’t name them. While the epic is being created, the switch is disabled like the other fields.</li>
+      <li>“Cancel” leads back to this gallery. “Create epic” is drawn but not linked, because the epic conversation stays as it is today and has no page.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
