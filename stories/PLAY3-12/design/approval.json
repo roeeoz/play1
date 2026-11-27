@@ -9,6 +9,13 @@
       "actor": "auto-mode",
       "approvedAt": "2026-11-27T16:02:51.877001Z",
       "headSha": "daa1511a598d2ed5b8c28f3bd25903a423ee79fc"
+    },
+    {
+      "step": "prototype",
+      "decisionId": "82827444-4f70-45a3-a4ac-e565d301a16f",
+      "actor": "auto-mode",
+      "approvedAt": "2026-11-27T16:07:04.948588Z",
+      "headSha": "04fd0e9dfc9ec2174ad701fa5be70ddf5661bdcb"
     }
   ]
 }
