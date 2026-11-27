@@ -1,0 +1,14 @@
+{
+  "storyId": "23af0054-8835-4bd5-bb8a-57358ef667b5",
+  "storyKey": "PLAY3-12",
+  "title": "e2e-design-look: design the \"Create drafts for\" choice on Halo's New Epic page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "5c8b657d-bd8f-461c-a50f-94cb5859735d",
+      "actor": "auto-mode",
+      "approvedAt": "2026-11-27T16:02:51.877001Z",
+      "headSha": "daa1511a598d2ed5b8c28f3bd25903a423ee79fc"
+    }
+  ]
+}
