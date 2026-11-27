@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Epic</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+.shell { display: flex; height: 100vh; overflow: hidden; }
+.sb { width: var(--sidebar-w); flex: 0 0 var(--sidebar-w); display: flex; flex-direction: column; background: var(--surface-container); border-right: 1px solid var(--outline); }
+.sb__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; }
+.sb__brand { display: inline-flex; align-items: center; gap: 8px; color: var(--on-surface); font-size: 20px; font-weight: 700; text-decoration: none; letter-spacing: -0.01em; }
+.sb__brand-mark { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: inset 0 0 0 3px var(--primary-container); }
+.sb__icons { display: flex; gap: 2px; color: var(--on-surface-variant); }
+.sb__icons span { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: var(--radius-sm); }
+.sb__icons svg, .sb__row svg { width: 18px; height: 18px; }
+.sb__fixed { padding: 4px 8px 8px; }
+.sb__row { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 10px; border-radius: var(--radius-sm); color: var(--on-surface); font-size: var(--halo-text-body); }
+.sb__row.is-active { background: var(--primary-container); color: var(--primary-text); font-weight: var(--halo-weight-semibold); }
+.sb__row .end { margin-left: auto; color: var(--on-surface-variant); width: 14px; height: 14px; }
+.sb__proj-mark { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; border-radius: 5px; background: var(--tertiary-container); color: var(--tertiary-solid); font-size: 11px; font-weight: 700; }
+.sb__scroll { flex: 1; overflow: hidden; padding: 0 8px; border-top: 1px solid var(--outline-variant); }
+.sb__search { display: flex; align-items: center; gap: 8px; height: 34px; margin: 10px 2px 8px; padding: 0 10px; border: 1px solid var(--outline); border-radius: var(--radius-sm); color: var(--on-surface-placeholder); font-size: var(--halo-text-small); }
+.sb__search svg { width: 15px; height: 15px; }
+.sb__filters { display: flex; justify-content: space-between; padding: 2px 10px 6px; color: var(--on-surface-variant); font-size: var(--halo-text-label); }
+.sb__divider { height: 1px; margin: 6px 10px; background: var(--outline-variant); }
+.sb__item { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; font-size: 13.5px; color: var(--on-surface); }
+.sb__item span.t { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.sb__item.epic span.t { font-weight: var(--halo-weight-semibold); }
+.sb__type { display: inline-flex; width: 16px; height: 16px; flex: none; align-items: center; justify-content: center; border-radius: 3px; }
+.sb__type svg { width: 11px; height: 11px; }
+.sb__type.epic { background: #904EE2; color: #fff; }
+.sb__type.story { background: #63BA3C; color: #fff; }
+.sb__st { width: 9px; height: 9px; border-radius: 50%; opacity: .5; flex: none; }
+.sb__viewall { padding: 8px 10px; color: var(--primary-text); font-size: var(--halo-text-small); }
+.sb__foot { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--outline-variant); }
+.sb__avatar { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; background: var(--secondary-container); color: var(--on-secondary-container); font-size: 12px; font-weight: 700; }
+.sb__user { flex: 1; line-height: 1.2; font-size: var(--halo-text-small); }
+.sb__user small { display: block; color: var(--on-surface-variant); font-size: var(--halo-text-label); }
+.sb__foot > span:last-child { color: var(--on-surface-variant); display: inline-flex; }
+.sb__foot svg { width: 18px; height: 18px; }
+.main { flex: 1 1 auto; min-width: 0; overflow-y: auto; background: var(--surface); }
+
+.ne { display: flex; min-height: 100%; align-items: center; justify-content: center; padding: var(--space-12) var(--space-6); }
+.ne__column { width: 100%; max-width: 656px; margin: 0 auto; }
+.ne__title { display: flex; align-items: center; justify-content: center; gap: var(--space-3); margin: 0 0 var(--space-2); font-size: 34px; font-weight: var(--halo-weight-semibold); line-height: 40px; }
+.ne__title-icon { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--primary-container); color: var(--primary-text); }
+.ne__title-icon svg { width: 20px; height: 20px; }
+.ne__lead { margin: 0 0 var(--space-6); color: var(--on-surface-variant); font-size: var(--halo-text-body); text-align: center; }
+.ne__box { border: 1px solid var(--outline); border-radius: 20px; padding: 14px var(--space-4) var(--space-3); background: var(--surface-container); box-shadow: 0 2px 8px rgba(22,33,43,.06); }
+.ne__name { padding: 2px 0 10px; font-size: 17px; font-weight: var(--halo-weight-semibold); }
+.ne__description { min-height: 110px; font-size: var(--halo-text-body); line-height: 21px; }
+.ne__description p { margin: 0 0 8px; }
+.ne__bar { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
+.ne__attach { display: inline-flex; width: 34px; height: 34px; align-items: center; justify-content: center; border-radius: var(--radius-sm); color: var(--on-surface-variant); }
+.ne__attach svg { width: 18px; height: 18px; }
+.ne__hint { flex: 1; color: var(--on-surface-disabled); font-size: var(--halo-text-label); }
+.ne__cancel, .ne__create { display: inline-flex; align-items: center; height: 36px; border-radius: var(--radius-sm); padding: 0 var(--space-4); font-weight: var(--halo-weight-semibold); }
+.ne__cancel { padding: 0 10px; color: var(--on-surface-variant); font-weight: normal; }
+.ne__create { background: var(--primary-solid); color: var(--on-primary); }
+.ne__options { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) var(--space-2) 0; }
+.ne__pill { display: inline-flex; max-width: 100%; height: 36px; align-items: center; gap: var(--space-2); border: 1px solid var(--outline); border-radius: var(--radius-full); padding: 0 14px 0 10px; background: var(--surface-container); font-size: 13.5px; white-space: nowrap; }
+.ne__pill.is-locked { background: var(--surface); color: var(--on-surface-variant); }
+.ne__pill-mark { display: inline-flex; width: 18px; height: 18px; }
+.ne__pill-mark svg { width: 100%; height: 100%; }
+.ne__pill-key { color: var(--on-surface-variant); }
+.ne__pill strong { font-weight: var(--halo-weight-semibold); color: var(--on-surface); }
+.ne__pill-end { display: inline-flex; width: 13px; height: 13px; color: var(--on-surface-variant); }
+.ne__pill-end svg { width: 100%; height: 100%; }
+.ne__help { margin-top: 36px; padding: 0 var(--space-2); color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: 19px; }
+.ne__help p { margin: 0 0 10px; }
+.ne__help strong { color: var(--on-surface); font-weight: var(--halo-weight-semibold); }
+/* The draft choice: radios drive the selected look and the line under it, no script. */
+.dc input { position: absolute; opacity: 0; pointer-events: none; }
+.dc__line span { display: none; }
+#dc-prd:checked ~ .dc__line .is-prd, #dc-both:checked ~ .dc__line .is-both { display: inline; }
+
+.dc { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); margin: var(--space-2) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--outline-variant); }
+.dc__label { color: var(--on-surface-variant); font-size: var(--halo-text-small); }
+.dc__seg { display: inline-flex; padding: 3px; border-radius: var(--radius-full); background: var(--surface); border: 1px solid var(--outline); }
+.dc__opt { display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border-radius: var(--radius-full); color: var(--on-surface-variant); font-size: var(--halo-text-small); cursor: pointer; }
+#dc-prd:checked ~ .dc__seg label[for=dc-prd], #dc-both:checked ~ .dc__seg label[for=dc-both] { background: var(--surface-container); color: var(--primary-text); font-weight: var(--halo-weight-semibold); box-shadow: 0 1px 2px rgba(22,33,43,.12); }
+.dc input:focus-visible ~ .dc__seg { outline: 2px solid var(--primary); outline-offset: 2px; }
+.dc__line { flex-basis: 100%; margin: 0; color: var(--on-surface-variant); font-size: var(--halo-text-label); }
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sb" aria-label="Primary navigation">
+  <div class="sb__head">
+    <a class="sb__brand" href="index.html" aria-label="Halo home"><span class="sb__brand-mark" aria-hidden="true"></span>Halo</a>
+    <div class="sb__icons"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></span></div>
+  </div>
+  <div class="sb__fixed">
+    <div class="sb__row is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>New Epic</div>
+    <div class="sb__row"><span class="sb__proj-mark">CD</span>Claims Digital<span class="end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+  </div>
+  <div class="sb__scroll">
+    <div class="sb__row" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v18h18"/><path d="M8 17v-4M13 17V8M18 17v-7"/></svg>Performance</div>
+    <div class="sb__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Search</div>
+    <div class="sb__filters"><span>8 items · Status: All</span><span>Recent</span></div>
+    <div class="sb__item epic"><span class="sb__type epic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><span class="t">Claims status tracker for policyholders</span><span class="sb__st" style="background:#2D9D3A"></span></div><div class="sb__item story"><span class="sb__type story"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="t">Show claim stage on the policy page</span><span class="sb__st" style="background:#2D9D3A"></span></div><div class="sb__item story"><span class="sb__type story"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="t">Notify policyholders when a claim stage changes</span><span class="sb__st" style="background:#F7B207"></span></div><div class="sb__divider"></div><div class="sb__item epic"><span class="sb__type epic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><span class="t">Agent quote comparison</span><span class="sb__st" style="background:#0088C9"></span></div><div class="sb__item story"><span class="sb__type story"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="t">Side-by-side premium table</span><span class="sb__st" style="background:#0088C9"></span></div><div class="sb__item story"><span class="sb__type story"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="t">Export a comparison to PDF</span><span class="sb__st" style="background:#94A3B1"></span></div><div class="sb__divider"></div><div class="sb__item epic"><span class="sb__type epic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><span class="t">Motor policy renewal reminders</span><span class="sb__st" style="background:#94A3B1"></span></div>
+    <div class="sb__viewall">View all</div>
+  </div>
+  <div class="sb__foot"><span class="sb__avatar">DL</span><span class="sb__user">Dana Levi<small>Product owner</small></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span></div>
+</aside>
+<main class="main">
+  <div class="ne">
+    <div class="ne__column">
+      <h1 class="ne__title"><span class="ne__title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>New Epic</h1>
+      <p class="ne__lead">An epic groups the stories the agents will work through. Name it and the factory takes it from there.</p>
+      <form class="ne__form" aria-label="New Epic">
+        <div class="ne__box">
+          <div class="ne__name">Claims self-service for motor policyholders</div>
+          <div class="ne__description">
+            <p>Policyholders with a motor claim call the service centre to ask where their claim stands. Let them open a claim, upload photos of the damage and follow each stage in the personal area, so calls about claim status drop.</p>
+          </div>
+          <fieldset class="dc" data-change="new" style="border-left:0;border-right:0;border-bottom:0;min-width:0">
+              <legend class="dc__label" style="float:left;padding:0">Create drafts for</legend>
+              <input type="radio" name="drafts" id="dc-prd" checked><input type="radio" name="drafts" id="dc-both">
+              <span class="dc__seg" role="presentation"><label class="dc__opt" for="dc-prd">PRD</label><label class="dc__opt" for="dc-both">PRD and stories</label></span>
+              <p class="dc__line" aria-live="polite"><span class="is-prd">The agent drafts the PRD.</span><span class="is-both">The agent drafts the PRD and the stories.</span></p>
+            </fieldset>
+          <div class="ne__bar">
+            <span class="ne__attach" aria-label="Attach reference documents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg></span>
+            <span class="ne__hint">Add reference documents (optional)</span>
+            <span class="ne__cancel">Cancel</span>
+            <span class="ne__create">Create epic</span>
+          </div>
+        </div>
+        
+        <div class="ne__options">
+          <span class="ne__pill is-locked"><span class="ne__pill-mark"><svg viewBox="0 0 24 24"><path fill="#2684FF" d="M22.2 11.3 12.7 1.8 12 1.1 4.8 8.3l-3 3a.9.9 0 0 0 0 1.3l6.5 6.5L12 22.9l7.2-7.2.1-.1 2.9-2.9a.9.9 0 0 0 0-1.4zM12 15.2 8.8 12 12 8.8l3.2 3.2z"/></svg></span><span class="ne__pill-key">Jira board</span><strong>Claims Digital</strong><span class="ne__pill-end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span>
+          <span class="ne__pill"><span class="ne__pill-mark"><svg viewBox="0 0 24 24"><path fill="#2684FF" d="M2.3 17.2c-.2.4-.5.8-.7 1.1a.7.7 0 0 0 .2.9l4.4 2.7a.7.7 0 0 0 .9-.2c.2-.3.4-.7.7-1.2 1.8-2.9 3.5-2.6 6.7-1.1l4.4 2.1a.7.7 0 0 0 .9-.3l2.1-4.7a.7.7 0 0 0-.3-.9c-.9-.4-2.8-1.3-4.4-2.1-6-2.9-11.1-2.7-14.9 3.7zM21.7 6.8c.2-.4.5-.8.7-1.1a.7.7 0 0 0-.2-.9L17.8 2a.7.7 0 0 0-.9.2l-.7 1.2c-1.8 2.9-3.5 2.6-6.7 1.1L5.1 2.4a.7.7 0 0 0-.9.3L2.1 7.4a.7.7 0 0 0 .3.9c.9.4 2.8 1.3 4.4 2.1 6 2.9 11.1 2.7 14.9-3.6z"/></svg></span><span class="ne__pill-key">Confluence</span><strong>Product Management</strong><span class="ne__pill-end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span>
+        </div>
+        <div class="ne__help">
+          <p><strong>Reference documents</strong> — an image, PDF, DOCX, XLSX, Markdown or plain text (a deck: export it as PDF). The agents read them with the description from the first draft on, images and a PDF&#39;s pages as pictures.</p>
+          <p><strong>Connected tools</strong> — the Jira board is set on the project. The epic&#39;s PRD is written to the Confluence spaces you choose; only spaces selected in the project&#39;s Connections are listed.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+</div>
+</body>
+</html>

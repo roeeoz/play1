@@ -1,0 +1,41 @@
+/* Halo tokens, copied from harel-pdlc-frontend src/index.css (.halo-theme). */
+:root {
+  --halo-font-sans: 'Assistant Variable', 'Assistant', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --primary: #0088C9;
+  --primary-solid: #0073AA;
+  --primary-solid-hover: #005F8C;
+  --primary-text: #005F8C;
+  --primary-container: #DBEEF7;
+  --on-primary: #FFFFFF;
+  --primary-container-subtle: #F0F8FC;
+  --secondary-container: #FDF0CD;
+  --on-secondary-container: #795600;
+  --tertiary-solid: #247D2E;
+  --tertiary-container: #E2F1E3;
+  --error: #C0392B;
+  --surface: #F4F7F9;
+  --surface-container: #FFFFFF;
+  --surface-dim: #E9EEF3;
+  --on-surface: #16212B;
+  --on-surface-variant: #4F5D6B;
+  --on-surface-placeholder: #627180;
+  --on-surface-disabled: #94A3B1;
+  --outline: #DCE3E9;
+  --outline-variant: #EAEEF2;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  --radius-xs: 4px; --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-full: 9999px;
+  --sidebar-w: clamp(300px, 28vw, 400px);
+  --halo-border-width: 1px;
+  --halo-text-title: 16px;
+  --halo-text-body: 14px;
+  --halo-text-small: 13px;
+  --halo-text-label: 12px;
+  --halo-weight-semibold: 600;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --fast: 120ms;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--surface); color: var(--on-surface); font-family: var(--halo-font-sans); font-size: var(--halo-text-body); }
+a { color: var(--primary-text); }

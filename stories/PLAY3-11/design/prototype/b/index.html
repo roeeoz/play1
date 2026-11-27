@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept B · Cards</title>
+<meta name="description" content="two option cards under the epic box, given room">
+<link rel="stylesheet" href="tokens.css">
+<style>
+body { min-height: 100%; }
+.wrap { display: flex; align-items: stretch; min-height: 100vh; }
+.flow { flex: 1; min-width: 0; padding: 28px 32px 40px; }
+.flow h1 { margin: 0 0 6px; font-size: 24px; font-weight: var(--halo-weight-semibold); }
+.flow > p { margin: 0 0 28px; max-width: 760px; color: var(--on-surface-variant); line-height: 1.5; }
+:root { --s: .16; }
+@media (min-width: 1000px) { :root { --s: .22; } }
+@media (min-width: 1100px) { :root { --s: .3; } }
+@media (min-width: 1300px) { :root { --s: .44; } }
+@media (min-width: 1600px) { :root { --s: .66; } }
+@media (min-width: 2000px) { :root { --s: .92; } }
+@media (min-width: 2400px) { :root { --s: 1; } }
+.row { display: flex; align-items: center; justify-content: center; gap: 0; }
+.ghost { flex: none; max-width: 120px; padding: 10px 16px; border: 1.5px dashed var(--outline); border-radius: var(--radius-full); background: var(--surface-container); color: var(--on-surface-variant); font-size: var(--halo-text-small); text-align: center; line-height: 1.3; }
+.ghost small { display: block; font-size: 11px; color: var(--on-surface-disabled); }
+.arrows { flex: 0 1 200px; min-width: 130px; display: flex; flex-direction: column; gap: 18px; padding: 0 8px; }
+.arrow { display: flex; flex-direction: column; align-items: stretch; }
+.arrow span { font-size: var(--halo-text-label); color: var(--on-surface-variant); text-align: center; margin-bottom: 4px; line-height: 1.3; }
+.arrow svg { width: 100%; height: 12px; display: block; }
+.screen { flex: none; display: flex; flex-direction: column; align-items: center; }
+.step { align-self: flex-start; margin-bottom: 6px; color: var(--primary-text); font-size: var(--halo-text-label); font-weight: 700; letter-spacing: .06em; }
+.thumb { display: block; width: calc(1280px * var(--s)); height: calc(800px * var(--s)); overflow: hidden; border: 1px solid var(--outline); border-radius: 10px; background: var(--surface); box-shadow: 0 6px 20px -8px rgba(22,33,43,.25); }
+.thumb iframe { width: 1280px; height: 800px; border: 0; transform: scale(var(--s)); transform-origin: 0 0; pointer-events: none; }
+.name { margin-top: 10px; font-weight: var(--halo-weight-semibold); }
+.what { max-width: calc(1280px * var(--s)); margin-top: 4px; color: var(--on-surface-variant); font-size: var(--halo-text-small); text-align: center; }
+.choices { flex: none; display: flex; border-left: 1px solid var(--outline); background: var(--surface-container); }
+.choices details { width: 340px; padding: 20px 22px; font-size: var(--halo-text-small); line-height: 1.5; color: var(--on-surface-variant); }
+.choices summary { cursor: pointer; color: var(--on-surface); font-weight: var(--halo-weight-semibold); font-size: var(--halo-text-body); }
+.choices details:not([open]) { width: 44px; padding: 20px 10px; }
+.choices details:not([open]) summary { writing-mode: vertical-rl; list-style: none; }
+.choices ul { padding-left: 18px; margin: 12px 0 0; }
+.choices li { margin-bottom: 8px; }
+.choices strong { color: var(--on-surface); }
+@media (max-width: 700px) { .wrap { flex-direction: column; } .choices { border-left: 0; border-top: 1px solid var(--outline); } .choices details, .choices details:not([open]) { width: auto; } .choices details:not([open]) summary { writing-mode: horizontal-tb; } .row { flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="flow">
+    <h1>Concept B · Cards</h1>
+    <p>The product owner opens New Epic from the workspace, picks what the agent drafts first — the PRD, or the PRD and the stories — and creates the epic; Workspace and the epic&#39;s conversation stay as they are today.</p>
+    <div class="row">
+      <div class="arrows">
+        <div class="arrow"><span>From Workspace, as it is today: clicks “New Epic”</span><svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6h96" stroke="var(--primary-solid)" stroke-width="1.6" vector-effect="non-scaling-stroke" fill="none"/><path d="M92 1l6 5-6 5" stroke="var(--primary-solid)" stroke-width="1.6" fill="none" vector-effect="non-scaling-stroke"/></svg></div>
+        <div class="arrow"><span>“Cancel”, back to Workspace as it is today</span><svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><path d="M100 6H4" stroke="var(--primary-solid)" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke" fill="none"/><path d="M8 1 2 6l6 5" stroke="var(--primary-solid)" stroke-width="1.6" fill="none" vector-effect="non-scaling-stroke"/></svg></div>
+      </div>
+      <div class="screen">
+        <div class="step">01</div>
+        <a class="thumb" href="new-epic.html"><iframe src="new-epic.html" title="New Epic"></iframe></a>
+        <a class="name" href="new-epic.html">New Epic</a>
+        <div class="what">Added: “Create drafts for” as two option cards under the box, with its line under them.</div>
+      </div>
+      <div class="arrows">
+        <div class="arrow"><span>“Create epic”, to the epic&#39;s conversation as it is today</span><svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6h96" stroke="var(--primary-solid)" stroke-width="1.6" vector-effect="non-scaling-stroke" fill="none"/><path d="M92 1l6 5-6 5" stroke="var(--primary-solid)" stroke-width="1.6" fill="none" vector-effect="non-scaling-stroke"/></svg></div>
+      </div>
+    </div>
+  </section>
+  <aside class="choices"><details open><summary>Choices made in this prototype</summary>
+    <ul><li><strong>Direction — Cards:</strong> the choice is its own labelled step under the epic box: two option cards with an icon each and a radio mark, and the line under them. It is more visible and easier to hit, at the cost of a taller page; the box itself is untouched.</li>
+<li><strong>Click the two options</strong> on New Epic: the selection and the line under it switch (radio buttons and CSS, no script). “PRD” is selected when the page opens.</li>
+<li><strong>Line wording:</strong> “The agent drafts the PRD.” / “The agent drafts the PRD and the stories.”, as assumed in the approved structure.</li>
+<li><strong>Everything else is today&#39;s page</strong> (NewEpicPage.tsx): box, Cancel, Create epic, Jira and Confluence pills, help text. Create epic keeps today&#39;s blue: the story asks that nothing else changes, so the teal brand rule is not applied here.</li>
+<li><strong>Cancel and Create epic</strong> lead to Workspace and the epic&#39;s conversation, which have no page; they are drawn, not linked. The Halo logo in the sidebar leads back here.</li>
+<li><strong>Next step</strong> draws New Epic in its two states, “PRD” selected and “PRD and stories” selected, for desktop and phone.</li>
+<li>Thumbnail: desktop browser at 1280×800; the story names no device.</li>
+</ul>
+  </details></aside>
+</div>
+</body>
+</html>
