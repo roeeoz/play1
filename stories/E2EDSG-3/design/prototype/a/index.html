@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Outline as compact chips inside the composer, confirmation in the box">
+<title>Concept A · Inline</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+body { margin: 0; }
+.wf { display: flex; min-height: 100vh; align-items: stretch; background: var(--surface); color: var(--on-surface); font-family: var(--halo-font-sans);
+  --s: 0.08; --a: 110px; --w: calc(1280px * var(--s)); --h: calc(720px * var(--s)); }
+.wf__flow { flex: 1; min-width: 0; padding: var(--space-8); overflow-x: auto; }
+.wf__flow h1 { margin: 0 0 var(--space-2); font-size: var(--halo-text-headline); line-height: var(--halo-leading-headline); font-weight: var(--halo-weight-semibold); }
+.wf__intro { max-width: 760px; margin: 0 0 var(--space-8); color: var(--on-surface-variant); font-size: var(--halo-text-body); line-height: var(--halo-leading-body); }
+.wf__grid { display: grid; grid-template-columns: var(--w) var(--a) var(--w) var(--a) var(--w); align-items: start; }
+.wf__step { display: flex; flex-direction: column; gap: var(--space-2); }
+.wf__num { color: var(--primary-text); font-size: var(--halo-text-label); line-height: 16px; font-weight: var(--halo-weight-semibold); letter-spacing: 0.06em; }
+.wf__thumb { display: block; position: relative; width: var(--w); height: var(--h); overflow: hidden; border: var(--halo-border-width) solid var(--outline); border-radius: var(--radius-sm); background: var(--surface-container); box-shadow: var(--elev-soft); box-sizing: content-box; }
+.wf__thumb:hover { border-color: var(--primary-solid); }
+.wf__thumb iframe { width: 1280px; height: 720px; border: 0; transform: scale(var(--s)); transform-origin: 0 0; pointer-events: none; }
+.wf__name { color: var(--primary-text); font-size: var(--halo-text-body); font-weight: var(--halo-weight-semibold); text-decoration: none; }
+.wf__name:hover { text-decoration: underline; }
+.wf__what { margin: 0; color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: var(--halo-leading-small); }
+.wf__arrow { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-1); padding: calc(16px + var(--space-2) + var(--h) / 2 - 40px) var(--space-2) 0; }
+.wf__label { min-height: 32px; display: flex; align-items: flex-end; justify-content: center; text-align: center; color: var(--on-surface); font-size: var(--halo-text-label); line-height: var(--halo-leading-label); }
+.wf__arrowline { position: relative; height: 12px; }
+.wf__line { position: absolute; inset: 0 8px 0 0; width: calc(100% - 8px); height: 12px; overflow: visible; }
+.wf__line line, .wf__ret path { stroke: var(--primary-solid); stroke-width: 2; fill: none; }
+.wf__head { position: absolute; right: 0; top: 0; width: 12px; height: 12px; }
+.wf__head path { fill: var(--primary-solid); }
+.wf__return { grid-column: 1 / 4; position: relative; height: 64px; margin-top: var(--space-2); }
+.wf__ret { position: absolute; top: 10px; left: calc(var(--w) / 2); width: calc(var(--w) + var(--a)); height: 46px; overflow: visible; }
+.wf__ret path { stroke-dasharray: 6 5; }
+.wf__ret-head { position: absolute; top: 0; left: calc(var(--w) / 2 - 6px); width: 12px; height: 12px; transform: rotate(-90deg); }
+.wf__ret-head path { fill: var(--primary-solid); }
+.wf__ret-label { position: absolute; top: 18px; left: calc(var(--w) / 2 + 16px); width: calc(var(--w) + var(--a) - 32px); text-align: center; font-size: var(--halo-text-label); line-height: var(--halo-leading-label); color: var(--on-surface); }
+.wf__note { margin: var(--space-6) 0 0; max-width: 900px; color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: var(--halo-leading-small); }
+.wf__side { flex: none; position: sticky; top: 0; align-self: flex-start; height: 100vh; border-left: var(--halo-border-width) solid var(--outline); background: var(--surface-container); box-sizing: border-box; overflow-y: auto; }
+.wf__side details[open] { width: 340px; padding: var(--space-6); box-sizing: border-box; }
+.wf__side summary { cursor: pointer; color: var(--on-surface); font-size: var(--halo-text-title); font-weight: var(--halo-weight-semibold); line-height: var(--halo-leading-title); }
+.wf__side details:not([open]) { width: 44px; }
+.wf__side details:not([open]) summary { writing-mode: vertical-rl; padding: var(--space-4) var(--space-3); list-style: none; font-size: var(--halo-text-small); }
+.wf__side ul { margin: var(--space-4) 0 0; padding-left: 18px; color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: var(--halo-leading-small); }
+.wf__side li { margin-bottom: var(--space-3); }
+.wf__side strong { color: var(--on-surface); }
+.wf__side code { font-family: var(--halo-font-mono); font-size: 12px; }
+@media (max-width: 699px) { .wf { flex-direction: column; } .wf__side { position: static; height: auto; border-left: 0; border-top: var(--halo-border-width) solid var(--outline); } .wf__side details[open] { width: auto; } }
+@media (min-width: 700px) { .wf { --s: 0.03; } }
+@media (min-width: 800px) { .wf { --s: 0.045; } }
+@media (min-width: 900px) { .wf { --s: 0.07; } }
+@media (min-width: 1000px) { .wf { --s: 0.095; } }
+@media (min-width: 1200px) { .wf { --s: 0.125; --a: 150px; } }
+@media (min-width: 1400px) { .wf { --s: 0.175; } }
+@media (min-width: 1600px) { .wf { --s: 0.225; } }
+@media (min-width: 1900px) { .wf { --s: 0.3; } }
+@media (min-width: 2200px) { .wf { --s: 0.38; } }
+@media (min-width: 2600px) { .wf { --s: 0.48; } }
+@media (min-width: 3000px) { .wf { --s: 0.58; } }
+</style>
+</head>
+<body class="halo-theme">
+<div class="wf">
+  <section class="wf__flow">
+    <h1>Concept A · Inline</h1>
+    <p class="wf__intro">The outline is a row of three compact chips inside the New Epic composer, right under the description; the confirmation drops into the box beneath them. The PO reaches New Epic from the Workspace’s sidebar, as it is today, and leaves it by Create epic or Cancel, also as today.</p>
+    <div class="wf__grid">
+      <div class="wf__step"><div class="wf__num">STEP 01</div><a class="wf__thumb" href="new-epic.html" tabindex="-1" aria-hidden="true"><iframe src="new-epic.html" title="New Epic"></iframe></a><a class="wf__name" href="new-epic.html">New Epic</a><p class="wf__what">Outline chips added in the composer; Blank on, box empty</p></div><div class="wf__arrow"><span class="wf__label">Picks “New capability”</span><div class="wf__arrowline"><svg class="wf__line" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="6" x2="100" y2="6" vector-effect="non-scaling-stroke"/></svg><svg class="wf__head" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg></div></div><div class="wf__step"><div class="wf__num">STEP 02</div><a class="wf__thumb" href="new-epic.outline-selected.html" tabindex="-1" aria-hidden="true"><iframe src="new-epic.outline-selected.html" title="New Epic (outline selected)"></iframe></a><a class="wf__name" href="new-epic.outline-selected.html">New Epic (outline selected)</a><p class="wf__what">New capability on; its headings fill the box</p></div><div class="wf__arrow"><span class="wf__label">Writes own text, picks “Change to an existing screen”</span><div class="wf__arrowline"><svg class="wf__line" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="6" x2="100" y2="6" vector-effect="non-scaling-stroke"/></svg><svg class="wf__head" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg></div></div><div class="wf__step"><div class="wf__num">STEP 03</div><a class="wf__thumb" href="new-epic.confirm-replace.html" tabindex="-1" aria-hidden="true"><iframe src="new-epic.confirm-replace.html" title="New Epic (confirm replace)"></iframe></a><a class="wf__name" href="new-epic.confirm-replace.html">New Epic (confirm replace)</a><p class="wf__what">Own text in the box; replace confirmation under the chips</p></div>
+      <div class="wf__return"><svg class="wf__ret-head" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg><svg class="wf__ret" viewBox="0 0 100 46" preserveAspectRatio="none" aria-hidden="true"><path d="M100 0 V40 H0 V2" vector-effect="non-scaling-stroke"/></svg><span class="wf__ret-label">Picks “Blank”: the page’s headings are cleared</span></div>
+    </div>
+    <p class="wf__note">Each screen is shown at desktop 1280×720, landscape — the viewport the approved structure names (Playwright’s Desktop Chrome, the only device the product’s tests use); the New Epic page has no phone layout, so none is drawn. Steps 02 and 03 are states of the one New Epic screen: the confirmation and the filled outline show only there.</p>
+  </section>
+  <aside class="wf__side"><details open><summary>Choices made in this prototype</summary><ul><li><strong>Where the outline sits:</strong> a chip row labelled “Outline” inside the rounded composer, between the description and the attachment bar, behind a hairline — part of the writing surface, one glance from the text it fills.</li><li><strong>Confirmation:</strong> an amber strip inside the box, under the chips, with Keep my text and Replace text; the chip the PO picked shows dashed until they answer.</li><li><strong>One choice, Blank first:</strong> the three outlines are a single radio group; the page opens on Blank with the description empty (AC 1).</li><li><strong>Filling:</strong> on a box that is empty or holds only the page’s headings, an outline puts its headings in at once (AC 2); Blank clears the page’s headings. Headings are Markdown <code>## </code> lines: New capability — Problem, Users, What they can do, Out of scope; Change to an existing screen — Screen, What changes, Why, Out of scope.</li><li><strong>Own text:</strong> any text the PO typed, edited headings included, makes any other outline — Blank too — ask before replacing it (AC 3). Keep my text leaves the text and the previous outline; Replace text puts the new headings in.</li><li><strong>Buttons:</strong> Replace text is outlined in the error red because it clears text; Keep my text is the neutral, safe one. Neither is a primary action, so the brand’s teal primary rule (#0F766E) is not used here; Create epic keeps today’s blue — the story does not change it.</li><li><strong>Box height:</strong> once an outline fills it the description grows to 230 px so every heading shows (today it is 110 px and would scroll).</li><li><strong>What is clickable:</strong> the outline options, the confirmation’s buttons (in-page anchors show the kept or replaced result) and the sidebar’s New Epic, which reopens a fresh page. Create epic (to the Epic conversation), Cancel (to the Workspace) and the rest of the sidebar lead to screens that stay as they are today and are drawn, not linked.</li><li><strong>Font:</strong> the product’s Assistant Variable is not in the checkout, so the pages use the stack’s system-ui fallback.</li><li><strong>Walking to step 03:</strong> a prototype cannot read typing, so on step 02 a click into the description fills it with sample text of the PO’s own; “Change to an existing screen” then opens the confirmation.</li><li><strong>Next step draws:</strong> New Epic in its three states — default, outline selected, confirm replace — at desktop 1280×720.</li></ul></details></aside>
+</div>
+</body>
+</html>
