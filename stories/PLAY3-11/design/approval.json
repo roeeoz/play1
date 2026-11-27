@@ -1,0 +1,15 @@
+{
+  "storyId": "13b494be-c3c5-4f88-a0d9-0c8739cad014",
+  "storyKey": "PLAY3-11",
+  "title": "e2e-design-marks: design the \"Create drafts for\" choice on Halo's New Epic page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "296a6286-364f-4032-957a-fdf60ccd1289",
+      "actor": "Ally PO \u0026 DEV",
+      "note": "e2e-design-marks: structure approved for the verification run",
+      "approvedAt": "2026-11-27T12:59:32.833073Z",
+      "headSha": "7c81edf1ff747e62560451d1a1a76b348ef0370e"
+    }
+  ]
+}
