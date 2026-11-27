@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PLAY3-11 screens</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+body { padding: 32px; }
+.g { max-width: 1240px; margin: 0 auto; }
+h1 { margin: 0 0 6px; font-size: 24px; font-weight: var(--halo-weight-semibold); }
+.g > p { margin: 0 0 24px; color: var(--on-surface-variant); line-height: 1.5; max-width: 820px; }
+h2 { margin: 28px 0 4px; font-size: 18px; font-weight: var(--halo-weight-semibold); }
+h2 span { color: var(--primary-text); margin-right: 8px; }
+.what { margin: 0 0 16px; color: var(--on-surface-variant); }
+h3 { margin: 20px 0 10px; font-size: var(--halo-text-body); font-weight: var(--halo-weight-semibold); }
+.pair { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.tile { display: block; padding: 16px 18px; border: 1px solid var(--outline); border-radius: var(--radius-md); background: var(--surface-container); text-decoration: none; color: var(--on-surface); min-width: 240px; }
+.tile strong { display: block; color: var(--primary-text); }
+.tile small { color: var(--on-surface-variant); }
+.notes { margin-top: 32px; padding: 16px 20px; border: 1px solid var(--outline); border-radius: var(--radius-md); background: var(--surface-container); color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: 1.5; }
+.notes h2 { margin-top: 0; font-size: var(--halo-text-body); color: var(--on-surface); }
+.notes ul { margin: 0; padding-left: 18px; }
+</style>
+</head>
+<body>
+<div class="g">
+  <h1>PLAY3-11 · “Create drafts for” on New Epic</h1>
+  <p>Every screen of the approved structure in every state it names, drawn from prototype concept A (Inline). Workspace and the epic&#39;s conversation stay as they are today and have no page.</p>
+  <h2><span>01</span>New Epic</h2>
+  <p class="what">Added: a “Create drafts for: PRD | PRD and stories” switch inside the epic box, above the actions, with a line under it naming what the agent drafts; the rest of the page is as it is today.</p>
+  <h3>default — “PRD” selected, “The agent drafts the PRD.”</h3>
+  <div class="pair">
+    <a class="tile" href="new-epic.default.html"><strong>Desktop</strong><small>1280 wide, sidebar and main panel</small></a>
+    <a class="tile" href="new-epic.default.mobile.html"><strong>Mobile</strong><small>390 wide, top bar</small></a>
+  </div>
+  <h3>PRD and stories — “PRD and stories” selected, “The agent drafts the PRD and the stories.”</h3>
+  <div class="pair">
+    <a class="tile" href="new-epic.prd-and-stories.html"><strong>Desktop</strong><small>1280 wide, sidebar and main panel</small></a>
+    <a class="tile" href="new-epic.prd-and-stories.mobile.html"><strong>Mobile</strong><small>390 wide, top bar</small></a>
+  </div>
+  <section class="notes">
+    <h2>Choices made</h2>
+    <ul>
+      <li>The switch is a radio pair: each page opens in its state and the other option can still be clicked (CSS only).</li>
+      <li>Create epic keeps today&#39;s blue (#0073AA), as in the approved prototype: the story asks that nothing else on the page changes.</li>
+      <li>Mobile: Halo has no phone layout today, so the sidebar becomes a top bar with the Halo logo, notifications and a menu button; the column takes the full width, the switch spans the box, and Create epic is full-width under the attach row with Cancel under it (the standing rule for primary buttons on mobile). The Jira and Confluence pills stack.</li>
+      <li>The Halo logo on every page leads back to this gallery.</li>
+    </ul>
+  </section>
+</div>
+</body>
+</html>
