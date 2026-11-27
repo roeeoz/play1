@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept B · Described</title>
+<meta name="description" content="three described outline cards under the box, callout previews the headings">
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="wf-body">
+<main class="wf-main">
+  <h1>Concept B · Described</h1>
+  <p class="wf-intro">The New Epic page with a starting outline: from the page as it opens, to an outline filling the box, to the on-the-spot question before typed text is replaced.</p>
+  <div class="wf-row"><div><div class="wf-step">STEP 01</div><a class="wf-thumb" href="new-epic.html"><iframe src="new-epic.html" title="New Epic" loading="lazy" tabindex="-1"></iframe></a><a class="wf-name" href="new-epic.html">New Epic</a><p class="wf-change">Outline choice added under the description; Blank selected, box empty.</p></div><div class="wf-arrow"><span>Picks “New capability” (box empty)</span><div style="display:flex;align-items:center"><div style="flex:1;height:1.5px;background:var(--primary-solid)"></div><svg viewBox="0 0 10 12" style="width:10px;height:12px;flex:none" aria-hidden="true"><path d="M0 0 10 6 0 12z" fill="var(--primary-solid)"/></svg></div></div><div><div class="wf-step">STEP 02</div><a class="wf-thumb" href="new-epic.outline-selected.html"><iframe src="new-epic.outline-selected.html" title="New Epic (outline selected)" loading="lazy" tabindex="-1"></iframe></a><a class="wf-name" href="new-epic.outline-selected.html">New Epic (outline selected)</a><p class="wf-change">New capability picked: its headings fill the empty box.</p></div><div class="wf-arrow"><span>Types under the headings, picks “Change to an existing screen”</span><div style="display:flex;align-items:center"><div style="flex:1;height:1.5px;background:var(--primary-solid)"></div><svg viewBox="0 0 10 12" style="width:10px;height:12px;flex:none" aria-hidden="true"><path d="M0 0 10 6 0 12z" fill="var(--primary-solid)"/></svg></div></div><div><div class="wf-step">STEP 03</div><a class="wf-thumb" href="new-epic.confirming-replace.html"><iframe src="new-epic.confirming-replace.html" title="New Epic (confirming replace)" loading="lazy" tabindex="-1"></iframe></a><a class="wf-name" href="new-epic.confirming-replace.html">New Epic (confirming replace)</a><p class="wf-change">Typed text: picking another outline asks on the spot. “Keep my text” stays here.</p></div></div>
+  <div class="wf-returns">
+    <div class="wf-return to-left r1"><svg viewBox="0 0 12 10" aria-hidden="true"><path d="M0 10 6 0 12 10z" fill="var(--primary-solid)"/></svg><span>Clicks “Replace text”: the Change to an existing screen headings fill the box</span></div>
+    <div class="wf-return to-left r2"><svg viewBox="0 0 12 10" aria-hidden="true"><path d="M0 10 6 0 12 10z" fill="var(--primary-solid)"/></svg><span>Picks “Blank”: the page’s headings are cleared</span></div>
+  </div>
+  <div class="wf-foot">
+    <p>Frames show desktop 1280×720, landscape: the Playwright “Desktop Chrome” viewport the product’s tests use. The page has no phone layout.</p>
+    <p>Create epic and Cancel end the journey on the Workspace, as it is today (no page).</p>
+  </div>
+</main>
+<aside class="wf-aside"><details open><summary>Choices made in this prototype</summary>
+<h2>This concept</h2><ul><li>The outline is three radio cards under the composer box, each naming its headings; replacing typed text asks in a callout that lists the headings that would come in.</li></ul>
+<h2>Interactions chosen</h2><ul>
+<li>Outline choice is one radio group: Blank, New capability, Change to an existing screen; Blank is selected when the page opens.</li>
+<li>Into an empty box (or one holding only unedited page headings) a pick fills the headings at once, with no question.</li>
+<li>Over text the PO typed, the pick shows as pending and the confirmation asks on the spot: “Keep my text” (selection goes back) or “Replace text”.</li>
+<li>“Replace text” is the error tone of Halo’s destructive dialog buttons, not a primary action: it discards typed text.</li>
+<li>Blank clears only headings the page put in; over typed text it changes nothing and asks nothing.</li>
+<li>Headings are Markdown “## ” lines: New capability → Problem, Users, What they can do, Out of scope; Change to an existing screen → Screen today, What changes, Why, Out of scope.</li></ul>
+<h2>Prototype only</h2><ul>
+<li>No scripts: picks are links between state pages; on “outline selected”, “Change to an existing screen” shows its headings through an anchor.</li>
+<li>Typing is not simulated: a dashed note on step 02 jumps to step 03.</li>
+<li>Cancel, Create epic and the Halo logo lead to the Workspace, which has no page: here they return to this wireflow.</li>
+<li>The Assistant font is not in the checkout, so pages draw in the stack’s system-ui fallback.</li></ul>
+<h2>Next step draws</h2><ul><li>New Epic in its three states — default, outline selected, confirming replace — at desktop 1280×720, from the chosen concept.</li></ul>
+<h2>Left as it is today</h2><ul><li>The rest of the page, the sidebar and the Create epic colour (#0073AA). The standing brand rule asks for teal #0F766E on primary actions; that is a change outside this story and is left for the designer.</li></ul></details></aside>
+</body>
+</html>
