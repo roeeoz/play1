@@ -1,0 +1,14 @@
+{
+  "storyId": "89a31d09-3c4c-4231-b5b6-703d4e747c01",
+  "storyKey": "E2EDSG-2",
+  "title": "e2e-design-devices: Newsletter sign-up page",
+  "approvals": [
+    {
+      "step": "structure",
+      "decisionId": "410095bc-0e65-4a76-ba11-3d5c8c7a29ee",
+      "actor": "auto-mode",
+      "approvedAt": "2026-11-27T14:42:01.079829Z",
+      "headSha": "c17fbb268d4d9d6387e90ab5016fd3b910b20481"
+    }
+  ]
+}
