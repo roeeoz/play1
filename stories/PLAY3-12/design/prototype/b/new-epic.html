@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Epic</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+.drafts { margin: 0; border: 0; padding: 0; min-width: 0; }
+.drafts input { position: absolute; opacity: 0; pointer-events: none; }
+.drafts .line-both { display: none; }
+#drafts-both:checked ~ .drafts-line .line-prd { display: none; }
+#drafts-both:checked ~ .drafts-line .line-both { display: inline; }
+/* Concept B: a labelled group of two option cards, the line in a note under them. */
+.drafts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; padding: 0 8px; }
+.drafts legend { grid-column: 1 / -1; padding: 0 0 8px; color: var(--on-surface-variant); font-size: var(--halo-text-label); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.drafts-card { display: flex; align-items: center; gap: 12px; border: 1px solid var(--outline); border-radius: 14px; padding: 12px 14px; background: var(--surface-container); cursor: pointer; transition: border-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease); }
+.drafts-card:hover { border-color: var(--on-surface-disabled); }
+.drafts-icon { display: inline-flex; width: 34px; height: 34px; flex: none; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--surface); color: var(--on-surface-variant); }
+.drafts-icon svg { width: 18px; height: 18px; }
+.drafts-card strong { flex: 1; font-weight: 600; }
+.drafts-radio { width: 18px; height: 18px; flex: none; border: 1.5px solid var(--outline); border-radius: 50%; background: var(--surface-container); }
+#drafts-prd:checked ~ label[for="drafts-prd"],
+#drafts-both:checked ~ label[for="drafts-both"] { border-color: var(--primary-solid); box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.12); }
+#drafts-prd:checked ~ label[for="drafts-prd"] .drafts-icon,
+#drafts-both:checked ~ label[for="drafts-both"] .drafts-icon { background: var(--primary-container); color: var(--primary-text); }
+#drafts-prd:checked ~ label[for="drafts-prd"] .drafts-radio,
+#drafts-both:checked ~ label[for="drafts-both"] .drafts-radio { border: 5px solid var(--primary-solid); }
+#drafts-prd:focus-visible ~ label[for="drafts-prd"],
+#drafts-both:focus-visible ~ label[for="drafts-both"] { outline: 2px solid var(--primary-text); outline-offset: 2px; }
+.drafts-line { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; margin: 0; border-radius: var(--radius-sm); padding: 8px 12px; background: var(--primary-container-subtle); color: var(--on-primary-container); font-size: var(--halo-text-small); }
+.drafts-line svg { width: 16px; height: 16px; flex: none; color: var(--primary-text); }
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" aria-label="Primary navigation">
+  <div class="sb-header">
+    <div class="sb-brand"><svg viewBox="0 0 48 24" aria-label="Halo"><circle cx="8" cy="12" r="6" fill="none" stroke="#0073AA" stroke-width="2.5"/><text x="17" y="16.5" font-size="12.5" font-weight="700" fill="#16212B" font-family="system-ui, sans-serif">halo</text></svg><span>Claims Portal</span></div>
+    <div class="sb-icons"><span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg></span></div>
+  </div>
+  <div class="sb-block">
+    <div class="sb-row is-current"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>New Epic</div>
+    <div class="sb-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Claims Portal<small>CLM</small></div>
+    <div class="sb-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3v18h18M7 15l4-4 3 3 5-6"/></svg>Performance</div>
+  </div>
+  <div class="sb-work">
+    <div class="sb-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Search work items</div>
+    <div class="sb-head"><span>My work</span><span>Status</span></div>
+    <div class="sb-item"><span class="sb-kind epic">E</span><b>Policy renewal reminders</b><span class="tag progress">In progress</span></div>
+    <div class="sb-item"><span class="sb-kind story">S</span><b>Reminder email templates</b><span class="tag review">In review</span></div>
+    <div class="sb-item"><span class="sb-kind story">S</span><b>Opt-out link in reminders</b><span class="tag progress">In progress</span></div>
+    <div class="sb-item"><span class="sb-kind epic">E</span><b>Claim status page for agents</b><span class="tag done">Done</span></div>
+    <div class="sb-item"><span class="sb-kind story">S</span><b>Filter claims by branch</b><span class="tag done">Done</span></div>
+  </div>
+  <div class="sb-user"><span class="sb-avatar">NC</span><div>Noa Cohen<small>Product owner</small></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div>
+</aside>
+<main class="main">
+  <div class="ne">
+    <div class="ne-column">
+      <h1 class="ne-title" id="new-epic-title"><span class="ne-title-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>New Epic</h1>
+      <p class="ne-lead">An epic groups the stories the agents will work through. Name it and the factory takes it from there.</p>
+      <form class="ne-form" aria-labelledby="new-epic-title">
+        <div class="ne-box">
+          <input class="ne-name" aria-label="Epic name" value="Bulk export of claims reports" placeholder="Give this epic a short, descriptive name">
+          <textarea class="ne-description" aria-label="Description" placeholder="What does this epic cover? The agents read this before they write anything.">Agents and branch managers need to export the claims they filter in the portal to Excel, up to 10,000 rows at a time, with the same columns they see on screen. Today they copy rows by hand, which takes hours at month end and drops the policy number on long lists.</textarea>
+          <div class="ne-bar">
+            <span class="ne-attach" aria-label="Attach reference documents" title="Add reference documents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span>
+            <span class="ne-hint">Add reference documents (optional)</span>
+            <a class="ne-cancel" href="index.html">Cancel</a>
+            <span class="ne-create" role="button">Create epic</span>
+          </div>
+        </div>
+        <fieldset class="drafts" data-change="new">
+          <legend>Create drafts for</legend>
+          <input type="radio" name="drafts" id="drafts-prd" value="prd" checked>
+          <input type="radio" name="drafts" id="drafts-both" value="prd-and-stories">
+          <label class="drafts-card" for="drafts-prd"><span class="drafts-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span><strong>PRD</strong><span class="drafts-radio" aria-hidden="true"></span></label>
+          <label class="drafts-card" for="drafts-both"><span class="drafts-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6z"/><path d="M12 2v4h4M8 10h4M8 13h3"/><path d="M19 7v13a2 2 0 0 1-2 2H9"/></svg></span><strong>PRD and stories</strong><span class="drafts-radio" aria-hidden="true"></span></label>
+          <p class="drafts-line" aria-live="polite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span class="line-prd">The agent drafts the PRD.</span><span class="line-both">The agent drafts the PRD and the stories.</span></p>
+        </fieldset>
+        <div class="ne-options">
+          <span class="ne-pill is-locked" title="This board comes from the project and cannot be changed">
+            <span class="ne-pill-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#2684FF" d="M22.2 11.4 12.6 1.8 11.7.9 4.5 8.1l-2.7 2.7a.8.8 0 0 0 0 1.2l6.6 6.6 3.3 3.3 7.2-7.2.1-.1 3.2-3.2a.8.8 0 0 0 0-1.2v.2zM11.7 15.3 8.4 12l3.3-3.3L15 12l-3.3 3.3z"/></svg></span><span class="ne-pill-key">Jira board</span><strong>Claims Portal (CLM)</strong><svg class="ne-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-label="Set on the project"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <span class="ne-pill">
+            <span class="ne-pill-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1868DB" d="M2.6 17.4c-.3.4-.6 1-.8 1.3a.6.6 0 0 0 .2.9l4.6 2.8a.6.6 0 0 0 .9-.2c.2-.3.5-.9.9-1.5 2.6-4.3 5.2-3.8 9.9-1.5l4.6 2.2a.6.6 0 0 0 .8-.3l2.2-5a.6.6 0 0 0-.3-.8c-1-.5-2.9-1.4-4.6-2.2C14.9 10 8.6 10.2 2.6 17.4zM21.4 6.6c.3-.4.6-1 .8-1.3a.6.6 0 0 0-.2-.9L17.4 1.6a.6.6 0 0 0-.9.2c-.2.3-.5.9-.9 1.5-2.6 4.3-5.2 3.8-9.9 1.5L1.1 2.6a.6.6 0 0 0-.8.3L-1.9 8a.6.6 0 0 0 .3.8c1 .5 2.9 1.4 4.6 2.2 6.1 3 12.4 2.8 18.4-4.4z"/></svg></span><span class="ne-pill-key">Confluence</span><strong>Product Management</strong><svg class="ne-pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </div>
+        <div class="ne-help">
+          <p><strong>Reference documents</strong> — an image, PDF, DOCX, XLSX, Markdown or plain text (a deck: export it as PDF). The agents read them with the description from the first draft on, images and a PDF&#39;s pages as pictures.</p>
+          <p><strong>Connected tools</strong> — the Jira board is set on the project. The epic&#39;s PRD is written to the Confluence spaces you choose; only spaces selected in the project&#39;s Connections are listed.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+</div>
+</body>
+</html>
