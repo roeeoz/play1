@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E2EDSG-3 · New Epic outline — screens</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+body { margin: 0; }
+.gal { max-width: 960px; margin: 0 auto; padding: var(--space-10) var(--space-8); color: var(--on-surface); font-family: var(--halo-font-sans); }
+.gal h1 { margin: 0 0 var(--space-2); font-size: var(--halo-text-headline); line-height: var(--halo-leading-headline); font-weight: var(--halo-weight-semibold); }
+.gal h2 { margin: var(--space-10) 0 var(--space-2); font-size: 20px; font-weight: var(--halo-weight-semibold); }
+.gal p, .gal li { color: var(--on-surface-variant); font-size: var(--halo-text-body); line-height: var(--halo-leading-body); }
+.gal__states { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin: var(--space-4) 0 0; padding: 0; list-style: none; }
+.gal__state { display: block; height: 100%; box-sizing: border-box; border: var(--halo-border-width) solid var(--outline); border-radius: var(--radius-md); padding: var(--space-4); background: var(--surface-container); text-decoration: none; }
+.gal__state:hover { border-color: var(--primary-solid); }
+.gal__state strong { display: block; color: var(--primary-text); font-size: var(--halo-text-body); }
+.gal__state span { display: block; margin-top: var(--space-1); color: var(--on-surface-variant); font-size: var(--halo-text-small); line-height: var(--halo-leading-small); }
+.gal__state small { display: block; margin-top: var(--space-2); color: var(--on-surface-disabled); font-size: var(--halo-text-label); }
+.gal ul.gal__notes { padding-left: 18px; }
+.gal ul.gal__notes li { margin-bottom: var(--space-2); font-size: var(--halo-text-small); line-height: var(--halo-leading-small); }
+.gal strong { color: var(--on-surface); }
+.gal code { font-family: var(--halo-font-mono); font-size: 12px; }
+</style>
+</head>
+<body class="halo-theme">
+<main class="gal">
+  <h1>New Epic page offers a starting outline</h1>
+  <p>E2EDSG-3 · drawn from prototype concept A (Inline) · one screen, three states, desktop 1280×720 landscape. The product has no phone layout, so the set has no phone pages.</p>
+
+  <h2>01 New Epic</h2>
+  <p>What changed from today: a row of “Outline” chips (Blank, New capability, Change to an existing screen) now sits in the composer under the description. A picked outline fills an empty box with its headings, and replacing text the PO typed asks for confirmation first.</p>
+  <ul class="gal__states">
+    <li><a class="gal__state" href="new-epic.default.html"><strong>default</strong><span>Page as it opens: Blank selected, description empty.</span><small>new-epic.default.html · desktop</small></a></li>
+    <li><a class="gal__state" href="new-epic.outline-selected.html"><strong>outline selected</strong><span>New capability selected; its four headings fill the box, which grows to show them.</span><small>new-epic.outline-selected.html · desktop</small></a></li>
+    <li><a class="gal__state" href="new-epic.confirm-replace.html"><strong>confirm replace</strong><span>The PO's own text in the box; they picked “Change to an existing screen” and the page asks before replacing it.</span><small>new-epic.confirm-replace.html · desktop</small></a></li>
+  </ul>
+
+  <h2>Choices and assumptions</h2>
+  <ul class="gal__notes">
+    <li><strong>Source:</strong> the page, the sidebar and the shell are rebuilt from <code>src/halo/workspace/NewEpicPage.tsx</code> and their stylesheets (NewEpicPage.css, HaloShell.css, HaloSidebar.css, index.css tokens), with the class names kept. Only the outline row, the confirmation and the filled description are marked as the change.</li>
+    <li><strong>Font:</strong> the product's Assistant Variable is not in the checkout (no installed packages), so the pages fall back to the stack's <code>system-ui</code>.</li>
+    <li><strong>Outline chips:</strong> one radio group labelled “Outline”, inside the composer behind a hairline, between the description and the attachment bar. The selected chip shows a tick on the light-blue fill, and a chip awaiting confirmation is dashed.</li>
+    <li><strong>Headings:</strong> Markdown <code>## </code> lines. New capability: Problem, Users, What they can do, Out of scope. Change to an existing screen: Screen, What changes, Why, Out of scope.</li>
+    <li><strong>Own text:</strong> any edit to the inserted headings makes the text the PO's own, so picking another outline, Blank included, asks first. Keep my text (focused first) leaves the text and the previous outline; Replace text puts in the new headings.</li>
+    <li><strong>Buttons:</strong> Replace text is outlined in the error red because it clears text, and Keep my text is neutral. Neither is a primary action, so the brand teal (#0F766E) rule does not apply here. Create epic keeps today's blue because the story doesn't change it.</li>
+    <li><strong>Box height:</strong> a filled description is 230 px tall so every heading shows. Today the box is 110 px and would scroll.</li>
+    <li><strong>Links:</strong> Blank and New capability go between the default and outline-selected pages, and the sidebar's New Epic opens the default page. Controls that lead to screens staying as they are today (Create epic, Cancel, the rest of the sidebar) and choices with no page of their own are drawn, not linked.</li>
+    <li><strong>Not stored:</strong> only the description text is sent with the epic, as today. The chosen outline is not saved, so the API doesn't change.</li>
+  </ul>
+</main>
+</body>
+</html>
