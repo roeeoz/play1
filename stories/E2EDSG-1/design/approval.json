@@ -16,6 +16,13 @@
       "actor": "auto-mode",
       "approvedAt": "2026-11-27T14:35:43.900366Z",
       "headSha": "c3dc2d64dcd930da009de6408cde16b5d3585b24"
+    },
+    {
+      "step": "screens",
+      "decisionId": "03b16d70-dafd-430f-bcfd-a32efd0f87cf",
+      "actor": "auto-mode",
+      "approvedAt": "2026-11-27T14:37:18.4206Z",
+      "headSha": "c86f70532d4bd9c8ad8b69092504e799a7c91941"
     }
   ]
 }
