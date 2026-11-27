@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E2EDSG-1 · Screens</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body class="gl-body">
+<main class="gl-main">
+  <h1>New Epic page offers a starting outline</h1>
+  <p class="gl-lead">Every screen and state of the approved inventory, drawn from prototype concept A (Compact) at desktop 1280×720, landscape. The product has no phone layout, so there are no phone pages.</p>
+  <section class="gl-group">
+    <h2><span>01</span>New Epic</h2>
+    <p class="gl-change">A “Start from” outline choice (Blank, New capability, Change to an existing screen) now sits inside the box under the description, and picking an outline over typed text asks on the spot before replacing it.</p>
+    <ul class="gl-states"><li><a class="gl-card" href="new-epic.default.html"><strong>default</strong><code>new-epic.default.html</code><span>Blank selected, description box empty, Create epic disabled until a name is typed.</span></a></li><li><a class="gl-card" href="new-epic.outline-selected.html"><strong>outline selected</strong><code>new-epic.outline-selected.html</code><span>New capability selected: Problem, Users, What they can do and Out of scope fill the box.</span></a></li><li><a class="gl-card" href="new-epic.confirming-replace.html"><strong>confirming replace</strong><code>new-epic.confirming-replace.html</code><span>The PO typed under the headings and picked Change to an existing screen: the pick shows pending and a strip asks to keep or replace the text.</span></a></li></ul>
+  </section>
+  <section class="gl-notes">
+    <h2>Choices and assumptions</h2>
+    <ul>
+      <li>Drawn from concept A’s pages; the rest of the page and the sidebar are as they are today, copied from NewEpicPage.css, HaloShell.css and HaloSidebar.css.</li>
+      <li>The outline choice is one radio group; a pick into an empty box (or one with only unedited page headings) fills the headings at once with no question.</li>
+      <li>Headings are Markdown “## ” lines: New capability → Problem, Users, What they can do, Out of scope; Change to an existing screen → Screen today, What changes, Why, Out of scope.</li>
+      <li>Confirmation: the pending outline shows a dashed outline; “Keep my text” returns the selection to the previous outline; “Replace text” uses the error tone of Halo’s destructive dialog buttons because it discards typed text.</li>
+      <li>Blank clears only headings the page put in; over typed text it changes nothing and asks nothing.</li>
+      <li>Links between pages follow the journey where a state page exists (Blank ⇄ New capability); Keep my text and Replace text lead to states the inventory does not draw, so they are not links. Cancel, Create epic and the Halo logo go to the Workspace, which has no page: here they return to this gallery.</li>
+      <li>Create epic keeps today’s colour (#0073AA). The standing brand rule asks for teal #0F766E on primary actions; changing it is outside this story and left to the designer.</li>
+      <li>The Assistant font is not in the checkout, so the pages draw in the font stack’s system-ui fallback.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
